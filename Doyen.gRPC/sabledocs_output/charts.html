@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Protobuf module documentation</title>
+    <link rel="stylesheet" href="static/mystyles.css" />
+    <script src="static/fontawesome.js"></script>
+    <script src="static/lunr.js"></script>
+    <script src="static/theme.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="level pt-6 mb-5 pb-2 bottom-border">
+        <div class="level-left">
+          <p class="level-item has-text-centered is-size-3 has-text-weight-medium">
+            <a class="link is-info" href="index.html">
+              Protobuf module documentation
+            </a>
+          </p>
+        </div>
+
+        <div class="level-right">
+          
+          <form action="search.html" class="mr-2 has-text-centered">
+            <input type="text" name="query" class="input mr-3 navbar-search-query-input" placeholder="Search">
+            <input type="submit" class="button is-primary mr-5" value="Search" />
+          </form>
+          
+
+          <p class="level-item has-text-centered is-size-5">
+            <a href="" class="link is-info mr-5" target="_blank">
+              
+              <span>Source</span>
+            </a>
+
+            <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite" type="button">
+              <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                <mask class="moon" id="moon-mask">
+                  <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                  <circle cx="24" cy="10" r="6" fill="black" />
+                </mask>
+                <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                <g class="sun-beams" stroke="currentColor">
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </g>
+              </svg>
+            </button>
+          </p>
+        </div>
+      </nav>
+    </div>
+
+    <div id="main-content" class="container mb-6">
+  <p class="mb-2">
+    <a style="font-size: 0.9em" href="index.html">← Back to packages</a>
+  </p>
+  <h3 class="title is-3">
+    
+    Package <code>charts</code>
+    
+  </h3>
+
+  <div class="block">
+    
+    <p>
+      <a href="#service-charts.ChartsServer">
+        <span class="tag" style="min-width: 6em">Service</span>
+        <code>ChartsServer</code> 
+      </a>
+    </p>
+    
+
+    
+      
+      <p>
+        <a href="#message-charts.DataMessage">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>DataMessage</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.DataMessageResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>DataMessageResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.IndicatorBar">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>IndicatorBar</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.IndicatorCandlestick">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>IndicatorCandlestick</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.IndicatorData">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>IndicatorData</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.IndicatorLine">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>IndicatorLine</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.InitializeIndicatorRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>InitializeIndicatorRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.InitializeIndicatorResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>InitializeIndicatorResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.StartIndicatorRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StartIndicatorRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.StartIndicatorResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StartIndicatorResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.StopIndicatorRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StopIndicatorRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-charts.StopIndicatorResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StopIndicatorResponse</code> 
+        </a>
+      </p>
+      
+    
+
+    
+      <p>
+        <a href="#enum-charts.IndicatorMessageType">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>IndicatorMessageType</code> 
+        </a>
+      </p>
+    
+  </div>
+
+  <div class="block">
+      
+  </div>
+
+  
+
+  <div class="block">
+    <h3 class="title is-3">
+      Services
+    </h3>
+
+    
+    <div>
+      
+
+<h4 class="title is-4 type-heading" id="service-charts.ChartsServer">
+  <a href="#service-charts.ChartsServer" title="charts.ChartsServer">service ChartsServer</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-charts.ChartsServer-InitializeIndicator">
+      <a href="#service-charts.ChartsServer-InitializeIndicator">
+        rpc <code>InitializeIndicator</code>
+      </a>
+    </h5>
+    Request: <code><a href="charts.html#message-charts.InitializeIndicatorRequest"><span title="charts.InitializeIndicatorRequest">charts.InitializeIndicatorRequest</span>
+    </a></code><br>
+    Response: <code><a href="charts.html#message-charts.InitializeIndicatorResponse"><span title="charts.InitializeIndicatorResponse">charts.InitializeIndicatorResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-charts.ChartsServer-StartIndicator">
+      <a href="#service-charts.ChartsServer-StartIndicator">
+        rpc <code>StartIndicator</code>
+      </a>
+    </h5>
+    Request: <code><a href="charts.html#message-charts.StartIndicatorRequest"><span title="charts.StartIndicatorRequest">charts.StartIndicatorRequest</span>
+    </a></code><br>
+    Response: <code><a href="charts.html#message-charts.StartIndicatorResponse"><span title="charts.StartIndicatorResponse">charts.StartIndicatorResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-charts.ChartsServer-ProcessData">
+      <a href="#service-charts.ChartsServer-ProcessData">
+        rpc <code>ProcessData</code>
+      </a>
+    </h5>
+    Request: <code><a href="charts.html#message-charts.DataMessage"><span title="charts.DataMessage">charts.DataMessage</span>
+    </a></code><br>
+    Response: <code><a href="charts.html#message-charts.DataMessageResponse"><span title="charts.DataMessageResponse">charts.DataMessageResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-charts.ChartsServer-StopIndicator">
+      <a href="#service-charts.ChartsServer-StopIndicator">
+        rpc <code>StopIndicator</code>
+      </a>
+    </h5>
+    Request: <code><a href="charts.html#message-charts.StopIndicatorRequest"><span title="charts.StopIndicatorRequest">charts.StopIndicatorRequest</span>
+    </a></code><br>
+    Response: <code><a href="charts.html#message-charts.StopIndicatorResponse"><span title="charts.StopIndicatorResponse">charts.StopIndicatorResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+ 
+    </div>
+    
+  </div>
+
+  
+
+  
+
+    <h3 class="title is-3">
+      Messages
+    </h3>
+
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.DataMessage">
+  <span>
+    <a href="#message-charts.DataMessage" title="charts.DataMessage">message DataMessage</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="int64">
+          
+          <span>int64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        candlesticks
+      </td>
+      <td>
+        <code title="common.DoyenCandlestick">
+          
+            repeated
+          
+          <a href="common.html#message-common.DoyenCandlestick"><span title="common.DoyenCandlestick">common.DoyenCandlestick</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.DataMessageResponse">
+  <span>
+    <a href="#message-charts.DataMessageResponse" title="charts.DataMessageResponse">message DataMessageResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        data
+      </td>
+      <td>
+        <code title="charts.IndicatorData">
+          
+          <a href="charts.html#message-charts.IndicatorData"><span title="charts.IndicatorData">charts.IndicatorData</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.IndicatorBar">
+  <span>
+    <a href="#message-charts.IndicatorBar" title="charts.IndicatorBar">message IndicatorBar</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        bottom
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        top
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.IndicatorCandlestick">
+  <span>
+    <a href="#message-charts.IndicatorCandlestick" title="charts.IndicatorCandlestick">message IndicatorCandlestick</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        open
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        high
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        low
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        close
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.IndicatorData">
+  <span>
+    <a href="#message-charts.IndicatorData" title="charts.IndicatorData">message IndicatorData</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        label
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        dataPointId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        type
+      </td>
+      <td>
+        <code title="charts.IndicatorMessageType">
+          
+          <a href="charts.html#enum-charts.IndicatorMessageType"><span title="charts.IndicatorMessageType">charts.IndicatorMessageType</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        lineMessage
+      </td>
+      <td>
+        <code title="charts.IndicatorLine">
+          
+          <a href="charts.html#message-charts.IndicatorLine"><span title="charts.IndicatorLine">charts.IndicatorLine</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        candlestickMessage
+      </td>
+      <td>
+        <code title="charts.IndicatorCandlestick">
+          
+          <a href="charts.html#message-charts.IndicatorCandlestick"><span title="charts.IndicatorCandlestick">charts.IndicatorCandlestick</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>7</td>
+      <td>
+        barMessage
+      </td>
+      <td>
+        <code title="charts.IndicatorBar">
+          
+          <a href="charts.html#message-charts.IndicatorBar"><span title="charts.IndicatorBar">charts.IndicatorBar</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>101</td>
+      <td>
+        startTimestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>102</td>
+      <td>
+        endTimestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>200</td>
+      <td>
+        r
+      </td>
+      <td>
+        <code title="int32">
+          
+          <span>int32</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>201</td>
+      <td>
+        g
+      </td>
+      <td>
+        <code title="int32">
+          
+          <span>int32</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>202</td>
+      <td>
+        b
+      </td>
+      <td>
+        <code title="int32">
+          
+          <span>int32</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.IndicatorLine">
+  <span>
+    <a href="#message-charts.IndicatorLine" title="charts.IndicatorLine">message IndicatorLine</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        value
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.InitializeIndicatorRequest">
+  <span>
+    <a href="#message-charts.InitializeIndicatorRequest" title="charts.InitializeIndicatorRequest">message InitializeIndicatorRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        name
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.InitializeIndicatorResponse">
+  <span>
+    <a href="#message-charts.InitializeIndicatorResponse" title="charts.InitializeIndicatorResponse">message InitializeIndicatorResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        hasOptionsPanel
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>101</td>
+      <td>
+        optionsJsonDataRequest
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.StartIndicatorRequest">
+  <span>
+    <a href="#message-charts.StartIndicatorRequest" title="charts.StartIndicatorRequest">message StartIndicatorRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        historicalData
+      </td>
+      <td>
+        <code title="common.DoyenCandlestick">
+          
+            repeated
+          
+          <a href="common.html#message-common.DoyenCandlestick"><span title="common.DoyenCandlestick">common.DoyenCandlestick</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>200</td>
+      <td>
+        optionsJsonDataResponse
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.StartIndicatorResponse">
+  <span>
+    <a href="#message-charts.StartIndicatorResponse" title="charts.StartIndicatorResponse">message StartIndicatorResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        historicalData
+      </td>
+      <td>
+        <code title="charts.IndicatorData">
+          
+            repeated
+          
+          <a href="charts.html#message-charts.IndicatorData"><span title="charts.IndicatorData">charts.IndicatorData</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.StopIndicatorRequest">
+  <span>
+    <a href="#message-charts.StopIndicatorRequest" title="charts.StopIndicatorRequest">message StopIndicatorRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-charts.StopIndicatorResponse">
+  <span>
+    <a href="#message-charts.StopIndicatorResponse" title="charts.StopIndicatorResponse">message StopIndicatorResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+
+  
+
+  
+
+    <h3 class="title is-3">
+      Enums
+    </h3>
+
+    
+    <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-charts.IndicatorMessageType">
+  <a href="#enum-charts.IndicatorMessageType" title="charts.IndicatorMessageType">enum IndicatorMessageType</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>MESSAGE_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>MESSAGE_CANDLESTICK</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>MESSAGE_LINE</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>MESSAGE_BAR</code></td>
+      <td>3</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+
+  
+
+</div>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        
+        <p>Built with <strong><a href="https://github.com/markvincze/sabledocs" target="_blank">sabledocs</a></strong>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

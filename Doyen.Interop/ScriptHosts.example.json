@@ -1,0 +1,16 @@
+﻿{
+  "ScriptHosts": [
+    {
+      "Name": "Python Official",
+      "Description": "Official Python script host for Doyen Scripting.",
+      "Type": 1,
+      "UseShellExecute": false,
+      "ShowWindow": true,
+      "IgnoreList": [ "compile_proto.py", "Doyen.ScriptManager.py", "Indicator.py" ],
+      "ProcessStartInfo": {
+        "Process": "python",
+        "Arguments": [ "Python/Doyen.ScriptManager.py" ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,3234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Protobuf module documentation</title>
+    <link rel="stylesheet" href="static/mystyles.css" />
+    <script src="static/fontawesome.js"></script>
+    <script src="static/lunr.js"></script>
+    <script src="static/theme.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="level pt-6 mb-5 pb-2 bottom-border">
+        <div class="level-left">
+          <p class="level-item has-text-centered is-size-3 has-text-weight-medium">
+            <a class="link is-info" href="index.html">
+              Protobuf module documentation
+            </a>
+          </p>
+        </div>
+
+        <div class="level-right">
+          
+          <form action="search.html" class="mr-2 has-text-centered">
+            <input type="text" name="query" class="input mr-3 navbar-search-query-input" placeholder="Search">
+            <input type="submit" class="button is-primary mr-5" value="Search" />
+          </form>
+          
+
+          <p class="level-item has-text-centered is-size-5">
+            <a href="" class="link is-info mr-5" target="_blank">
+              
+              <span>Source</span>
+            </a>
+
+            <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite" type="button">
+              <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                <mask class="moon" id="moon-mask">
+                  <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                  <circle cx="24" cy="10" r="6" fill="black" />
+                </mask>
+                <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                <g class="sun-beams" stroke="currentColor">
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </g>
+              </svg>
+            </button>
+          </p>
+        </div>
+      </nav>
+    </div>
+
+    <div id="main-content" class="container mb-6">
+  <p class="mb-2">
+    <a style="font-size: 0.9em" href="index.html">← Back to packages</a>
+  </p>
+  <h3 class="title is-3">
+    
+    Package <code>algos</code>
+    
+  </h3>
+
+  <div class="block">
+    
+    <p>
+      <a href="#service-algos.AlgorithmServer">
+        <span class="tag" style="min-width: 6em">Service</span>
+        <code>AlgorithmServer</code> 
+      </a>
+    </p>
+    
+
+    
+      
+      <p>
+        <a href="#message-algos.BookLevel">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>BookLevel</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.CancelOrderRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>CancelOrderRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.CancelOrderResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>CancelOrderResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.CandlestickAck">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>CandlestickAck</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.CandlestickMessage">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>CandlestickMessage</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.DepthOfBookAck">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>DepthOfBookAck</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.DepthOfBookMessage">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>DepthOfBookMessage</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.InitializeAlgorithmRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>InitializeAlgorithmRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.InitializeAlgorithmResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>InitializeAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.OrderStatusUpdateAck">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>OrderStatusUpdateAck</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.OrderStatusUpdateMessage">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>OrderStatusUpdateMessage</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.PauseAlgorithmRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>PauseAlgorithmRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.PauseAlgorithmResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>PauseAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.ResumeAlgorithmRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>ResumeAlgorithmRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.ResumeAlgorithmResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>ResumeAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.SendOrderRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>SendOrderRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.SendOrderResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>SendOrderResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.StartAlgorithmRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StartAlgorithmRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.StartAlgorithmResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StartAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.StopAlgorithmRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StopAlgorithmRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.StopAlgorithmResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>StopAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.SymbolDataRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>SymbolDataRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.SymbolDataResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>SymbolDataResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.TradeAck">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>TradeAck</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.TradeMessage">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>TradeMessage</code> 
+        </a>
+      </p>
+      
+    
+
+    
+      <p>
+        <a href="#enum-algos.OrderSide">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>OrderSide</code> 
+        </a>
+      </p>
+    
+      <p>
+        <a href="#enum-algos.OrderStatus">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>OrderStatus</code> 
+        </a>
+      </p>
+    
+      <p>
+        <a href="#enum-algos.OrderType">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>OrderType</code> 
+        </a>
+      </p>
+    
+      <p>
+        <a href="#enum-algos.Side">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>Side</code> 
+        </a>
+      </p>
+    
+  </div>
+
+  <div class="block">
+      
+  </div>
+
+  
+
+  <div class="block">
+    <h3 class="title is-3">
+      Services
+    </h3>
+
+    
+    <div>
+      
+
+<h4 class="title is-4 type-heading" id="service-algos.AlgorithmServer">
+  <a href="#service-algos.AlgorithmServer" title="algos.AlgorithmServer">service AlgorithmServer</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-InitializeAlgorithm">
+      <a href="#service-algos.AlgorithmServer-InitializeAlgorithm">
+        rpc <code>InitializeAlgorithm</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.InitializeAlgorithmRequest"><span title="algos.InitializeAlgorithmRequest">algos.InitializeAlgorithmRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.InitializeAlgorithmResponse"><span title="algos.InitializeAlgorithmResponse">algos.InitializeAlgorithmResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-StartAlgorithm">
+      <a href="#service-algos.AlgorithmServer-StartAlgorithm">
+        rpc <code>StartAlgorithm</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.StartAlgorithmRequest"><span title="algos.StartAlgorithmRequest">algos.StartAlgorithmRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.StartAlgorithmResponse"><span title="algos.StartAlgorithmResponse">algos.StartAlgorithmResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-PauseAlgorithm">
+      <a href="#service-algos.AlgorithmServer-PauseAlgorithm">
+        rpc <code>PauseAlgorithm</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.PauseAlgorithmRequest"><span title="algos.PauseAlgorithmRequest">algos.PauseAlgorithmRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.PauseAlgorithmResponse"><span title="algos.PauseAlgorithmResponse">algos.PauseAlgorithmResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-ResumeAlgorithm">
+      <a href="#service-algos.AlgorithmServer-ResumeAlgorithm">
+        rpc <code>ResumeAlgorithm</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.ResumeAlgorithmRequest"><span title="algos.ResumeAlgorithmRequest">algos.ResumeAlgorithmRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.ResumeAlgorithmResponse"><span title="algos.ResumeAlgorithmResponse">algos.ResumeAlgorithmResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-StopAlgorithm">
+      <a href="#service-algos.AlgorithmServer-StopAlgorithm">
+        rpc <code>StopAlgorithm</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.StopAlgorithmRequest"><span title="algos.StopAlgorithmRequest">algos.StopAlgorithmRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.StopAlgorithmResponse"><span title="algos.StopAlgorithmResponse">algos.StopAlgorithmResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-SendOrder">
+      <a href="#service-algos.AlgorithmServer-SendOrder">
+        rpc <code>SendOrder</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.SendOrderRequest"><span title="algos.SendOrderRequest">algos.SendOrderRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.SendOrderResponse"><span title="algos.SendOrderResponse">algos.SendOrderResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-CancelOrder">
+      <a href="#service-algos.AlgorithmServer-CancelOrder">
+        rpc <code>CancelOrder</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.CancelOrderRequest"><span title="algos.CancelOrderRequest">algos.CancelOrderRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.CancelOrderResponse"><span title="algos.CancelOrderResponse">algos.CancelOrderResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-TradeData">
+      <a href="#service-algos.AlgorithmServer-TradeData">
+        rpc <code>TradeData</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.TradeMessage"><span title="algos.TradeMessage">algos.TradeMessage</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.TradeAck"><span title="algos.TradeAck">algos.TradeAck</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-CandlestickData">
+      <a href="#service-algos.AlgorithmServer-CandlestickData">
+        rpc <code>CandlestickData</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.CandlestickMessage"><span title="algos.CandlestickMessage">algos.CandlestickMessage</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.CandlestickAck"><span title="algos.CandlestickAck">algos.CandlestickAck</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-DepthOfBookData">
+      <a href="#service-algos.AlgorithmServer-DepthOfBookData">
+        rpc <code>DepthOfBookData</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.DepthOfBookMessage"><span title="algos.DepthOfBookMessage">algos.DepthOfBookMessage</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.DepthOfBookAck"><span title="algos.DepthOfBookAck">algos.DepthOfBookAck</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-OrderStatusUpdate">
+      <a href="#service-algos.AlgorithmServer-OrderStatusUpdate">
+        rpc <code>OrderStatusUpdate</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.OrderStatusUpdateMessage"><span title="algos.OrderStatusUpdateMessage">algos.OrderStatusUpdateMessage</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.OrderStatusUpdateAck"><span title="algos.OrderStatusUpdateAck">algos.OrderStatusUpdateAck</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-SubscribeSymbol">
+      <a href="#service-algos.AlgorithmServer-SubscribeSymbol">
+        rpc <code>SubscribeSymbol</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.SymbolDataRequest"><span title="algos.SymbolDataRequest">algos.SymbolDataRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.SymbolDataResponse"><span title="algos.SymbolDataResponse">algos.SymbolDataResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+ 
+    </div>
+    
+  </div>
+
+  
+
+  
+
+    <h3 class="title is-3">
+      Messages
+    </h3>
+
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.BookLevel">
+  <span>
+    <a href="#message-algos.BookLevel" title="algos.BookLevel">message BookLevel</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        price
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        quantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        exists
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.CancelOrderRequest">
+  <span>
+    <a href="#message-algos.CancelOrderRequest" title="algos.CancelOrderRequest">message CancelOrderRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        messageId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.CancelOrderResponse">
+  <span>
+    <a href="#message-algos.CancelOrderResponse" title="algos.CancelOrderResponse">message CancelOrderResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        messageId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.CandlestickAck">
+  <span>
+    <a href="#message-algos.CandlestickAck" title="algos.CandlestickAck">message CandlestickAck</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.CandlestickMessage">
+  <span>
+    <a href="#message-algos.CandlestickMessage" title="algos.CandlestickMessage">message CandlestickMessage</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>10</td>
+      <td>
+        candlestick
+      </td>
+      <td>
+        <code title="common.DoyenCandlestick">
+          
+          <a href="common.html#message-common.DoyenCandlestick"><span title="common.DoyenCandlestick">common.DoyenCandlestick</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.DepthOfBookAck">
+  <span>
+    <a href="#message-algos.DepthOfBookAck" title="algos.DepthOfBookAck">message DepthOfBookAck</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.DepthOfBookMessage">
+  <span>
+    <a href="#message-algos.DepthOfBookMessage" title="algos.DepthOfBookMessage">message DepthOfBookMessage</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="int64">
+          
+          <span>int64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>10</td>
+      <td>
+        bidLevels
+      </td>
+      <td>
+        <code title="algos.BookLevel">
+          
+            repeated
+          
+          <a href="algos.html#message-algos.BookLevel"><span title="algos.BookLevel">algos.BookLevel</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>11</td>
+      <td>
+        offerLevels
+      </td>
+      <td>
+        <code title="algos.BookLevel">
+          
+            repeated
+          
+          <a href="algos.html#message-algos.BookLevel"><span title="algos.BookLevel">algos.BookLevel</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        historical
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.InitializeAlgorithmRequest">
+  <span>
+    <a href="#message-algos.InitializeAlgorithmRequest" title="algos.InitializeAlgorithmRequest">message InitializeAlgorithmRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        name
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.InitializeAlgorithmResponse">
+  <span>
+    <a href="#message-algos.InitializeAlgorithmResponse" title="algos.InitializeAlgorithmResponse">message InitializeAlgorithmResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        listenDepthOfBook
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        listenTrades
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        listenCandlesticks
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        hasOptionsPanel
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>101</td>
+      <td>
+        optionsJsonDataRequest
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.OrderStatusUpdateAck">
+  <span>
+    <a href="#message-algos.OrderStatusUpdateAck" title="algos.OrderStatusUpdateAck">message OrderStatusUpdateAck</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        messageId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.OrderStatusUpdateMessage">
+  <span>
+    <a href="#message-algos.OrderStatusUpdateMessage" title="algos.OrderStatusUpdateMessage">message OrderStatusUpdateMessage</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        messageId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        status
+      </td>
+      <td>
+        <code title="algos.OrderStatus">
+          
+          <a href="algos.html#enum-algos.OrderStatus"><span title="algos.OrderStatus">algos.OrderStatus</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        filledQuantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>7</td>
+      <td>
+        remainingQuantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>8</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.PauseAlgorithmRequest">
+  <span>
+    <a href="#message-algos.PauseAlgorithmRequest" title="algos.PauseAlgorithmRequest">message PauseAlgorithmRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.PauseAlgorithmResponse">
+  <span>
+    <a href="#message-algos.PauseAlgorithmResponse" title="algos.PauseAlgorithmResponse">message PauseAlgorithmResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.ResumeAlgorithmRequest">
+  <span>
+    <a href="#message-algos.ResumeAlgorithmRequest" title="algos.ResumeAlgorithmRequest">message ResumeAlgorithmRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.ResumeAlgorithmResponse">
+  <span>
+    <a href="#message-algos.ResumeAlgorithmResponse" title="algos.ResumeAlgorithmResponse">message ResumeAlgorithmResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.SendOrderRequest">
+  <span>
+    <a href="#message-algos.SendOrderRequest" title="algos.SendOrderRequest">message SendOrderRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        messageId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        price
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        quantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>7</td>
+      <td>
+        orderType
+      </td>
+      <td>
+        <code title="algos.OrderType">
+          
+          <a href="algos.html#enum-algos.OrderType"><span title="algos.OrderType">algos.OrderType</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>8</td>
+      <td>
+        orderSide
+      </td>
+      <td>
+        <code title="algos.OrderSide">
+          
+          <a href="algos.html#enum-algos.OrderSide"><span title="algos.OrderSide">algos.OrderSide</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.SendOrderResponse">
+  <span>
+    <a href="#message-algos.SendOrderResponse" title="algos.SendOrderResponse">message SendOrderResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        messageId
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.StartAlgorithmRequest">
+  <span>
+    <a href="#message-algos.StartAlgorithmRequest" title="algos.StartAlgorithmRequest">message StartAlgorithmRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>200</td>
+      <td>
+        optionsJsonDataResponse
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.StartAlgorithmResponse">
+  <span>
+    <a href="#message-algos.StartAlgorithmResponse" title="algos.StartAlgorithmResponse">message StartAlgorithmResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.StopAlgorithmRequest">
+  <span>
+    <a href="#message-algos.StopAlgorithmRequest" title="algos.StopAlgorithmRequest">message StopAlgorithmRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.StopAlgorithmResponse">
+  <span>
+    <a href="#message-algos.StopAlgorithmResponse" title="algos.StopAlgorithmResponse">message StopAlgorithmResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.SymbolDataRequest">
+  <span>
+    <a href="#message-algos.SymbolDataRequest" title="algos.SymbolDataRequest">message SymbolDataRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        getHistorical
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>50</td>
+      <td>
+        depthOfBookLevels
+      </td>
+      <td>
+        <code title="int32">
+          
+          <span>int32</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>51</td>
+      <td>
+        candlesTimeframe
+      </td>
+      <td>
+        <code title="common.Timeframe">
+          
+          <a href="common.html#enum-common.Timeframe"><span title="common.Timeframe">common.Timeframe</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.SymbolDataResponse">
+  <span>
+    <a href="#message-algos.SymbolDataResponse" title="algos.SymbolDataResponse">message SymbolDataResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.TradeAck">
+  <span>
+    <a href="#message-algos.TradeAck" title="algos.TradeAck">message TradeAck</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.TradeMessage">
+  <span>
+    <a href="#message-algos.TradeMessage" title="algos.TradeMessage">message TradeMessage</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        id
+      </td>
+      <td>
+        <code title="uint64">
+          
+          <span>uint64</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>10</td>
+      <td>
+        price
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>11</td>
+      <td>
+        quantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>12</td>
+      <td>
+        side
+      </td>
+      <td>
+        <code title="algos.Side">
+          
+          <a href="algos.html#enum-algos.Side"><span title="algos.Side">algos.Side</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        historical
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+
+  
+
+  
+
+    <h3 class="title is-3">
+      Enums
+    </h3>
+
+    
+    <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-algos.OrderSide">
+  <a href="#enum-algos.OrderSide" title="algos.OrderSide">enum OrderSide</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>ORDER_SIDE_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_SIDE_BUY_OPEN</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_SIDE_SELL_CLOSE</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+    <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-algos.OrderStatus">
+  <a href="#enum-algos.OrderStatus" title="algos.OrderStatus">enum OrderStatus</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>ORDER_STATUS_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_STATUS_OPEN</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_STATUS_PARTIAL_FILLED</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_STATUS_FILLED</code></td>
+      <td>3</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_STATUS_CANCELLED</code></td>
+      <td>4</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_STATUS_REJECTED</code></td>
+      <td>5</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_STATUS_EXPIRED</code></td>
+      <td>6</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+    <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-algos.OrderType">
+  <a href="#enum-algos.OrderType" title="algos.OrderType">enum OrderType</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>ORDER_TYPE_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_TYPE_MARKET</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_TYPE_LIMIT</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_TYPE_STOP_LOSS</code></td>
+      <td>3</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_TYPE_STOP_LIMIT</code></td>
+      <td>4</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+    <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-algos.Side">
+  <a href="#enum-algos.Side" title="algos.Side">enum Side</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>SIDE_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>SIDE_BID</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>SIDE_OFFER</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+
+  
+
+</div>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        
+        <p>Built with <strong><a href="https://github.com/markvincze/sabledocs" target="_blank">sabledocs</a></strong>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

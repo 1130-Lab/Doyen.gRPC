@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Doyen.Interop plugin used in connecting the scripting engine within Doyen to associated script hosting servers.</Title>
+    <Version>1.0.0.17</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Doyen.gRPC\Doyen.gRPC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ScriptHosts.example.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

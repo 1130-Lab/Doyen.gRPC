@@ -1,0 +1,282 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+option csharp_namespace = "Doyen.gRPC.Algorithms";
+
+package algos;
+
+// Services
+service AlgorithmServer {
+	// Management services (Doyen -> your script)
+	rpc InitializeAlgorithm(InitializeAlgorithmRequest) returns (InitializeAlgorithmResponse);
+	rpc StartAlgorithm(StartAlgorithmRequest) returns (StartAlgorithmResponse);
+	rpc PauseAlgorithm(PauseAlgorithmRequest) returns (PauseAlgorithmResponse);
+	rpc ResumeAlgorithm(ResumeAlgorithmRequest) returns (ResumeAlgorithmResponse);
+	// This can be called from your script -> Doyen for emergency stops.
+	// When an algorithm is stopped, data and orders are no longer processed.
+	// You will have to cancel any existing orders from Doyen.
+	rpc StopAlgorithm(StopAlgorithmRequest) returns (StopAlgorithmResponse);
+
+	// Order management services (your script -> Doyen)
+	rpc SendOrder(SendOrderRequest) returns (SendOrderResponse);
+	rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+	
+	// Data output (Doyen -> your script)
+	rpc TradeData(TradeMessage) returns (TradeAck);
+	rpc CandlestickData(CandlestickMessage) returns (CandlestickAck);
+	rpc DepthOfBookData(DepthOfBookMessage) returns (DepthOfBookAck);
+	rpc OrderStatusUpdate(OrderStatusUpdateMessage) returns (OrderStatusUpdateAck);
+
+	// Data input (your script -> Doyen))
+	rpc SubscribeSymbol(SymbolDataRequest) returns (SymbolDataResponse);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Messages					
+
+Messages for managing an algorithm.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// Messages first, then services
+// Initialization message from Doyen to the indicator script. 
+message InitializeAlgorithmRequest {
+	string algoId = 1; // Algo identifier
+	string name = 2;
+}
+
+// The initialization response message from the indicator script to Doyen.
+// If you wish to show an options panel, set hasOptionsPanel to true and provide a json object to be decoded into the options panel.
+message InitializeAlgorithmResponse {
+	string algoId = 1; // Algo identifier
+	bool success = 2;
+	string reason = 3; // If the initialization failed, include a reason for the user to see.
+	bool listenDepthOfBook = 4; // If true, the indicator will receive depth of book data.
+	bool listenTrades = 5; // If true, the indicator will receive trade data.
+	bool listenCandlesticks = 6; // If true, the indicator will receive candlestick data.
+	bool hasOptionsPanel = 100;
+	string optionsJsonDataRequest = 101; // JSON data for the options panel
+}
+
+// Doyen has received the initialization response and the options data of the user is included.
+message StartAlgorithmRequest {
+	string algoId = 1; // Algo identifier
+	string optionsJsonDataResponse = 200;
+}
+
+// Tell Doyen you are ready to start receiving data.
+message StartAlgorithmResponse {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator started successfully
+	string reason = 3; // If the indicator failed to start, include a reason for the user to see.
+}
+
+// Pause the algorithm. It will still receive data and orders may still be cancelled but it will not be permitted to send orders.
+message PauseAlgorithmRequest {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message PauseAlgorithmResponse {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message ResumeAlgorithmRequest {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message ResumeAlgorithmResponse {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message StopAlgorithmRequest {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message StopAlgorithmResponse {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message SymbolDataRequest {
+	string algoId = 1; // Algo identifier
+	string symbol = 2; // The symbol to request data for
+	// The exchange where the symbol is traded
+	common.DoyenExchange exchange = 3; 
+	// If true, Doyen will send historical data as data messages described below from the exchange's REST API for that symbol based on your listen options from InitializeAlgorithmResponse before streaming data.
+	bool getHistorical = 4; 
+	// The number of levels (current limit is 5) to request for the depth of book data (if listenDepthOfBook is false this is ignored)
+	int32 depthOfBookLevels = 50; 
+	// The timeframe the candlestick data (if listenCandles is false this is ignored)
+	common.Timeframe candlesTimeframe = 51; 
+}
+
+message SymbolDataResponse {
+	string algoId = 1; // Algo identifier
+	string symbol = 2; // The symbol that was requested
+	bool success = 3; // Indicates if the request was successful
+	string reason = 4; // If the request failed, include a reason for the user to see.
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Orders
+
+Messages for managing an algorithm's orders.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+message SendOrderRequest {
+	string algoId = 1; // Algo identifier
+	uint64 messageId = 2; // Unique identifier for the order request
+	string symbol = 3;
+	common.DoyenExchange exchange = 4;
+	double price = 5; // Price at which the order is placed
+	double quantity = 6;
+	OrderType orderType = 7; // Type of the order (market, limit, stop loss, etc.)
+	OrderSide orderSide = 8; // Buy to open or Sell to close are currently the only supported sides.
+	bool simulated = 100; // If true, the order is simulated and not sent to the exchange
+}
+
+message SendOrderResponse {
+	string algoId = 1; // Algo identifier
+	uint64 messageId = 2; // Unique identifier for the order request
+	string orderId = 3;
+	bool success = 4; // Indicates if the order was sent successfully
+	string reason = 5; // If the order failed to be sent, include a reason for the user to see.
+}
+
+message CancelOrderRequest {
+	string algoId = 1; // Algo identifier
+	uint64 messageId = 2; // Unique identifier for the order request
+	string orderId = 3; // The ID of the order to cancel
+	common.DoyenExchange exchange = 4;
+	bool simulated = 100; // If true, the order is simulated and not sent to the exchange
+}
+
+message CancelOrderResponse {
+	string algoId = 1; // Algo identifier
+	uint64 messageId = 2; // Unique identifier for the order request
+	string orderId = 3; // The ID of the order that was cancelled
+	bool success = 4; // Indicates if the order was cancelled successfully
+	string reason = 5; // If the order failed to be cancelled, include a reason for the user to see.
+}
+
+// Message sent by Doyen to the algorithm script to update the status of an order.
+message OrderStatusUpdateMessage {
+	string algoId = 1; // Algo identifier
+	uint64 messageId = 2; // Unique identifier for the order request
+	string orderId = 3; // The ID of the order
+	google.protobuf.Timestamp timestamp = 4; // The timestamp of the update
+	OrderStatus status = 5; // The current status of the order
+	double filledQuantity = 6; // The quantity that has been filled so far
+	double remainingQuantity = 7; // The quantity that is still remaining
+	common.DoyenExchange exchange = 8; // The exchange where the order was placed
+	bool simulated = 100; // If true, the order is simulated and not sent to the exchange
+}
+
+message OrderStatusUpdateAck {
+	string algoId = 1; // Algo identifier
+	uint64 messageId = 2; // Unique identifier for the order request
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Data					
+
+Messages for data handling by an algorithm.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+message BookLevel {
+	double price = 1;
+	double quantity = 2;
+	bool exists = 3; // Indicates if the book level exists (true) or is empty (false)
+}
+
+// The request message containing the text to analyze
+message DepthOfBookMessage {
+	uint64 id = 1; // Unique identifier for the depth of book data
+	string symbol = 2;
+	int64 timestamp = 3;
+	common.DoyenExchange exchange = 5;
+	repeated BookLevel bidLevels = 10; // Book levels for the order book
+	repeated BookLevel offerLevels = 11; // Book levels for the order book
+	bool historical = 100; // If true, this is historical depth of book data
+}
+
+message DepthOfBookAck {
+	uint64 id = 1; // Unique identifier for the depth of book data
+}
+
+// The request message containing the text to analyze
+message TradeMessage {
+	uint64 id = 1; // Unique identifier for the trade
+	string symbol = 2;
+	common.DoyenExchange exchange = 3;
+	google.protobuf.Timestamp timestamp = 4;
+	double price = 10;
+	double quantity = 11;
+	Side side = 12; // Bid or Offer
+	bool historical = 100; // If true, this is historical trade data
+}
+
+message TradeAck {
+	uint64 id = 1; // Unique identifier for the trade
+}
+
+message CandlestickMessage {
+	uint64 id = 1; // Unique identifier for the candlestick
+	string symbol = 2;
+	common.DoyenExchange exchange = 3;
+	common.DoyenCandlestick candlestick = 10; // The candlestick data
+}
+
+message CandlestickAck {
+	uint64 id = 1; // Unique identifier for the candlestick
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Enums					
+
+Enums for algos.proto
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+enum OrderType {
+	ORDER_TYPE_UNKNOWN = 0;
+	ORDER_TYPE_MARKET = 1; // Market order
+	ORDER_TYPE_LIMIT = 2; // Limit order
+	ORDER_TYPE_STOP_LOSS = 3; // Stop loss order
+	ORDER_TYPE_STOP_LIMIT = 4; // Stop limit order
+} 
+
+enum OrderSide {
+	ORDER_SIDE_UNKNOWN = 0;
+	ORDER_SIDE_BUY_OPEN = 1; // Buy order
+	ORDER_SIDE_SELL_CLOSE = 2; // Sell order
+}
+
+enum Side {
+	SIDE_UNKNOWN = 0;
+	SIDE_BID = 1;
+	SIDE_OFFER = 2;
+}
+
+enum OrderStatus
+{
+	ORDER_STATUS_UNKNOWN = 0;
+	ORDER_STATUS_OPEN = 1;
+	ORDER_STATUS_PARTIAL_FILLED = 2;
+	ORDER_STATUS_FILLED = 3;
+	ORDER_STATUS_CANCELLED = 4;
+	ORDER_STATUS_REJECTED = 5;
+	ORDER_STATUS_EXPIRED = 6;
+}

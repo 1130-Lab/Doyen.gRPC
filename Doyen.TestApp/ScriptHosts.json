@@ -1,0 +1,16 @@
+﻿{
+  "ScriptHosts": [
+    {
+      "Name": "Doyen.Indicators",
+      "Description": "Official Python script host for Doyen Scripting.",
+      "Type": 1,
+      "UseShellExecute": false,
+      "ShowWindow": true,
+      "IgnoreList": [ "charts_pb2.py", "charts_pb2_grpc.py", "common_pb2.py", "common_pb2_grpc.py", "Doyen.Indicators.ScriptManager.py", "Indicator.py" ],
+      "ProcessStartInfo": {
+        "Process": "python",
+        "Arguments": [ "Python/Doyen.Indicators.ScriptManager.py", "--address localhost:5030" ]
+      }
+    }
+  ]
+}

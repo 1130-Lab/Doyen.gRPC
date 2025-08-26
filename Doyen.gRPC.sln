@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doyen.TestApp", "Doyen.TestApp\Doyen.TestApp.csproj", "{DCF7FBB9-157B-49C1-977D-82C5BF28CCAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doyen.Interop", "Doyen.Interop\Doyen.Interop.csproj", "{DCB38844-8485-4239-88BD-595957894FC8}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Doyen.Scripts.Algorithms", "Doyen.Scripts.Algorithms\Doyen.Scripts.Algorithms.pyproj", "{255AF290-5D33-4151-8AEB-71E635C5567C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gRPC", "gRPC", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Doyen.Scripts.Indicators", "Doyen.Scripts.Indicators\Doyen.Scripts.Indicators.pyproj", "{94236E72-563D-41F8-9CCC-945D1B0232F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doyen.gRPC", "Doyen.gRPC\Doyen.gRPC.csproj", "{6C4AF3B7-2BEB-F5C4-B9F5-8E35342088D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCF7FBB9-157B-49C1-977D-82C5BF28CCAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCF7FBB9-157B-49C1-977D-82C5BF28CCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCF7FBB9-157B-49C1-977D-82C5BF28CCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCF7FBB9-157B-49C1-977D-82C5BF28CCAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB38844-8485-4239-88BD-595957894FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB38844-8485-4239-88BD-595957894FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB38844-8485-4239-88BD-595957894FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB38844-8485-4239-88BD-595957894FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255AF290-5D33-4151-8AEB-71E635C5567C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255AF290-5D33-4151-8AEB-71E635C5567C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94236E72-563D-41F8-9CCC-945D1B0232F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94236E72-563D-41F8-9CCC-945D1B0232F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4AF3B7-2BEB-F5C4-B9F5-8E35342088D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C4AF3B7-2BEB-F5C4-B9F5-8E35342088D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C4AF3B7-2BEB-F5C4-B9F5-8E35342088D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4AF3B7-2BEB-F5C4-B9F5-8E35342088D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCB38844-8485-4239-88BD-595957894FC8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6C4AF3B7-2BEB-F5C4-B9F5-8E35342088D3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D13A8864-1BB2-4752-97F0-24496B39FA22}
+	EndGlobalSection
+EndGlobal

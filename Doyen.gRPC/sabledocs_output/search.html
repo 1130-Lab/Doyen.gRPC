@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Protobuf module documentation</title>
+    <link rel="stylesheet" href="static/mystyles.css" />
+    <script src="static/fontawesome.js"></script>
+    <script src="static/lunr.js"></script>
+    <script src="static/theme.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="level pt-6 mb-5 pb-2 bottom-border">
+        <div class="level-left">
+          <p class="level-item has-text-centered is-size-3 has-text-weight-medium">
+            <a class="link is-info" href="index.html">
+              Protobuf module documentation
+            </a>
+          </p>
+        </div>
+
+        <div class="level-right">
+          
+          <form action="search.html" class="mr-2 has-text-centered">
+            <input type="text" name="query" class="input mr-3 navbar-search-query-input" placeholder="Search">
+            <input type="submit" class="button is-primary mr-5" value="Search" />
+          </form>
+          
+
+          <p class="level-item has-text-centered is-size-5">
+            <a href="" class="link is-info mr-5" target="_blank">
+              
+              <span>Source</span>
+            </a>
+
+            <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite" type="button">
+              <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                <mask class="moon" id="moon-mask">
+                  <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                  <circle cx="24" cy="10" r="6" fill="black" />
+                </mask>
+                <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                <g class="sun-beams" stroke="currentColor">
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </g>
+              </svg>
+            </button>
+          </p>
+        </div>
+      </nav>
+    </div>
+
+    <div id="main-content" class="container mb-6">
+<script>
+    const searchDocuments =  {"algos": {"package": "algos", "url": "algos.html", "content": "algos\n\nalgos\nAlgorithmServer\n\nInitializeAlgorithm\n\nalgos\nInitializeAlgorithmRequest\nalgos\nInitializeAlgorithmResponse\nStartAlgorithm\n\nalgos\nStartAlgorithmRequest\nalgos\nStartAlgorithmResponse\nPauseAlgorithm\n\nalgos\nPauseAlgorithmRequest\nalgos\nPauseAlgorithmResponse\nResumeAlgorithm\n\nalgos\nResumeAlgorithmRequest\nalgos\nResumeAlgorithmResponse\nStopAlgorithm\n\nalgos\nStopAlgorithmRequest\nalgos\nStopAlgorithmResponse\nSendOrder\n\nalgos\nSendOrderRequest\nalgos\nSendOrderResponse\nCancelOrder\n\nalgos\nCancelOrderRequest\nalgos\nCancelOrderResponse\nTradeData\n\nalgos\nTradeMessage\nalgos\nTradeAck\nCandlestickData\n\nalgos\nCandlestickMessage\nalgos\nCandlestickAck\nDepthOfBookData\n\nalgos\nDepthOfBookMessage\nalgos\nDepthOfBookAck\nOrderStatusUpdate\n\nalgos\nOrderStatusUpdateMessage\nalgos\nOrderStatusUpdateAck\nSubscribeSymbol\n\nalgos\nSymbolDataRequest\nalgos\nSymbolDataResponse\nalgos\nBookLevel\nprice\n\nquantity\n\nexists\n\nalgos\nCancelOrderRequest\nalgoId\n\nmessageId\n\norderId\n\nexchange\n\nsimulated\n\nalgos\nCancelOrderResponse\nalgoId\n\nmessageId\n\norderId\n\nsuccess\n\nreason\n\nalgos\nCandlestickAck\nid\n\nalgos\nCandlestickMessage\nid\n\nsymbol\n\nexchange\n\ncandlestick\n\nalgos\nDepthOfBookAck\nid\n\nalgos\nDepthOfBookMessage\nid\n\nsymbol\n\ntimestamp\n\nexchange\n\nbidLevels\n\nofferLevels\n\nhistorical\n\nalgos\nInitializeAlgorithmRequest\nalgoId\n\nname\n\nalgos\nInitializeAlgorithmResponse\nalgoId\n\nsuccess\n\nreason\n\nlistenDepthOfBook\n\nlistenTrades\n\nlistenCandlesticks\n\nhasOptionsPanel\n\noptionsJsonDataRequest\n\nalgos\nOrderStatusUpdateAck\nalgoId\n\nmessageId\n\nalgos\nOrderStatusUpdateMessage\nalgoId\n\nmessageId\n\norderId\n\ntimestamp\n\nstatus\n\nfilledQuantity\n\nremainingQuantity\n\nexchange\n\nsimulated\n\nalgos\nPauseAlgorithmRequest\nalgoId\n\nsuccess\n\nreason\n\nalgos\nPauseAlgorithmResponse\nalgoId\n\nsuccess\n\nreason\n\nalgos\nResumeAlgorithmRequest\nalgoId\n\nsuccess\n\nreason\n\nalgos\nResumeAlgorithmResponse\nalgoId\n\nsuccess\n\nreason\n\nalgos\nSendOrderRequest\nalgoId\n\nmessageId\n\nsymbol\n\nexchange\n\nprice\n\nquantity\n\norderType\n\norderSide\n\nsimulated\n\nalgos\nSendOrderResponse\nalgoId\n\nmessageId\n\norderId\n\nsuccess\n\nreason\n\nalgos\nStartAlgorithmRequest\nalgoId\n\noptionsJsonDataResponse\n\nalgos\nStartAlgorithmResponse\nalgoId\n\nsuccess\n\nreason\n\nalgos\nStopAlgorithmRequest\nalgoId\n\nsuccess\n\nreason\n\nalgos\nStopAlgorithmResponse\nalgoId\n\nsuccess\n\nreason\n\nalgos\nSymbolDataRequest\nalgoId\n\nsymbol\n\nexchange\n\ngetHistorical\n\ndepthOfBookLevels\n\ncandlesTimeframe\n\nalgos\nSymbolDataResponse\nalgoId\n\nsymbol\n\nsuccess\n\nreason\n\nalgos\nTradeAck\nid\n\nalgos\nTradeMessage\nid\n\nsymbol\n\nexchange\n\ntimestamp\n\nprice\n\nquantity\n\nside\n\nhistorical\n\nalgos\nOrderSide\n\nORDER_SIDE_UNKNOWN\n\nORDER_SIDE_BUY_OPEN\n\nORDER_SIDE_SELL_CLOSE\n\nalgos\nOrderStatus\n\nORDER_STATUS_UNKNOWN\n\nORDER_STATUS_OPEN\n\nORDER_STATUS_PARTIAL_FILLED\n\nORDER_STATUS_FILLED\n\nORDER_STATUS_CANCELLED\n\nORDER_STATUS_REJECTED\n\nORDER_STATUS_EXPIRED\n\nalgos\nOrderType\n\nORDER_TYPE_UNKNOWN\n\nORDER_TYPE_MARKET\n\nORDER_TYPE_LIMIT\n\nORDER_TYPE_STOP_LOSS\n\nORDER_TYPE_STOP_LIMIT\n\nalgos\nSide\n\nSIDE_UNKNOWN\n\nSIDE_BID\n\nSIDE_OFFER\n\n"}, "charts": {"package": "charts", "url": "charts.html", "content": "charts\n\ncharts\nChartsServer\n\nInitializeIndicator\n\ncharts\nInitializeIndicatorRequest\ncharts\nInitializeIndicatorResponse\nStartIndicator\n\ncharts\nStartIndicatorRequest\ncharts\nStartIndicatorResponse\nProcessData\n\ncharts\nDataMessage\ncharts\nDataMessageResponse\nStopIndicator\n\ncharts\nStopIndicatorRequest\ncharts\nStopIndicatorResponse\ncharts\nDataMessage\nsymbol\n\ntimestamp\n\ncandlesticks\n\ncharts\nDataMessageResponse\nid\n\ndata\n\ncharts\nIndicatorBar\nbottom\n\ntop\n\ncharts\nIndicatorCandlestick\nopen\n\nhigh\n\nlow\n\nclose\n\ncharts\nIndicatorData\nid\n\nlabel\n\ndataPointId\n\ntype\n\nlineMessage\n\ncandlestickMessage\n\nbarMessage\n\ntimestamp\n\nstartTimestamp\n\nendTimestamp\n\nr\n\ng\n\nb\n\ncharts\nIndicatorLine\nvalue\n\ncharts\nInitializeIndicatorRequest\nid\n\nsymbol\n\nname\n\ncharts\nInitializeIndicatorResponse\nid\n\nsuccess\n\nreason\n\nhasOptionsPanel\n\noptionsJsonDataRequest\n\ncharts\nStartIndicatorRequest\nid\n\nhistoricalData\n\noptionsJsonDataResponse\n\ncharts\nStartIndicatorResponse\nid\n\nsuccess\n\nreason\n\nhistoricalData\n\ncharts\nStopIndicatorRequest\nid\n\nsuccess\n\nreason\n\ncharts\nStopIndicatorResponse\nid\n\nsuccess\n\nreason\n\ncharts\nIndicatorMessageType\n\nMESSAGE_UNKNOWN\n\nMESSAGE_CANDLESTICK\n\nMESSAGE_LINE\n\nMESSAGE_BAR\n\n"}, "common": {"package": "common", "url": "common.html", "content": "common\n\ncommon\nDoyenCandlestick\nsymbol\n\nexchange\n\nopen\n\nhigh\n\nlow\n\nclose\n\nvolumeBase\n\nvolumeQuote\n\ntimeframe\n\ntimestamp\n\ntimeStart\n\ntimeEnd\n\nhistorical\n\ncommon\nDoyenExchange\n\nEXCHANGE_UNKNOWN\n\nEXCHANGE_BINANCEUS\n\nEXCHANGE_KRAKEN\n\nEXCHANGE_GEMINI\n\nEXCHANGE_COINBASE\n\nEXCHANGE_CRYPTOCOM\n\nEXCHANGE_ALL\n\ncommon\nTimeframe\n\nTIMEFRAME_UNKNOWN\n\nTIMEFRAME_ONE_MINUTE\n\nTIMEFRAME_FIVE_MINUTES\n\nTIMEFRAME_FIFTEEN_MINUTES\n\nTIMEFRAME_ONE_HOUR\n\nTIMEFRAME_FOUR_HOUR\n\nTIMEFRAME_ONE_DAY\n\n"}};
+    const searchIndex = {"version": "2.3.9", "fields": ["content", "url"], "fieldVectors": [["content/algos", [0, 2.081, 1, 0.709, 2, 0.709, 3, 1.068, 4, 1.068, 5, 0.709, 6, 1.068, 7, 1.068, 8, 0.709, 9, 1.068, 10, 1.068, 11, 0.709, 12, 1.068, 13, 1.068, 14, 0.709, 15, 1.068, 16, 1.068, 17, 0.709, 18, 1.068, 19, 1.068, 20, 0.709, 21, 1.068, 22, 1.068, 23, 0.709, 24, 1.068, 25, 1.068, 26, 0.709, 27, 0.512, 28, 1.068, 29, 0.709, 30, 1.068, 31, 1.068, 32, 0.709, 33, 1.068, 34, 1.068, 35, 0.709, 36, 1.068, 37, 1.068, 38, 0.709, 39, 1.284, 40, 1.284, 41, 0.709, 42, 1.938, 43, 1.61, 44, 1.428, 45, 0.8, 46, 1.284, 47, 0.872, 48, 0.872, 49, 0.771, 50, 0.219, 51, 0.34, 52, 0.175, 53, 0.709, 54, 0.709, 55, 0.512, 56, 0.34, 57, 0.709, 58, 0.709, 59, 0.709, 60, 0.34, 61, 0.34, 62, 0.709, 63, 0.709, 64, 0.709, 65, 1.068, 66, 1.068, 67, 0.34, 68, 0.709, 69, 0.709, 70, 0.709, 71, 1.068, 72, 0.709, 73, 0.709, 74, 0.709, 75, 0.709, 76, 0.709, 77, 0.709, 78, 0.709, 79, 0.709, 80, 0.709, 81, 0.709, 82, 0.709, 83, 0.709, 84, 0.709, 85, 0.709, 86, 0.709, 87, 0.709, 88, 0.709, 89, 0.709, 90, 0.709]], ["url/algos", [91, 0.981]], ["content/charts", [27, 0.514, 47, 0.825, 48, 0.825, 49, 0.918, 50, 0.195, 51, 0.514, 52, 0.195, 56, 0.514, 60, 0.514, 61, 0.514, 67, 0.514, 92, 2.067, 93, 1.072, 94, 1.072, 95, 1.432, 96, 1.432, 97, 1.072, 98, 1.432, 99, 1.432, 100, 1.072, 101, 1.432, 102, 1.432, 103, 1.072, 104, 1.432, 105, 1.432, 106, 1.072, 107, 1.072, 108, 1.072, 109, 1.072, 110, 1.072, 111, 0.514, 112, 0.514, 113, 0.514, 114, 0.514, 115, 1.072, 116, 1.072, 117, 1.072, 118, 1.072, 119, 1.072, 120, 1.072, 121, 1.072, 122, 1.072, 123, 1.072, 124, 1.072, 125, 1.072, 126, 1.072, 127, 1.072, 128, 1.432, 129, 1.072, 130, 1.072, 131, 1.072, 132, 1.072, 133, 1.072]], ["url/charts", [134, 0.981]], ["content/common", [45, 0.669, 50, 0.19, 52, 0.19, 55, 0.669, 111, 0.669, 112, 0.669, 113, 0.669, 114, 0.669, 135, 1.899, 136, 1.397, 137, 1.397, 138, 1.397, 139, 1.696, 140, 1.397, 141, 1.397, 142, 1.397, 143, 1.397, 144, 1.397, 145, 1.397, 146, 1.397, 147, 1.397, 148, 1.397, 149, 1.397, 150, 1.397, 151, 1.397, 152, 1.397, 153, 1.397, 154, 1.397, 155, 1.397, 156, 1.397]], ["url/common", [157, 0.981]]], "invertedIndex": [["algo", {"content": {"algos": {}}, "url": {}, "_index": 0}], ["algoid", {"content": {"algos": {}}, "url": {}, "_index": 42}], ["algorithmserv", {"content": {"algos": {}}, "url": {}, "_index": 1}], ["algos.html", {"content": {}, "url": {"algos": {}}, "_index": 91}], ["b", {"content": {"charts": {}}, "url": {}, "_index": 125}], ["barmessag", {"content": {"charts": {}}, "url": {}, "_index": 120}], ["bidlevel", {"content": {"algos": {}}, "url": {}, "_index": 53}], ["booklevel", {"content": {"algos": {}}, "url": {}, "_index": 38}], ["bottom", {"content": {"charts": {}}, "url": {}, "_index": 108}], ["cancelord", {"content": {"algos": {}}, "url": {}, "_index": 20}], ["cancelorderrequest", {"content": {"algos": {}}, "url": {}, "_index": 21}], ["cancelorderrespons", {"content": {"algos": {}}, "url": {}, "_index": 22}], ["candlestick", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 51}], ["candlestickack", {"content": {"algos": {}}, "url": {}, "_index": 28}], ["candlestickdata", {"content": {"algos": {}}, "url": {}, "_index": 26}], ["candlestickmessag", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 27}], ["candlestimefram", {"content": {"algos": {}}, "url": {}, "_index": 70}], ["chart", {"content": {"charts": {}}, "url": {}, "_index": 92}], ["charts.html", {"content": {}, "url": {"charts": {}}, "_index": 134}], ["chartsserv", {"content": {"charts": {}}, "url": {}, "_index": 93}], ["close", {"content": {"charts": {}, "common": {}}, "url": {}, "_index": 114}], ["common", {"content": {"common": {}}, "url": {}, "_index": 135}], ["common.html", {"content": {}, "url": {"common": {}}, "_index": 157}], ["data", {"content": {"charts": {}}, "url": {}, "_index": 106}], ["datamessag", {"content": {"charts": {}}, "url": {}, "_index": 101}], ["datamessagerespons", {"content": {"charts": {}}, "url": {}, "_index": 102}], ["datapointid", {"content": {"charts": {}}, "url": {}, "_index": 117}], ["depthofbookack", {"content": {"algos": {}}, "url": {}, "_index": 31}], ["depthofbookdata", {"content": {"algos": {}}, "url": {}, "_index": 29}], ["depthofbooklevel", {"content": {"algos": {}}, "url": {}, "_index": 69}], ["depthofbookmessag", {"content": {"algos": {}}, "url": {}, "_index": 30}], ["doyencandlestick", {"content": {"common": {}}, "url": {}, "_index": 136}], ["doyenexchang", {"content": {"common": {}}, "url": {}, "_index": 142}], ["endtimestamp", {"content": {"charts": {}}, "url": {}, "_index": 122}], ["exchang", {"content": {"algos": {}, "common": {}}, "url": {}, "_index": 45}], ["exchange_al", {"content": {"common": {}}, "url": {}, "_index": 149}], ["exchange_binanceu", {"content": {"common": {}}, "url": {}, "_index": 144}], ["exchange_coinbas", {"content": {"common": {}}, "url": {}, "_index": 147}], ["exchange_cryptocom", {"content": {"common": {}}, "url": {}, "_index": 148}], ["exchange_gemini", {"content": {"common": {}}, "url": {}, "_index": 146}], ["exchange_kraken", {"content": {"common": {}}, "url": {}, "_index": 145}], ["exchange_unknown", {"content": {"common": {}}, "url": {}, "_index": 143}], ["exist", {"content": {"algos": {}}, "url": {}, "_index": 41}], ["filledquant", {"content": {"algos": {}}, "url": {}, "_index": 63}], ["g", {"content": {"charts": {}}, "url": {}, "_index": 124}], ["gethistor", {"content": {"algos": {}}, "url": {}, "_index": 68}], ["hasoptionspanel", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 60}], ["high", {"content": {"charts": {}, "common": {}}, "url": {}, "_index": 112}], ["histor", {"content": {"algos": {}, "common": {}}, "url": {}, "_index": 55}], ["historicaldata", {"content": {"charts": {}}, "url": {}, "_index": 128}], ["id", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 49}], ["indicatorbar", {"content": {"charts": {}}, "url": {}, "_index": 107}], ["indicatorcandlestick", {"content": {"charts": {}}, "url": {}, "_index": 110}], ["indicatordata", {"content": {"charts": {}}, "url": {}, "_index": 115}], ["indicatorlin", {"content": {"charts": {}}, "url": {}, "_index": 126}], ["indicatormessagetyp", {"content": {"charts": {}}, "url": {}, "_index": 129}], ["initializealgorithm", {"content": {"algos": {}}, "url": {}, "_index": 2}], ["initializealgorithmrequest", {"content": {"algos": {}}, "url": {}, "_index": 3}], ["initializealgorithmrespons", {"content": {"algos": {}}, "url": {}, "_index": 4}], ["initializeind", {"content": {"charts": {}}, "url": {}, "_index": 94}], ["initializeindicatorrequest", {"content": {"charts": {}}, "url": {}, "_index": 95}], ["initializeindicatorrespons", {"content": {"charts": {}}, "url": {}, "_index": 96}], ["label", {"content": {"charts": {}}, "url": {}, "_index": 116}], ["linemessag", {"content": {"charts": {}}, "url": {}, "_index": 119}], ["listencandlestick", {"content": {"algos": {}}, "url": {}, "_index": 59}], ["listendepthofbook", {"content": {"algos": {}}, "url": {}, "_index": 57}], ["listentrad", {"content": {"algos": {}}, "url": {}, "_index": 58}], ["low", {"content": {"charts": {}, "common": {}}, "url": {}, "_index": 113}], ["message_bar", {"content": {"charts": {}}, "url": {}, "_index": 133}], ["message_candlestick", {"content": {"charts": {}}, "url": {}, "_index": 131}], ["message_lin", {"content": {"charts": {}}, "url": {}, "_index": 132}], ["message_unknown", {"content": {"charts": {}}, "url": {}, "_index": 130}], ["messageid", {"content": {"algos": {}}, "url": {}, "_index": 43}], ["name", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 56}], ["offerlevel", {"content": {"algos": {}}, "url": {}, "_index": 54}], ["open", {"content": {"charts": {}, "common": {}}, "url": {}, "_index": 111}], ["optionsjsondatarequest", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 61}], ["optionsjsondatarespons", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 67}], ["order_side_buy_open", {"content": {"algos": {}}, "url": {}, "_index": 73}], ["order_side_sell_clos", {"content": {"algos": {}}, "url": {}, "_index": 74}], ["order_side_unknown", {"content": {"algos": {}}, "url": {}, "_index": 72}], ["order_status_cancel", {"content": {"algos": {}}, "url": {}, "_index": 80}], ["order_status_expir", {"content": {"algos": {}}, "url": {}, "_index": 82}], ["order_status_fil", {"content": {"algos": {}}, "url": {}, "_index": 79}], ["order_status_open", {"content": {"algos": {}}, "url": {}, "_index": 77}], ["order_status_partial_fil", {"content": {"algos": {}}, "url": {}, "_index": 78}], ["order_status_reject", {"content": {"algos": {}}, "url": {}, "_index": 81}], ["order_status_unknown", {"content": {"algos": {}}, "url": {}, "_index": 76}], ["order_type_limit", {"content": {"algos": {}}, "url": {}, "_index": 85}], ["order_type_market", {"content": {"algos": {}}, "url": {}, "_index": 84}], ["order_type_stop_limit", {"content": {"algos": {}}, "url": {}, "_index": 87}], ["order_type_stop_loss", {"content": {"algos": {}}, "url": {}, "_index": 86}], ["order_type_unknown", {"content": {"algos": {}}, "url": {}, "_index": 83}], ["orderid", {"content": {"algos": {}}, "url": {}, "_index": 44}], ["ordersid", {"content": {"algos": {}}, "url": {}, "_index": 66}], ["orderstatu", {"content": {"algos": {}}, "url": {}, "_index": 75}], ["orderstatusupd", {"content": {"algos": {}}, "url": {}, "_index": 32}], ["orderstatusupdateack", {"content": {"algos": {}}, "url": {}, "_index": 34}], ["orderstatusupdatemessag", {"content": {"algos": {}}, "url": {}, "_index": 33}], ["ordertyp", {"content": {"algos": {}}, "url": {}, "_index": 65}], ["pausealgorithm", {"content": {"algos": {}}, "url": {}, "_index": 8}], ["pausealgorithmrequest", {"content": {"algos": {}}, "url": {}, "_index": 9}], ["pausealgorithmrespons", {"content": {"algos": {}}, "url": {}, "_index": 10}], ["price", {"content": {"algos": {}}, "url": {}, "_index": 39}], ["processdata", {"content": {"charts": {}}, "url": {}, "_index": 100}], ["quantiti", {"content": {"algos": {}}, "url": {}, "_index": 40}], ["r", {"content": {"charts": {}}, "url": {}, "_index": 123}], ["reason", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 48}], ["remainingquant", {"content": {"algos": {}}, "url": {}, "_index": 64}], ["resumealgorithm", {"content": {"algos": {}}, "url": {}, "_index": 11}], ["resumealgorithmrequest", {"content": {"algos": {}}, "url": {}, "_index": 12}], ["resumealgorithmrespons", {"content": {"algos": {}}, "url": {}, "_index": 13}], ["sendord", {"content": {"algos": {}}, "url": {}, "_index": 17}], ["sendorderrequest", {"content": {"algos": {}}, "url": {}, "_index": 18}], ["sendorderrespons", {"content": {"algos": {}}, "url": {}, "_index": 19}], ["side", {"content": {"algos": {}}, "url": {}, "_index": 71}], ["side_bid", {"content": {"algos": {}}, "url": {}, "_index": 89}], ["side_off", {"content": {"algos": {}}, "url": {}, "_index": 90}], ["side_unknown", {"content": {"algos": {}}, "url": {}, "_index": 88}], ["simul", {"content": {"algos": {}}, "url": {}, "_index": 46}], ["startalgorithm", {"content": {"algos": {}}, "url": {}, "_index": 5}], ["startalgorithmrequest", {"content": {"algos": {}}, "url": {}, "_index": 6}], ["startalgorithmrespons", {"content": {"algos": {}}, "url": {}, "_index": 7}], ["startind", {"content": {"charts": {}}, "url": {}, "_index": 97}], ["startindicatorrequest", {"content": {"charts": {}}, "url": {}, "_index": 98}], ["startindicatorrespons", {"content": {"charts": {}}, "url": {}, "_index": 99}], ["starttimestamp", {"content": {"charts": {}}, "url": {}, "_index": 121}], ["statu", {"content": {"algos": {}}, "url": {}, "_index": 62}], ["stopalgorithm", {"content": {"algos": {}}, "url": {}, "_index": 14}], ["stopalgorithmrequest", {"content": {"algos": {}}, "url": {}, "_index": 15}], ["stopalgorithmrespons", {"content": {"algos": {}}, "url": {}, "_index": 16}], ["stopind", {"content": {"charts": {}}, "url": {}, "_index": 103}], ["stopindicatorrequest", {"content": {"charts": {}}, "url": {}, "_index": 104}], ["stopindicatorrespons", {"content": {"charts": {}}, "url": {}, "_index": 105}], ["subscribesymbol", {"content": {"algos": {}}, "url": {}, "_index": 35}], ["success", {"content": {"algos": {}, "charts": {}}, "url": {}, "_index": 47}], ["symbol", {"content": {"algos": {}, "charts": {}, "common": {}}, "url": {}, "_index": 50}], ["symboldatarequest", {"content": {"algos": {}}, "url": {}, "_index": 36}], ["symboldatarespons", {"content": {"algos": {}}, "url": {}, "_index": 37}], ["timeend", {"content": {"common": {}}, "url": {}, "_index": 141}], ["timefram", {"content": {"common": {}}, "url": {}, "_index": 139}], ["timeframe_fifteen_minut", {"content": {"common": {}}, "url": {}, "_index": 153}], ["timeframe_five_minut", {"content": {"common": {}}, "url": {}, "_index": 152}], ["timeframe_four_hour", {"content": {"common": {}}, "url": {}, "_index": 155}], ["timeframe_one_dai", {"content": {"common": {}}, "url": {}, "_index": 156}], ["timeframe_one_hour", {"content": {"common": {}}, "url": {}, "_index": 154}], ["timeframe_one_minut", {"content": {"common": {}}, "url": {}, "_index": 151}], ["timeframe_unknown", {"content": {"common": {}}, "url": {}, "_index": 150}], ["timestamp", {"content": {"algos": {}, "charts": {}, "common": {}}, "url": {}, "_index": 52}], ["timestart", {"content": {"common": {}}, "url": {}, "_index": 140}], ["top", {"content": {"charts": {}}, "url": {}, "_index": 109}], ["tradeack", {"content": {"algos": {}}, "url": {}, "_index": 25}], ["tradedata", {"content": {"algos": {}}, "url": {}, "_index": 23}], ["trademessag", {"content": {"algos": {}}, "url": {}, "_index": 24}], ["type", {"content": {"charts": {}}, "url": {}, "_index": 118}], ["valu", {"content": {"charts": {}}, "url": {}, "_index": 127}], ["volumebas", {"content": {"common": {}}, "url": {}, "_index": 137}], ["volumequot", {"content": {"common": {}}, "url": {}, "_index": 138}]], "pipeline": ["stemmer"]};
+
+    const idx = lunr.Index.load(searchIndex);
+
+    function displaySearchResults() {
+        const query = new URLSearchParams(window.location.search).get('query');
+
+        if (query) {
+            document.getElementById('mainInputQuery').value = query;
+
+            const results = idx.query(function (q) {
+              words = query.toLowerCase().split(" "); // toLowerCase() is needed to make the search case insensitive.
+              for (n in words) {
+                const word = words[n];
+
+                if (!word) {
+                  continue;
+                }
+
+                // look for an exact match and apply a large positive boost
+                q.term(word, { usePipeline: true, boost: 100 })
+
+                // look for terms that match the beginning of this queryTerm and apply a medium boost
+                q.term(word + "*", { usePipeline: false, boost: 10 })
+              }
+            });
+
+            const searchResults = document.getElementById('searchResults');
+
+            if (results.length > 0) {
+                let resultList = ''
+                for (const n in results) {
+                    // Use the unique ref from the results list to get the full item
+                    // so you can build its <li>
+                    const doc = searchDocuments[results[n].ref]
+                    resultList += '<h5 class="title is-5 mt-3"><a href="' + doc.url + '">' + doc.package + '</a></h5>'
+                    // Add a short clip of the content
+                    resultList += '<p>' + doc.content.substring(0, 150) + '...</p><hr />'
+                }
+                searchResults.innerHTML = resultList
+            } else {
+                searchResults.innerHTML = '<p>No search results.</p>';
+            }
+        }
+    }
+
+    window.addEventListener("load", displaySearchResults);
+</script>
+
+  <div>
+    <p class="block">
+      Enter a query to search this documentation.
+    </p>
+    <div class="field is-horizontal">
+      <form class="field-body">
+        <div class="field">
+          <p class="control is-expanded">
+            <input id="mainInputQuery" type="text" name="query" class="input" placeholder="Search query">
+          </p>
+        </div>
+        <div class="field">
+          <p class="control is-expanded">
+            <input type="submit" class="button is-primary" value="Search" />
+          </p>
+        </div>
+      </form>
+    </div>
+    <div class="block mt-6">
+      <div id="searchResults"></div>
+    </div>
+  </div>
+</div>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        
+        <p>Built with <strong><a href="https://github.com/markvincze/sabledocs" target="_blank">sabledocs</a></strong>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

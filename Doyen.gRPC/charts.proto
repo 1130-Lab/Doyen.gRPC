@@ -1,0 +1,137 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+option csharp_namespace = "Doyen.gRPC.Indicators";
+
+package charts;
+
+// Services
+service ChartsServer {
+	// We first initialize the indicator with all requested data.
+  rpc InitializeIndicator (InitializeIndicatorRequest) returns (InitializeIndicatorResponse);
+  // After your script has loaded the user data (if applicable) tell Doyen you are ready to start receiving data.
+  rpc StartIndicator (StartIndicatorRequest) returns (StartIndicatorResponse);
+  // From this point on, data communication is at the speed of retrieval.
+  rpc ProcessData (DataMessage) returns (stream DataMessageResponse);
+  // When the user stops the indicator, we send a stop request.
+  rpc StopIndicator (StopIndicatorRequest) returns (StopIndicatorResponse);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Messages					
+
+Messages for managing an indicator.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// Messages first, then services
+// Initialization message from Doyen to the indicator script. 
+message InitializeIndicatorRequest {
+	string id = 1;
+	string symbol = 2;
+	string name = 3;
+}
+
+// The initialization response message from the indicator script to Doyen.
+// If you wish to show an options panel, set hasOptionsPanel to true and provide a json object to be decoded into the options panel.
+message InitializeIndicatorResponse {
+	string id = 1;
+	bool success = 2;
+	string reason = 3; // If the initialization failed, include a reason for the user to see.
+	bool hasOptionsPanel = 100;
+	string optionsJsonDataRequest = 101; // JSON data for the options panel
+}
+
+// Doyen has received the initialization response and the options data of the user is included.
+message StartIndicatorRequest {
+	string id = 1;
+	repeated common.DoyenCandlestick historicalData = 100; // Historical data for the indicator to use
+	string optionsJsonDataResponse = 200;
+}
+
+// Tell Doyen you are ready to start receiving data.
+message StartIndicatorResponse {
+	string id = 1;
+	bool success = 2; // Indicates if the indicator started successfully
+	string reason = 3; // If the indicator failed to start, include a reason for the user to see.
+	repeated IndicatorData historicalData = 100; // Processed historical data
+}
+
+message StopIndicatorRequest {
+	string id = 1;
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+message StopIndicatorResponse {
+	string id = 1;
+	bool success = 2; // Indicates if the indicator stopped successfully
+	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Data					
+
+Messages for data handling by an indicator.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// The request message containing the text to analyze
+message DataMessage {
+	string symbol = 1;
+	int64 timestamp = 2;
+	repeated common.DoyenCandlestick candlesticks = 3;
+}
+
+// The response message containing the sentiment score
+message DataMessageResponse {
+	string id = 1;
+	IndicatorData data = 2;
+}
+
+message IndicatorData {
+	string id = 1;
+	string label = 2;
+	uint64 dataPointId = 3;
+	IndicatorMessageType type = 4;
+	IndicatorLine lineMessage = 5;
+	IndicatorCandlestick candlestickMessage = 6;
+	IndicatorBar barMessage = 7;
+	google.protobuf.Timestamp timestamp = 100;
+	google.protobuf.Timestamp startTimestamp = 101;
+	google.protobuf.Timestamp endTimestamp = 102;
+	int32 r = 200;
+	int32 g = 201;
+	int32 b = 202;
+}
+
+message IndicatorCandlestick {
+	double open = 1;
+	double high = 2;
+	double low = 3;
+	double close = 4;
+}
+
+message IndicatorLine {
+	double value = 1;
+}
+
+message IndicatorBar {
+	double bottom = 1;
+	double top = 2;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+Enums					
+
+Enums for charts.proto
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// Data sent to Doyen.
+enum IndicatorMessageType {
+	MESSAGE_UNKNOWN = 0;
+	MESSAGE_CANDLESTICK = 1;
+	MESSAGE_LINE = 2;
+	MESSAGE_BAR = 3;
+}

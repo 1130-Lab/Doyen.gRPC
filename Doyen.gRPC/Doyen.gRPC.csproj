@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyVersion></AssemblyVersion>
+    <Version>1.0.0.4</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.31.1" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    <PackageReference Include="Grpc.Tools" Version="2.72.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Protobuf Include="common.proto" ProtoCompile="True" />
+	  <Protobuf Include="algos.proto" ProtoCompile="True" />
+	  <Protobuf Include="charts.proto" ProtoCompile="True" />
+  </ItemGroup>
+
+	<Target Name="CompilePythonProto" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+		<Exec Command="python compile_proto.py" />
+	</Target>
+</Project>

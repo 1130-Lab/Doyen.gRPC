@@ -1,0 +1,48 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Doyen.gRPC.Common";
+
+package common;
+
+enum DoyenExchange {
+	EXCHANGE_UNKNOWN = 0;
+	EXCHANGE_BINANCEUS = 1;
+	EXCHANGE_KRAKEN = 2;
+	EXCHANGE_GEMINI = 3;
+	EXCHANGE_COINBASE = 4;
+	EXCHANGE_CRYPTOCOM = 5;
+	EXCHANGE_ALL = 999; // Averaged data for all exchanges.
+}
+
+enum Timeframe {
+	TIMEFRAME_UNKNOWN = 0;
+	TIMEFRAME_ONE_MINUTE = 1;
+	TIMEFRAME_FIVE_MINUTES = 2;
+	TIMEFRAME_FIFTEEN_MINUTES = 5;
+	TIMEFRAME_ONE_HOUR = 20;
+	TIMEFRAME_FOUR_HOUR = 25;
+	TIMEFRAME_ONE_DAY = 50;
+}
+
+message DoyenCandlestick {
+	string symbol = 1;
+	DoyenExchange exchange = 2;
+
+	double open = 10; // Opening price
+	double high = 11; // Highest price
+	double low = 12; // Lowest price
+	double close = 13; // Closing price
+	
+	double volumeBase = 20; // Volume traded during the candlestick period
+	double volumeQuote = 21; // Volume traded during the candlestick period
+	
+	Timeframe timeframe = 50; // The timeframe of the candlestick
+	
+	google.protobuf.Timestamp timestamp = 60; // The timestamp of the candlestick
+	google.protobuf.Timestamp timeStart = 61; // The start time of the candlestick
+	google.protobuf.Timestamp timeEnd = 62; // The end time of the candlestick
+	
+	bool historical = 100; // If true, this is historical candlestick data
+}
