@@ -11,9 +11,9 @@ namespace Doyen.Interop
 
         public ScriptHostManagerConfiguration Configuration => _configuration;
 
-        public ScriptHostManager()
+        public ScriptHostManager(string scriptHostFile = "ScriptHosts.json")
         {
-            _configuration = JsonSerializer.Deserialize<ScriptHostManagerConfiguration>(File.ReadAllText("ScriptHosts.json"))
+            _configuration = JsonSerializer.Deserialize<ScriptHostManagerConfiguration>(File.ReadAllText(scriptHostFile))
                 ?? throw new Exception("Failed to load ScriptHosts configuration.");
             foreach (var hostConfig in _configuration.ScriptHosts)
             {
