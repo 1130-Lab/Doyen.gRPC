@@ -81,6 +81,15 @@
     
       
       <p>
+        <a href="#message-algos.AlgorithmInfo">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>AlgorithmInfo</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
         <a href="#message-algos.BookLevel">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>BookLevel</code> 
@@ -156,6 +165,24 @@
         <a href="#message-algos.InitializeAlgorithmResponse">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>InitializeAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.ListAvailableAlgorithmsRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>ListAvailableAlgorithmsRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.ListAvailableAlgorithmsResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>ListAvailableAlgorithmsResponse</code> 
         </a>
       </p>
       
@@ -328,9 +355,9 @@
       </p>
     
       <p>
-        <a href="#enum-algos.Side">
+        <a href="#enum-algos.TradeSide">
           <span class="tag" style="min-width: 6em">Enum</span>
-          <code>Side</code> 
+          <code>TradeSide</code> 
         </a>
       </p>
     
@@ -435,6 +462,22 @@
     Request: <code><a href="algos.html#message-algos.StopAlgorithmRequest"><span title="algos.StopAlgorithmRequest">algos.StopAlgorithmRequest</span>
     </a></code><br>
     Response: <code><a href="algos.html#message-algos.StopAlgorithmResponse"><span title="algos.StopAlgorithmResponse">algos.StopAlgorithmResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-ListAvailableAlgorithms">
+      <a href="#service-algos.AlgorithmServer-ListAvailableAlgorithms">
+        rpc <code>ListAvailableAlgorithms</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.ListAvailableAlgorithmsRequest"><span title="algos.ListAvailableAlgorithmsRequest">algos.ListAvailableAlgorithmsRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.ListAvailableAlgorithmsResponse"><span title="algos.ListAvailableAlgorithmsResponse">algos.ListAvailableAlgorithmsResponse</span>
     </a></code><br>
   </div>
 
@@ -565,6 +608,163 @@
       Messages
     </h3>
 
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.AlgorithmInfo">
+  <span>
+    <a href="#message-algos.AlgorithmInfo" title="algos.AlgorithmInfo">message AlgorithmInfo</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        name
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        displayName
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        description
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        version
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        author
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        tags
+      </td>
+      <td>
+        <code title="string">
+          
+            repeated
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>7</td>
+      <td>
+        hasOptionsPanel
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>8</td>
+      <td>
+        optionsSchema
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
     
       
       <div class="block">
@@ -1435,6 +1635,139 @@
       <div class="block">
         
 
+<h4 class="title is-4 type-heading" id="message-algos.ListAvailableAlgorithmsRequest">
+  <span>
+    <a href="#message-algos.ListAvailableAlgorithmsRequest" title="algos.ListAvailableAlgorithmsRequest">message ListAvailableAlgorithmsRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        nameFilter
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.ListAvailableAlgorithmsResponse">
+  <span>
+    <a href="#message-algos.ListAvailableAlgorithmsResponse" title="algos.ListAvailableAlgorithmsResponse">message ListAvailableAlgorithmsResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        algorithms
+      </td>
+      <td>
+        <code title="algos.AlgorithmInfo">
+          
+            repeated
+          
+          <a href="algos.html#message-algos.AlgorithmInfo"><span title="algos.AlgorithmInfo">algos.AlgorithmInfo</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
 <h4 class="title is-4 type-heading" id="message-algos.OrderStatusUpdateAck">
   <span>
     <a href="#message-algos.OrderStatusUpdateAck" title="algos.OrderStatusUpdateAck">message OrderStatusUpdateAck</a>
@@ -1711,36 +2044,6 @@
       
     </tr>
     
-    <tr>
-      <td>2</td>
-      <td>
-        success
-      </td>
-      <td>
-        <code title="bool">
-          
-          <span>bool</span>
-        </code>
-      </td>
-      <td class="content"></td>
-      
-    </tr>
-    
-    <tr>
-      <td>3</td>
-      <td>
-        reason
-      </td>
-      <td>
-        <code title="string">
-          
-          <span>string</span>
-        </code>
-      </td>
-      <td class="content"></td>
-      
-    </tr>
-    
     
   </tbody>
 </table>
@@ -1860,36 +2163,6 @@
       <td>1</td>
       <td>
         algoId
-      </td>
-      <td>
-        <code title="string">
-          
-          <span>string</span>
-        </code>
-      </td>
-      <td class="content"></td>
-      
-    </tr>
-    
-    <tr>
-      <td>2</td>
-      <td>
-        success
-      </td>
-      <td>
-        <code title="bool">
-          
-          <span>bool</span>
-        </code>
-      </td>
-      <td class="content"></td>
-      
-    </tr>
-    
-    <tr>
-      <td>3</td>
-      <td>
-        reason
       </td>
       <td>
         <code title="string">
@@ -2459,36 +2732,6 @@
       
     </tr>
     
-    <tr>
-      <td>2</td>
-      <td>
-        success
-      </td>
-      <td>
-        <code title="bool">
-          
-          <span>bool</span>
-        </code>
-      </td>
-      <td class="content"></td>
-      
-    </tr>
-    
-    <tr>
-      <td>3</td>
-      <td>
-        reason
-      </td>
-      <td>
-        <code title="string">
-          
-          <span>string</span>
-        </code>
-      </td>
-      <td class="content"></td>
-      
-    </tr>
-    
     
   </tbody>
 </table>
@@ -2973,9 +3216,9 @@
         side
       </td>
       <td>
-        <code title="algos.Side">
+        <code title="algos.TradeSide">
           
-          <a href="algos.html#enum-algos.Side"><span title="algos.Side">algos.Side</span>
+          <a href="algos.html#enum-algos.TradeSide"><span title="algos.TradeSide">algos.TradeSide</span>
     </a>
         </code>
       </td>
@@ -3178,8 +3421,8 @@
     </div>
     
     <div class="block">
-      <h4 class="title is-4 type-heading" id="enum-algos.Side">
-  <a href="#enum-algos.Side" title="algos.Side">enum Side</a>
+      <h4 class="title is-4 type-heading" id="enum-algos.TradeSide">
+  <a href="#enum-algos.TradeSide" title="algos.TradeSide">enum TradeSide</a>
   
 </h4>
 
@@ -3198,19 +3441,19 @@
   <tbody>
     
     <tr>
-      <td><code>SIDE_UNKNOWN</code></td>
+      <td><code>TRADE_SIDE_UNKNOWN</code></td>
       <td>0</td>
       <td class="content"></td>
     </tr>
     
     <tr>
-      <td><code>SIDE_BID</code></td>
+      <td><code>TRADE_SIDE_BID</code></td>
       <td>1</td>
       <td class="content"></td>
     </tr>
     
     <tr>
-      <td><code>SIDE_OFFER</code></td>
+      <td><code>TRADE_SIDE_OFFER</code></td>
       <td>2</td>
       <td class="content"></td>
     </tr>

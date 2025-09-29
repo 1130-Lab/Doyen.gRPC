@@ -20,6 +20,21 @@ class GridTrader(Algorithm):
         self.upperPrice = 0.0
         self.grid_count = 10
 
+    def get_display_name(self) -> str:
+        return "Grid Trading Algorithm"
+
+    def get_description(self) -> str:
+        return "A sophisticated grid trading algorithm that places buy and sell orders at predetermined price levels to profit from market volatility. The algorithm automatically rebalances orders as they are filled and manages risk through configurable price thresholds."
+
+    def get_version(self) -> str:
+        return "2.0.1"
+
+    def get_author(self) -> str:
+        return "Doyen @ 1130 Lab"
+
+    def get_tags(self) -> List[str]:
+        return ["grid", "trading", "automated", "volatility", "market-making"]
+
     def refresh(self):
         """Refresh the algorithm state."""
         self.grid_orders = {}

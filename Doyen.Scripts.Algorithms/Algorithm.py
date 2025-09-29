@@ -18,7 +18,28 @@ class Algorithm:
         # Doyen will prevent the algorithm from sending orders while paused.
         self.paused = False # this isn't necessary but it's cleaner to handle pause/resume logic. 
 
+    def get_display_name(self) -> str:
+        """Get the display name for the algorithm (human-readable)"""
+        return self.name
+
+    def get_description(self) -> str:
+        """Get the description of the algorithm"""
+        return "A trading algorithm"
+
+    def get_version(self) -> str:
+        """Get the version of the algorithm"""
+        return "1.0.0"
+
+    def get_author(self) -> str:
+        """Get the author of the algorithm"""
+        return "Unknown"
+
+    def get_tags(self) -> List[str]:
+        """Get tags/categories for the algorithm"""
+        return ["trading"]
+
     def get_options_schema(self) -> str:
+        """Get the options schema JSON for the algorithm's configuration panel"""
         schema = {
             "title": self.name,
             "description": "Base algorithm",

@@ -365,7 +365,84 @@ class ScriptServicer(algos_pb2_grpc.AlgorithmServerServicer):
                 messageId=request.messageId
             )
 
-
+    def ListAvailableAlgorithms(self, request, context):
+        """Handle request to list all available algorithms"""
+        print(f"Listing available algorithms with filter: '{request.nameFilter}'")
+        try:
+            algorithm_infos = []
+            
+            # Get all Python files in the current directory
+            import glob
+            script_files = glob.glob("*.py")
+            
+            for script_file in script_files:
+                # Skip the current script and base classes
+                if script_file in ['Doyen.Algorithms.ScriptManager.py', 'Algorithm.py', '__init__.py']:
+                    continue
+                    
+                try:
+                    algorithm_name = script_file.replace('.py', '')
+                    
+                    # Apply name filter if provided
+                    if request.nameFilter and request.nameFilter not in algorithm_name.lower():
+                        continue
+                    
+                    # Try to load the algorithm to get its metadata
+                    algorithm = load_algorithm_from_file(self, "temp_id", script_file)
+                    if algorithm:
+                        try:
+                            # Get algorithm metadata
+                            display_name = algorithm.get_display_name() if hasattr(algorithm, 'get_display_name') else algorithm_name
+                            description = algorithm.get_description() if hasattr(algorithm, 'get_description') else "A trading algorithm"
+                            version = algorithm.get_version() if hasattr(algorithm, 'get_version') else "1.0.0"
+                            author = algorithm.get_author() if hasattr(algorithm, 'get_author') else "Unknown"
+                            tags = algorithm.get_tags() if hasattr(algorithm, 'get_tags') else ["trading"]
+                            
+                            # Get options schema
+                            options_schema = ""
+                            has_options = False
+                            try:
+                                options_schema = algorithm.get_options_schema()
+                                has_options = bool(options_schema) and options_schema != "{}"
+                            except Exception as e:
+                                print(f"Error getting options schema for {algorithm_name}: {e}")
+                            
+                            # Create algorithm info
+                            algorithm_info = algos_pb2.AlgorithmInfo(
+                                name=algorithm_name,
+                                displayName=display_name,
+                                description=description,
+                                version=version,
+                                author=author,
+                                tags=tags,
+                                hasOptionsPanel=has_options,
+                                optionsSchema=options_schema
+                            )
+                            
+                            algorithm_infos.append(algorithm_info)
+                            print(f"Found algorithm: {algorithm_name}")
+                            
+                        except Exception as e:
+                            print(f"Error getting metadata for algorithm {algorithm_name}: {e}")
+                    
+                except Exception as e:
+                    print(f"Error processing script file {script_file}: {e}")
+            
+            print(f"Found {len(algorithm_infos)} available algorithms")
+            
+            return algos_pb2.ListAvailableAlgorithmsResponse(
+                success=True,
+                reason="",
+                algorithms=algorithm_infos
+            )
+            
+        except Exception as e:
+            print(f"Error listing available algorithms: {e}")
+            return algos_pb2.ListAvailableAlgorithmsResponse(
+                success=False,
+                reason=str(e),
+                algorithms=[]
+            )
 def load_algorithm_from_file(servicer : ScriptServicer, algo_id: str, path: str):
     try:
         mod_name = os.path.basename(path).replace('.py', '')

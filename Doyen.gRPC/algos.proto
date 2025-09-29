@@ -19,6 +19,9 @@ service AlgorithmServer {
 	// You will have to cancel any existing orders from Doyen.
 	rpc StopAlgorithm(StopAlgorithmRequest) returns (StopAlgorithmResponse);
 
+	// Algorithm discovery services (Doyen -> your script)
+	rpc ListAvailableAlgorithms(ListAvailableAlgorithmsRequest) returns (ListAvailableAlgorithmsResponse);
+
 	// Order management services (your script -> Doyen)
 	rpc SendOrder(SendOrderRequest) returns (SendOrderResponse);
 	rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
@@ -75,8 +78,6 @@ message StartAlgorithmResponse {
 // Pause the algorithm. It will still receive data and orders may still be cancelled but it will not be permitted to send orders.
 message PauseAlgorithmRequest {
 	string algoId = 1; // Algo identifier
-	bool success = 2; // Indicates if the indicator stopped successfully
-	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
 }
 
 message PauseAlgorithmResponse {
@@ -87,8 +88,6 @@ message PauseAlgorithmResponse {
 
 message ResumeAlgorithmRequest {
 	string algoId = 1; // Algo identifier
-	bool success = 2; // Indicates if the indicator stopped successfully
-	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
 }
 
 message ResumeAlgorithmResponse {
@@ -99,14 +98,37 @@ message ResumeAlgorithmResponse {
 
 message StopAlgorithmRequest {
 	string algoId = 1; // Algo identifier
-	bool success = 2; // Indicates if the indicator stopped successfully
-	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
 }
 
 message StopAlgorithmResponse {
 	string algoId = 1; // Algo identifier
 	bool success = 2; // Indicates if the indicator stopped successfully
 	string reason = 3; // If the indicator failed to stop, include a reason for the user to see.
+}
+
+// Request to list all available algorithms that can be initialized
+message ListAvailableAlgorithmsRequest {
+	// Optional filter to search for specific algorithm names
+	string nameFilter = 1;
+}
+
+// Response containing the list of available algorithms
+message ListAvailableAlgorithmsResponse {
+	bool success = 1; // Indicates if the request was successful
+	string reason = 2; // If the request failed, include a reason for the user to see.
+	repeated AlgorithmInfo algorithms = 3; // List of available algorithms
+}
+
+// Information about an available algorithm
+message AlgorithmInfo {
+	string name = 1; // Algorithm name (used for initialization)
+	string displayName = 2; // Human-readable display name
+	string description = 3; // Algorithm description
+	string version = 4; // Algorithm version
+	string author = 5; // Algorithm author
+	repeated string tags = 6; // Tags/categories for the algorithm
+	bool hasOptionsPanel = 7; // Whether the algorithm has configuration options
+	string optionsSchema = 8; // JSON schema for options (if hasOptionsPanel is true)
 }
 
 message SymbolDataRequest {
@@ -225,7 +247,7 @@ message TradeMessage {
 	google.protobuf.Timestamp timestamp = 4;
 	double price = 10;
 	double quantity = 11;
-	Side side = 12; // Bid or Offer
+	TradeSide side = 12; // Bid or Offer
 	bool historical = 100; // If true, this is historical trade data
 }
 
@@ -264,10 +286,10 @@ enum OrderSide {
 	ORDER_SIDE_SELL_CLOSE = 2; // Sell order
 }
 
-enum Side {
-	SIDE_UNKNOWN = 0;
-	SIDE_BID = 1;
-	SIDE_OFFER = 2;
+enum TradeSide {
+	TRADE_SIDE_UNKNOWN = 0;
+	TRADE_SIDE_BID = 1;
+	TRADE_SIDE_OFFER = 2;
 }
 
 enum OrderStatus

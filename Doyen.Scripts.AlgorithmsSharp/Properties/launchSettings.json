@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Doyen.Scripts.AlgorithmsSharp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:55482;http://localhost:55483"
+    }
+  }
+}

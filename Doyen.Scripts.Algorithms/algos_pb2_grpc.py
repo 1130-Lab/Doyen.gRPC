@@ -60,6 +60,11 @@ class AlgorithmServerStub(object):
                 request_serializer=algos__pb2.StopAlgorithmRequest.SerializeToString,
                 response_deserializer=algos__pb2.StopAlgorithmResponse.FromString,
                 _registered_method=True)
+        self.ListAvailableAlgorithms = channel.unary_unary(
+                '/algos.AlgorithmServer/ListAvailableAlgorithms',
+                request_serializer=algos__pb2.ListAvailableAlgorithmsRequest.SerializeToString,
+                response_deserializer=algos__pb2.ListAvailableAlgorithmsResponse.FromString,
+                _registered_method=True)
         self.SendOrder = channel.unary_unary(
                 '/algos.AlgorithmServer/SendOrder',
                 request_serializer=algos__pb2.SendOrderRequest.SerializeToString,
@@ -130,6 +135,13 @@ class AlgorithmServerServicer(object):
         """This can be called from your script -> Doyen for emergency stops.
         When an algorithm is stopped, data and orders are no longer processed.
         You will have to cancel any existing orders from Doyen.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListAvailableAlgorithms(self, request, context):
+        """Algorithm discovery services (Doyen -> your script)
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -207,6 +219,11 @@ def add_AlgorithmServerServicer_to_server(servicer, server):
                     servicer.StopAlgorithm,
                     request_deserializer=algos__pb2.StopAlgorithmRequest.FromString,
                     response_serializer=algos__pb2.StopAlgorithmResponse.SerializeToString,
+            ),
+            'ListAvailableAlgorithms': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListAvailableAlgorithms,
+                    request_deserializer=algos__pb2.ListAvailableAlgorithmsRequest.FromString,
+                    response_serializer=algos__pb2.ListAvailableAlgorithmsResponse.SerializeToString,
             ),
             'SendOrder': grpc.unary_unary_rpc_method_handler(
                     servicer.SendOrder,
@@ -380,6 +397,33 @@ class AlgorithmServer(object):
             '/algos.AlgorithmServer/StopAlgorithm',
             algos__pb2.StopAlgorithmRequest.SerializeToString,
             algos__pb2.StopAlgorithmResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListAvailableAlgorithms(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/algos.AlgorithmServer/ListAvailableAlgorithms',
+            algos__pb2.ListAvailableAlgorithmsRequest.SerializeToString,
+            algos__pb2.ListAvailableAlgorithmsResponse.FromString,
             options,
             channel_credentials,
             insecure,
