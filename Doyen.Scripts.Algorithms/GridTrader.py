@@ -82,6 +82,7 @@ class GridTrader(Algorithm):
                 "offer_threshold": {
                     "title": "Offer Threshold",
                     "description": "The threshold for grid levels relative to the offer in dollars. ex. 50 for a pair offered at $100,000 would make our best bid price $99,950.",
+                    "options": "0.0 .. 1000",
                     "type": "number", "value": 50},
                 "grid_count": {
                     "title": "Grid Count",
