@@ -9,12 +9,12 @@ namespace Doyen.Scripts.AlgorithmSharp.API
     /// </summary>
     public interface IAlgorithmInterface
     {
-        Task<SendOrderResponse?> SendOrderAsync(string symbol, string exchange, double price, double quantity, 
-            string orderSide, string orderType, ulong? messageId = null, bool simulated = false);
+        Task<SendOrderResponse?> SendOrderAsync(string symbol, DoyenExchange exchange, double price, double quantity, 
+            OrderSide orderSide, OrderType orderType, ulong? messageId = null, bool simulated = false);
         
         Task<CancelOrderResponse?> CancelOrderAsync(string orderId, ulong? messageId = null, bool simulated = false);
         
-        Task<SymbolDataResponse?> SubscribeSymbolAsync(string symbol, string exchange, bool getHistorical = false, 
+        Task<SymbolDataResponse?> SubscribeSymbolAsync(string symbol, DoyenExchange exchange, bool getHistorical = false, 
             int depthLevels = 10, Doyen.gRPC.Common.Timeframe candlesTimeframe = Doyen.gRPC.Common.Timeframe.FiveMinutes);
     }
 
@@ -35,28 +35,24 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         /// <summary>
         /// Send an order - handles protobuf message creation internally
         /// </summary>
-        public async Task<SendOrderResponse?> SendOrderAsync(string symbol, string exchange, double price, double quantity,
-            string orderSide, string orderType, ulong? messageId = null, bool simulated = false)
+        public async Task<SendOrderResponse?> SendOrderAsync(string symbol, DoyenExchange exchange, double price, double quantity,
+            OrderSide orderSide, OrderType orderType, ulong? messageId = null, bool simulated = false)
         {
             messageId ??= GenerateMessageId();
 
             try
             {
-                var algoExchange = GetAlgoExchange(exchange);
-                var algoOrderSide = GetAlgoOrderSide(orderSide);
-                var algoOrderType = GetAlgoOrderType(orderType);
-
                 var request = new SendOrderRequest
                 {
                     AlgoId = _algoId,
                     MessageId = messageId.Value,
                     Symbol = symbol,
-                    Exchange = algoExchange,
+                    Exchange = exchange,
                     Price = price,
                     Quantity = quantity,
                     Simulated = simulated,
-                    OrderSide = algoOrderSide,
-                    OrderType = algoOrderType
+                    OrderSide = orderSide,
+                    OrderType = orderType
                 };
 
                 var response = await _client.SendOrderAsync(request);
@@ -99,17 +95,16 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         /// <summary>
         /// Subscribe to symbol data - handles protobuf message creation internally
         /// </summary>
-        public async Task<SymbolDataResponse?> SubscribeSymbolAsync(string symbol, string exchange, bool getHistorical = false,
+        public async Task<SymbolDataResponse?> SubscribeSymbolAsync(string symbol, DoyenExchange exchange, bool getHistorical = false,
             int depthLevels = 10, Doyen.gRPC.Common.Timeframe candlesTimeframe = Doyen.gRPC.Common.Timeframe.FiveMinutes)
         {
             try
             {
-                var algoExchange = GetAlgoExchange(exchange);
                 var request = new SymbolDataRequest
                 {
                     AlgoId = _algoId,
                     Symbol = symbol,
-                    Exchange = algoExchange,
+                    Exchange = exchange,
                     GetHistorical = getHistorical,
                     DepthOfBookLevels = depthLevels,
                     CandlesTimeframe = candlesTimeframe
@@ -130,22 +125,20 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             return (ulong)(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1000 + Random.Shared.Next(1000));
         }
 
-        private static DoyenExchange GetAlgoExchange(string name)
+        public static DoyenExchange GetAlgoExchange(string name)
         {
             var exchangeName = $"Exchange{name.ToUpperInvariant()}";
             return System.Enum.TryParse<DoyenExchange>(exchangeName, true, out var exchange) ? exchange : DoyenExchange.ExchangeUnknown;
         }
 
-        private static OrderSide GetAlgoOrderSide(string side)
+        public static OrderSide GetAlgoOrderSide(string side)
         {
-            var sideName = $"OrderSide{side.ToUpperInvariant()}";
-            return System.Enum.TryParse<OrderSide>(sideName, true, out var orderSide) ? orderSide : OrderSide.Unknown;
+            return System.Enum.TryParse<OrderSide>(side, true, out var orderSide) ? orderSide : OrderSide.Unknown;
         }
 
-        private static OrderType GetAlgoOrderType(string orderType)
+        public static OrderType GetAlgoOrderType(string orderType)
         {
-            var orderTypeName = $"OrderType{orderType.ToUpperInvariant()}";
-            return System.Enum.TryParse<OrderType>(orderTypeName, true, out var type) ? type : OrderType.Unknown;
+            return System.Enum.TryParse<OrderType>(orderType, true, out var type) ? type : OrderType.Unknown;
         }
     }
 }

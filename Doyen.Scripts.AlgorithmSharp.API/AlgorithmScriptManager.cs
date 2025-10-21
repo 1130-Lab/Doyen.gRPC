@@ -134,6 +134,8 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                     try
                     {
                         settingsModel = JsonSerializer.Deserialize<ScriptSettingsModel>(request.OptionsJsonDataResponse);
+                        // Store configuration
+                        algoContext.Configuration = request.OptionsJsonDataResponse;
                     }
                     catch (JsonException ex)
                     {
@@ -153,6 +155,9 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                             Reason = "Algorithm start function returned failure"
                         };
                     }
+
+                    // Set state to Running
+                    algoContext.State = AlgorithmState.Running;
 
                     Console.WriteLine($"Successfully started algorithm {request.AlgoId}");
                     return new StartAlgorithmResponse
@@ -210,6 +215,8 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 try
                 {
                     algorithm.Pause();
+                    // Set state to Paused
+                    algoContext.State = AlgorithmState.Paused;
                     Console.WriteLine($"Successfully paused algorithm {request.AlgoId}");
                     return new PauseAlgorithmResponse
                     {
@@ -266,6 +273,8 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 try
                 {
                     algorithm.Resume();
+                    // Set state back to Running
+                    algoContext.State = AlgorithmState.Running;
                     Console.WriteLine($"Successfully resumed algorithm {request.AlgoId}");
                     return new ResumeAlgorithmResponse
                     {
@@ -322,6 +331,8 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 try
                 {
                     algorithm.Stop();
+                    // Set state to Stopped, then remove
+                    algoContext.State = AlgorithmState.Stopped;
                     _activeAlgorithms.TryRemove(request.AlgoId, out _);
                     Console.WriteLine($"Successfully stopped algorithm {request.AlgoId}");
                     return new StopAlgorithmResponse
@@ -602,6 +613,102 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             {
                 Console.WriteLine($"Error listing available algorithms: {ex.Message}");
                 return Task.FromResult(new ListAvailableAlgorithmsResponse
+                {
+                    Success = false,
+                    Reason = ex.Message,
+                    Algorithms = { }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Handle request to list all currently running or paused algorithms
+        /// </summary>
+        public override Task<ListRunningAlgorithmsResponse> ListRunningAlgorithms(
+            ListRunningAlgorithmsRequest request, ServerCallContext context)
+        {
+            Console.WriteLine($"Listing running algorithms with filter: '{request.NameFilter}'");
+
+            try
+            {
+                var runningAlgorithmInfos = new List<RunningAlgorithmInfo>();
+
+                // Filter active algorithms that are Running or Paused
+                foreach (var (algoId, algoContext) in _activeAlgorithms)
+                {
+                    if (algoContext.State != AlgorithmState.Running && algoContext.State != AlgorithmState.Paused)
+                    {
+                        continue;
+                    }
+
+                    // Apply name filter if provided
+                    if (!string.IsNullOrEmpty(request.NameFilter) &&
+                        !algoContext.Name.Contains(request.NameFilter, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    var algorithm = algoContext.Algorithm;
+                    if (algorithm != null)
+                    {
+                        try
+                        {
+                            var optionsSchema = "";
+                            var hasOptions = false;
+                            try
+                            {
+                                optionsSchema = algorithm.GetOptionsSchema();
+                                hasOptions = !string.IsNullOrEmpty(optionsSchema) && optionsSchema != "{}";
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error getting options schema for {algoContext.Name}: {ex.Message}");
+                            }
+
+                            var algorithmInfo = new AlgorithmInfo
+                            {
+                                Name = algoContext.Name,
+                                DisplayName = algorithm.GetDisplayName(),
+                                Description = algorithm.GetDescription(),
+                                Version = algorithm.GetVersion(),
+                                Author = algorithm.GetAuthor(),
+                                HasOptionsPanel = hasOptions,
+                                OptionsSchema = optionsSchema
+                            };
+
+                            // Add tags
+                            algorithmInfo.Tags.AddRange(algorithm.GetTags());
+
+                            var runningInfo = new RunningAlgorithmInfo
+                            {
+                                Info = algorithmInfo,
+                                AlgoId = algoId,
+                                Configuration = algoContext.Configuration ?? "{}"
+                            };
+
+                            runningAlgorithmInfos.Add(runningInfo);
+                            Console.WriteLine($"Found running algorithm: {algoContext.Name} (ID: {algoId}, State: {algoContext.State})");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error processing running algorithm {algoContext.Name}: {ex.Message}");
+                        }
+                    }
+                }
+
+                Console.WriteLine($"Found {runningAlgorithmInfos.Count} running algorithms");
+
+                return Task.FromResult(new ListRunningAlgorithmsResponse
+                {
+                    Success = true,
+                    Reason = "",
+                    Algorithms = { runningAlgorithmInfos }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error listing running algorithms: {ex.Message}");
+                return Task.FromResult(new ListRunningAlgorithmsResponse
                 {
                     Success = false,
                     Reason = ex.Message,

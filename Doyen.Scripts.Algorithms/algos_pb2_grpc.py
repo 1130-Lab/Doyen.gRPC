@@ -65,6 +65,11 @@ class AlgorithmServerStub(object):
                 request_serializer=algos__pb2.ListAvailableAlgorithmsRequest.SerializeToString,
                 response_deserializer=algos__pb2.ListAvailableAlgorithmsResponse.FromString,
                 _registered_method=True)
+        self.ListRunningAlgorithms = channel.unary_unary(
+                '/algos.AlgorithmServer/ListRunningAlgorithms',
+                request_serializer=algos__pb2.ListRunningAlgorithmsRequest.SerializeToString,
+                response_deserializer=algos__pb2.ListRunningAlgorithmsResponse.FromString,
+                _registered_method=True)
         self.SendOrder = channel.unary_unary(
                 '/algos.AlgorithmServer/SendOrder',
                 request_serializer=algos__pb2.SendOrderRequest.SerializeToString,
@@ -147,6 +152,12 @@ class AlgorithmServerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListRunningAlgorithms(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def SendOrder(self, request, context):
         """Order management services (your script -> Doyen)
         """
@@ -224,6 +235,11 @@ def add_AlgorithmServerServicer_to_server(servicer, server):
                     servicer.ListAvailableAlgorithms,
                     request_deserializer=algos__pb2.ListAvailableAlgorithmsRequest.FromString,
                     response_serializer=algos__pb2.ListAvailableAlgorithmsResponse.SerializeToString,
+            ),
+            'ListRunningAlgorithms': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListRunningAlgorithms,
+                    request_deserializer=algos__pb2.ListRunningAlgorithmsRequest.FromString,
+                    response_serializer=algos__pb2.ListRunningAlgorithmsResponse.SerializeToString,
             ),
             'SendOrder': grpc.unary_unary_rpc_method_handler(
                     servicer.SendOrder,
@@ -424,6 +440,33 @@ class AlgorithmServer(object):
             '/algos.AlgorithmServer/ListAvailableAlgorithms',
             algos__pb2.ListAvailableAlgorithmsRequest.SerializeToString,
             algos__pb2.ListAvailableAlgorithmsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListRunningAlgorithms(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/algos.AlgorithmServer/ListRunningAlgorithms',
+            algos__pb2.ListRunningAlgorithmsRequest.SerializeToString,
+            algos__pb2.ListRunningAlgorithmsResponse.FromString,
             options,
             channel_credentials,
             insecure,

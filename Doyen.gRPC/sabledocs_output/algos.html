@@ -189,6 +189,24 @@
     
       
       <p>
+        <a href="#message-algos.ListRunningAlgorithmsRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>ListRunningAlgorithmsRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.ListRunningAlgorithmsResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>ListRunningAlgorithmsResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
         <a href="#message-algos.OrderStatusUpdateAck">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>OrderStatusUpdateAck</code> 
@@ -237,6 +255,15 @@
         <a href="#message-algos.ResumeAlgorithmResponse">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>ResumeAlgorithmResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.RunningAlgorithmInfo">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>RunningAlgorithmInfo</code> 
         </a>
       </p>
       
@@ -478,6 +505,22 @@
     Request: <code><a href="algos.html#message-algos.ListAvailableAlgorithmsRequest"><span title="algos.ListAvailableAlgorithmsRequest">algos.ListAvailableAlgorithmsRequest</span>
     </a></code><br>
     Response: <code><a href="algos.html#message-algos.ListAvailableAlgorithmsResponse"><span title="algos.ListAvailableAlgorithmsResponse">algos.ListAvailableAlgorithmsResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-ListRunningAlgorithms">
+      <a href="#service-algos.AlgorithmServer-ListRunningAlgorithms">
+        rpc <code>ListRunningAlgorithms</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.ListRunningAlgorithmsRequest"><span title="algos.ListRunningAlgorithmsRequest">algos.ListRunningAlgorithmsRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.ListRunningAlgorithmsResponse"><span title="algos.ListRunningAlgorithmsResponse">algos.ListRunningAlgorithmsResponse</span>
     </a></code><br>
   </div>
 
@@ -1768,6 +1811,139 @@
       <div class="block">
         
 
+<h4 class="title is-4 type-heading" id="message-algos.ListRunningAlgorithmsRequest">
+  <span>
+    <a href="#message-algos.ListRunningAlgorithmsRequest" title="algos.ListRunningAlgorithmsRequest">message ListRunningAlgorithmsRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        nameFilter
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.ListRunningAlgorithmsResponse">
+  <span>
+    <a href="#message-algos.ListRunningAlgorithmsResponse" title="algos.ListRunningAlgorithmsResponse">message ListRunningAlgorithmsResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        algorithms
+      </td>
+      <td>
+        <code title="algos.RunningAlgorithmInfo">
+          
+            repeated
+          
+          <a href="algos.html#message-algos.RunningAlgorithmInfo"><span title="algos.RunningAlgorithmInfo">algos.RunningAlgorithmInfo</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
 <h4 class="title is-4 type-heading" id="message-algos.OrderStatusUpdateAck">
   <span>
     <a href="#message-algos.OrderStatusUpdateAck" title="algos.OrderStatusUpdateAck">message OrderStatusUpdateAck</a>
@@ -2243,6 +2419,87 @@
       <td>3</td>
       <td>
         reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.RunningAlgorithmInfo">
+  <span>
+    <a href="#message-algos.RunningAlgorithmInfo" title="algos.RunningAlgorithmInfo">message RunningAlgorithmInfo</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        info
+      </td>
+      <td>
+        <code title="algos.AlgorithmInfo">
+          
+          <a href="algos.html#message-algos.AlgorithmInfo"><span title="algos.AlgorithmInfo">algos.AlgorithmInfo</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        configuration
       </td>
       <td>
         <code title="string">

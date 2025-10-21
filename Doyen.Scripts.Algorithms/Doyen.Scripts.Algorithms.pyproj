@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="Algorithm.py" />
     <Compile Include="Doyen.Algorithms.ScriptManager.py" />
+    <Compile Include="Scalpbot.py" />
     <Compile Include="GridTrader.py" />
   </ItemGroup>
   <ItemGroup>

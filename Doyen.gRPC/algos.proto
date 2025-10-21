@@ -21,6 +21,7 @@ service AlgorithmServer {
 
 	// Algorithm discovery services (Doyen -> your script)
 	rpc ListAvailableAlgorithms(ListAvailableAlgorithmsRequest) returns (ListAvailableAlgorithmsResponse);
+	rpc ListRunningAlgorithms(ListRunningAlgorithmsRequest) returns (ListRunningAlgorithmsResponse);
 
 	// Order management services (your script -> Doyen)
 	rpc SendOrder(SendOrderRequest) returns (SendOrderResponse);
@@ -119,6 +120,17 @@ message ListAvailableAlgorithmsResponse {
 	repeated AlgorithmInfo algorithms = 3; // List of available algorithms
 }
 
+message ListRunningAlgorithmsRequest {
+	// Optional filter to search for specific algorithm names
+	string nameFilter = 1;
+}
+
+message ListRunningAlgorithmsResponse {
+	bool success = 1; // Indicates if the request was successful
+	string reason = 2; // If the request failed, include a reason for the user to see.
+	repeated RunningAlgorithmInfo algorithms = 3; // List of running algorithms
+}
+
 // Information about an available algorithm
 message AlgorithmInfo {
 	string name = 1; // Algorithm name (used for initialization)
@@ -129,6 +141,12 @@ message AlgorithmInfo {
 	repeated string tags = 6; // Tags/categories for the algorithm
 	bool hasOptionsPanel = 7; // Whether the algorithm has configuration options
 	string optionsSchema = 8; // JSON schema for options (if hasOptionsPanel is true)
+}
+
+message RunningAlgorithmInfo {
+	AlgorithmInfo info = 1;
+	string algoId = 2;
+	string configuration = 3;
 }
 
 message SymbolDataRequest {

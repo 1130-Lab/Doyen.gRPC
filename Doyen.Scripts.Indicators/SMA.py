@@ -10,7 +10,7 @@ class SMAIndicator(Indicator):
     
     def __init__(self):
         super().__init__("Simple Moving Average (SMA)")
-        self.sma_period = 3  # Default SMA period
+        self.sma_period = 30  # Default SMA period
         self.historical_prices = []  # Store historical closing prices
         self.up_color = (0, 255, 0)  # Default up color (green)
         self.down_color = (255, 0, 0) # Default down color (red)
