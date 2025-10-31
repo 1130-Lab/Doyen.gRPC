@@ -13,6 +13,16 @@ enum DoyenExchange {
 	EXCHANGE_GEMINI = 3;
 	EXCHANGE_COINBASE = 4;
 	EXCHANGE_CRYPTOCOM = 5;
+	EXCHANGE_NONKYC = 6;
+	EXCHANGE_BITFLYER = 7;
+	EXCHANGE_MEXC = 8;
+	EXCHANGE_APOLLOX = 9;
+	EXCHANGE_CEX = 10;
+	EXCHANGE_BITSTAMP = 11;
+	EXCHANGE_COINCHECK = 12;
+
+	EXCCHANGE_IBKR = 997; // For internal use only. Please contact us for more information.
+	EXCHANGE_SCHWAB = 998; // For internal use only. Please contact us for more information.
 	EXCHANGE_ALL = 999; // Averaged data for all exchanges.
 }
 

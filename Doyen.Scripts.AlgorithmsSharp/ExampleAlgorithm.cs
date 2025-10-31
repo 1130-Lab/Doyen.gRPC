@@ -131,7 +131,7 @@ namespace Doyen.Scripts.AlgorithmsSharp
                     options.Properties.TryGetValue("exchange", out var exchangeProp))
                 {
                     var symbol = symbolProp.Value?.ToString() ?? "BTC-USD";
-                    var exchange = exchangeProp.Value?.ToString() ?? "COINBASE";
+                    var exchange = Enum.Parse<Doyen.gRPC.Common.DoyenExchange>(exchangeProp.Value?.ToString() ?? "COINBASE");
 
                     Task.Run(async () =>
                     {

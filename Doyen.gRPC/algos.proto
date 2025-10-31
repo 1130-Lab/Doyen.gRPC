@@ -313,10 +313,12 @@ enum TradeSide {
 enum OrderStatus
 {
 	ORDER_STATUS_UNKNOWN = 0;
-	ORDER_STATUS_OPEN = 1;
-	ORDER_STATUS_PARTIAL_FILLED = 2;
-	ORDER_STATUS_FILLED = 3;
-	ORDER_STATUS_CANCELLED = 4;
-	ORDER_STATUS_REJECTED = 5;
-	ORDER_STATUS_EXPIRED = 6;
+	ORDER_STATUS_OPENING = 1; // This status is for client-side order managementonly. The server will not provide this status.
+	ORDER_STATUS_OPEN = 2;
+	ORDER_STATUS_PARTIAL_FILLED = 3;
+	ORDER_STATUS_FILLED = 4;
+	ORDER_STATUS_CANCELLING = 5; // This status is for client-side order management. The server will not provide this status.
+	ORDER_STATUS_CANCELLED = 6;
+	ORDER_STATUS_REJECTED = 7;
+	ORDER_STATUS_EXPIRED = 8;
 }
