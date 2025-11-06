@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Doyen.gRPC.Algorithms;
-using Doyen.gRPC.Common;
-using Google.Protobuf.WellKnownTypes;
+﻿using Doyen.gRPC.Algorithms;
 using Grpc.Core;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.Json;
+using Serilog;
 
 namespace Doyen.Scripts.AlgorithmSharp.API
 {
@@ -34,14 +28,14 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override Task<InitializeAlgorithmResponse> InitializeAlgorithm(
             InitializeAlgorithmRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Initializing algorithm: {request.Name} (ID: {request.AlgoId})");
+            Log.Logger.Information("Initializing algorithm: {Name} (ID: {AlgoId})", request.Name, request.AlgoId);
 
             try
             {
                 var algorithm = LoadAlgorithmAsync(request.AlgoId, request.Name);
                 if (algorithm == null)
                 {
-                    Console.WriteLine($"Failed to load algorithm: {request.Name}");
+                    Log.Logger.Warning("Failed to load algorithm: {Name}", request.Name);
                     return Task.FromResult(new InitializeAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -68,7 +62,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error getting options schema: {ex.Message}");
+                    Log.Logger.Error(ex, "Error getting options schema for algorithm {AlgoId}", request.AlgoId);
                 }
 
                 // Determine what data types the algorithm wants to listen to
@@ -76,7 +70,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 var listenTrades = HasMethod(algorithm, nameof(Algorithm.ProcessTrade));
                 var listenCandles = HasMethod(algorithm, nameof(Algorithm.ProcessCandle));
 
-                Console.WriteLine($"Successfully initialized algorithm {request.Name} with ID {request.AlgoId}");
+                Log.Logger.Information("Successfully initialized algorithm {Name} with ID {AlgoId}", request.Name, request.AlgoId);
 
                 return Task.FromResult(new InitializeAlgorithmResponse
                 {
@@ -92,7 +86,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error initializing algorithm: {ex.Message}");
+                Log.Logger.Error(ex, "Error initializing algorithm {AlgoId}", request.AlgoId);
                 return Task.FromResult(new InitializeAlgorithmResponse
                 {
                     AlgoId = request.AlgoId,
@@ -112,13 +106,13 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override async Task<StartAlgorithmResponse> StartAlgorithm(
             StartAlgorithmRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Starting algorithm: {request.AlgoId}");
+            Log.Logger.Information("Starting algorithm: {AlgoId}", request.AlgoId);
 
             try
             {
                 if (!_activeAlgorithms.TryGetValue(request.AlgoId, out var algoContext))
                 {
-                    Console.WriteLine($"Algorithm not found: {request.AlgoId}");
+                    Log.Logger.Warning("Algorithm not found: {AlgoId}", request.AlgoId);
                     return new StartAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -139,7 +133,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                     }
                     catch (JsonException ex)
                     {
-                        Console.WriteLine($"Invalid options JSON: {ex.Message}");
+                        Log.Logger.Error(ex, "Invalid options JSON for algorithm {AlgoId}", request.AlgoId);
                     }
                 }
 
@@ -159,7 +153,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                     // Set state to Running
                     algoContext.State = AlgorithmState.Running;
 
-                    Console.WriteLine($"Successfully started algorithm {request.AlgoId}");
+                    Log.Logger.Information("Successfully started algorithm {AlgoId}", request.AlgoId);
                     return new StartAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -169,7 +163,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error starting algorithm: {ex.Message}");
+                    Log.Logger.Error(ex, "Error starting algorithm {AlgoId}", request.AlgoId);
                     return new StartAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -180,12 +174,12 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error starting algorithm: {ex.Message}");
+                Log.Logger.Error(ex, "Error starting algorithm {AlgoId}", request.AlgoId);
                 return new StartAlgorithmResponse
                 {
-                    AlgoId = request.AlgoId,
-                    Success = false,
-                    Reason = ex.Message
+                        AlgoId = request.AlgoId,
+                        Success = false,
+                        Reason = ex.Message
                 };
             }
         }
@@ -196,13 +190,13 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override async Task<PauseAlgorithmResponse> PauseAlgorithm(
             PauseAlgorithmRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Pausing algorithm: {request.AlgoId}");
+            Log.Logger.Information("Pausing algorithm: {AlgoId}", request.AlgoId);
 
             try
             {
                 if (!_activeAlgorithms.TryGetValue(request.AlgoId, out var algoContext))
                 {
-                    Console.WriteLine($"Algorithm not found: {request.AlgoId}");
+                    Log.Logger.Warning("Algorithm not found: {AlgoId}", request.AlgoId);
                     return new PauseAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -217,7 +211,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                     algorithm.Pause();
                     // Set state to Paused
                     algoContext.State = AlgorithmState.Paused;
-                    Console.WriteLine($"Successfully paused algorithm {request.AlgoId}");
+                    Log.Logger.Information("Successfully paused algorithm {AlgoId}", request.AlgoId);
                     return new PauseAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -227,7 +221,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error pausing algorithm: {ex.Message}");
+                    Log.Logger.Error(ex, "Error pausing algorithm {AlgoId}", request.AlgoId);
                     return new PauseAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -238,7 +232,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error pausing algorithm: {ex.Message}");
+                Log.Logger.Error(ex, "Error pausing algorithm {AlgoId}", request.AlgoId);
                 return new PauseAlgorithmResponse
                 {
                     AlgoId = request.AlgoId,
@@ -254,13 +248,13 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override async Task<ResumeAlgorithmResponse> ResumeAlgorithm(
             ResumeAlgorithmRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Resuming algorithm: {request.AlgoId}");
+            Log.Logger.Information("Resuming algorithm: {AlgoId}", request.AlgoId);
 
             try
             {
                 if (!_activeAlgorithms.TryGetValue(request.AlgoId, out var algoContext))
                 {
-                    Console.WriteLine($"Algorithm not found: {request.AlgoId}");
+                    Log.Logger.Warning("Algorithm not found: {AlgoId}", request.AlgoId);
                     return new ResumeAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -275,7 +269,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                     algorithm.Resume();
                     // Set state back to Running
                     algoContext.State = AlgorithmState.Running;
-                    Console.WriteLine($"Successfully resumed algorithm {request.AlgoId}");
+                    Log.Logger.Information("Successfully resumed algorithm {AlgoId}", request.AlgoId);
                     return new ResumeAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -285,7 +279,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error resuming algorithm: {ex.Message}");
+                    Log.Logger.Error(ex, "Error resuming algorithm {AlgoId}", request.AlgoId);
                     return new ResumeAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -296,7 +290,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error resuming algorithm: {ex.Message}");
+                Log.Logger.Error(ex, "Error resuming algorithm {AlgoId}", request.AlgoId);
                 return new ResumeAlgorithmResponse
                 {
                     AlgoId = request.AlgoId,
@@ -312,13 +306,13 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override async Task<StopAlgorithmResponse> StopAlgorithm(
             StopAlgorithmRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Stopping algorithm: {request.AlgoId}");
+            Log.Logger.Information("Stopping algorithm: {AlgoId}", request.AlgoId);
 
             try
             {
                 if (!_activeAlgorithms.TryGetValue(request.AlgoId, out var algoContext))
                 {
-                    Console.WriteLine($"Algorithm not found: {request.AlgoId}");
+                    Log.Logger.Warning("Algorithm not found: {AlgoId}", request.AlgoId);
                     return new StopAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -334,7 +328,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                     // Set state to Stopped, then remove
                     algoContext.State = AlgorithmState.Stopped;
                     _activeAlgorithms.TryRemove(request.AlgoId, out _);
-                    Console.WriteLine($"Successfully stopped algorithm {request.AlgoId}");
+                    Log.Logger.Information("Successfully stopped algorithm {AlgoId}", request.AlgoId);
                     return new StopAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -344,7 +338,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error stopping algorithm: {ex.Message}");
+                    Log.Logger.Error(ex, "Error stopping algorithm {AlgoId}", request.AlgoId);
                     return new StopAlgorithmResponse
                     {
                         AlgoId = request.AlgoId,
@@ -355,7 +349,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error stopping algorithm: {ex.Message}");
+                Log.Logger.Error(ex, "Error stopping algorithm {AlgoId}", request.AlgoId);
                 return new StopAlgorithmResponse
                 {
                     AlgoId = request.AlgoId,
@@ -388,7 +382,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error processing trade data in algorithm {algoId}: {ex.Message}");
+                            Log.Logger.Error(ex, "Error processing trade data in algorithm {AlgoId}", algoId);
                         }
                     }
                 }
@@ -396,7 +390,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error handling trade data: {ex.Message}");
+                Log.Logger.Error(ex, "Error handling trade data");
                 return new TradeAck { Id = request.Id };
             }
         }
@@ -419,7 +413,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error processing candlestick data in algorithm {algoId}: {ex.Message}");
+                            Log.Logger.Error(ex, "Error processing candlestick data in algorithm {AlgoId}", algoId);
                         }
                     }
                 }
@@ -427,7 +421,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error handling candlestick data: {ex.Message}");
+                Log.Logger.Error(ex, "Error handling candlestick data");
                 return new CandlestickAck { Id = request.Id };
             }
         }
@@ -450,7 +444,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error processing depth of book data in algorithm {algoId}: {ex.Message}");
+                            Log.Logger.Error(ex, "Error processing depth of book data in algorithm {AlgoId}", algoId);
                         }
                     }
                 }
@@ -458,7 +452,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error handling depth of book data: {ex.Message}");
+                Log.Logger.Error(ex, "Error handling depth of book data");
                 return new DepthOfBookAck { Id = request.Id };
             }
         }
@@ -481,7 +475,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error processing order status update in algorithm {request.AlgoId}: {ex.Message}");
+                            Log.Logger.Error(ex, "Error processing order status update in algorithm {AlgoId}", request.AlgoId);
                         }
                     }
                 }
@@ -493,7 +487,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error handling order status update: {ex.Message}");
+                Log.Logger.Error(ex, "Error handling order status update");
                 return new OrderStatusUpdateAck
                 {
                     AlgoId = request.AlgoId,
@@ -512,7 +506,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override Task<ListAvailableAlgorithmsResponse> ListAvailableAlgorithms(
             ListAvailableAlgorithmsRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Listing available algorithms with filter: '{request.NameFilter}'");
+            Log.Logger.Information("Listing available algorithms with filter: '{NameFilter}'", request.NameFilter);
 
             try
             {
@@ -567,7 +561,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                                     }
                                     catch (Exception ex)
                                     {
-                                        Console.WriteLine($"Error getting options schema for {algorithmName}: {ex.Message}");
+                                        Log.Logger.Error(ex, "Error getting options schema for {AlgorithmName}", algorithmName);
                                     }
 
                                     var algorithmInfo = new AlgorithmInfo
@@ -585,22 +579,22 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                                     algorithmInfo.Tags.AddRange(tempAlgorithm.GetTags());
 
                                     algorithmInfos.Add(algorithmInfo);
-                                    Console.WriteLine($"Found algorithm: {algorithmName} from assembly {assembly.GetName().Name}");
+                                    Log.Logger.Information("Found algorithm: {AlgorithmName} from assembly {AssemblyName}", algorithmName, assembly.GetName().Name);
                                 }
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine($"Error processing algorithm type {algorithmType.Name}: {ex.Message}");
+                                Log.Logger.Error(ex, "Error processing algorithm type {AlgorithmTypeName}", algorithmType.Name);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error processing assembly {assembly.GetName().Name}: {ex.Message}");
+                        Log.Logger.Error(ex, "Error processing assembly {AssemblyName}", assembly.GetName().Name);
                     }
                 }
 
-                Console.WriteLine($"Found {algorithmInfos.Count} available algorithms");
+                Log.Logger.Information("Found {AlgorithmCount} available algorithms", algorithmInfos.Count);
 
                 return Task.FromResult(new ListAvailableAlgorithmsResponse
                 {
@@ -611,7 +605,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error listing available algorithms: {ex.Message}");
+                Log.Logger.Error(ex, "Error listing available algorithms");
                 return Task.FromResult(new ListAvailableAlgorithmsResponse
                 {
                     Success = false,
@@ -627,7 +621,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         public override Task<ListRunningAlgorithmsResponse> ListRunningAlgorithms(
             ListRunningAlgorithmsRequest request, ServerCallContext context)
         {
-            Console.WriteLine($"Listing running algorithms with filter: '{request.NameFilter}'");
+            Log.Logger.Information("Listing running algorithms with filter: '{NameFilter}'", request.NameFilter);
 
             try
             {
@@ -662,7 +656,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine($"Error getting options schema for {algoContext.Name}: {ex.Message}");
+                                Log.Logger.Error(ex, "Error getting options schema for {AlgorithmName}", algoContext.Name);
                             }
 
                             var algorithmInfo = new AlgorithmInfo
@@ -687,16 +681,16 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                             };
 
                             runningAlgorithmInfos.Add(runningInfo);
-                            Console.WriteLine($"Found running algorithm: {algoContext.Name} (ID: {algoId}, State: {algoContext.State})");
+                            Log.Logger.Information("Found running algorithm: {AlgorithmName} (ID: {AlgoId}, State: {State})", algoContext.Name, algoId, algoContext.State);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error processing running algorithm {algoContext.Name}: {ex.Message}");
+                            Log.Logger.Error(ex, "Error processing running algorithm {AlgorithmName}", algoContext.Name);
                         }
                     }
                 }
 
-                Console.WriteLine($"Found {runningAlgorithmInfos.Count} running algorithms");
+                Log.Logger.Information("Found {AlgorithmCount} running algorithms", runningAlgorithmInfos.Count);
 
                 return Task.FromResult(new ListRunningAlgorithmsResponse
                 {
@@ -707,7 +701,7 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error listing running algorithms: {ex.Message}");
+                Log.Logger.Error(ex, "Error listing running algorithms");
                 return Task.FromResult(new ListRunningAlgorithmsResponse
                 {
                     Success = false,
@@ -767,19 +761,19 @@ namespace Doyen.Scripts.AlgorithmSharp.API
                                 .Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object))
                                 .Select(m => m.Name);
 
-                            Console.WriteLine($"Loaded algorithm {name} from assembly {assembly.GetName().Name} with methods: {string.Join(", ", methods)}");
+                            Log.Logger.Information("Loaded algorithm {Name} from assembly {AssemblyName} with methods: {Methods}", name, assembly.GetName().Name, string.Join(", ", methods));
                             return algorithm;
                         }
-                        Console.WriteLine($"Failed to create instance of algorithm: {name} in assembly {assembly.GetName().Name}");
+                        Log.Logger.Warning("Failed to create instance of algorithm: {Name} in assembly {AssemblyName}", name, assembly.GetName().Name);
                     }
                 }
 
-                Console.WriteLine($"Algorithm class not found for: {name} in any loaded assembly");
+                Log.Logger.Warning("Algorithm class not found for: {Name} in any loaded assembly", name);
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading algorithm {name}: {ex.Message}");
+                Log.Logger.Error(ex, "Error loading algorithm {Name}", name);
                 return null;
             }
         }

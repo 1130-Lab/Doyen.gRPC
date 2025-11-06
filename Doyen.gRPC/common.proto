@@ -21,7 +21,8 @@ enum DoyenExchange {
 	EXCHANGE_BITSTAMP = 11;
 	EXCHANGE_COINCHECK = 12;
 
-	EXCCHANGE_IBKR = 997; // For internal use only. Please contact us for more information.
+	EXCHANGE_CROSS = 996; // For internal use only. Please contact us for more information.
+	EXCHANGE_IBKR = 997; // For internal use only. Please contact us for more information.
 	EXCHANGE_SCHWAB = 998; // For internal use only. Please contact us for more information.
 	EXCHANGE_ALL = 999; // Averaged data for all exchanges.
 }
