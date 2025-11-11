@@ -16,6 +16,12 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         
         Task<SymbolDataResponse?> SubscribeSymbolAsync(string symbol, DoyenExchange exchange, bool getHistorical = false, 
             int depthLevels = 10, Doyen.gRPC.Common.Timeframe candlesTimeframe = Doyen.gRPC.Common.Timeframe.FiveMinutes);
+
+        Task<OrderStatusResponse?> GetOrderStatusAsync(string orderId, DoyenExchange exchange, bool simulated = false);
+
+        Task<AccountBalanceResponse?> GetAccountBalanceAsync(DoyenExchange exchange, string symbol);
+
+        Task<GetAllOrdersResponse?> GetAllOrdersAsync(DoyenExchange exchange, bool simulated = false);
     }
 
     /// <summary>
@@ -116,6 +122,79 @@ namespace Doyen.Scripts.AlgorithmSharp.API
             catch (Exception ex)
             {
                 Console.WriteLine($"Error subscribing to symbol: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get the current status of an order
+        /// </summary>
+        public async Task<OrderStatusResponse?> GetOrderStatusAsync(string orderId, DoyenExchange exchange, bool simulated = false)
+        {
+            try
+            {
+                var request = new OrderStatusRequest
+                {
+                    AlgoId = _algoId,
+                    OrderId = orderId,
+                    Exchange = exchange,
+                    Simulated = simulated
+                };
+
+                var response = await _client.OrderStatusAsync(request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting order status: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get account balance for a symbol pair
+        /// </summary>
+        public async Task<AccountBalanceResponse?> GetAccountBalanceAsync(DoyenExchange exchange, string symbol)
+        {
+            try
+            {
+                var request = new AccountBalanceRequest
+                {
+                    AlgoId = _algoId,
+                    Exchange = exchange,
+                    Symbol = symbol
+                };
+
+                var response = await _client.AccountBalanceAsync(request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting account balance: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get all orders for the algorithm on a specific exchange
+        /// </summary>
+        public async Task<GetAllOrdersResponse?> GetAllOrdersAsync(DoyenExchange exchange, bool simulated = false)
+        {
+            try
+            {
+                var request = new GetAllOrdersRequest
+                {
+                    AlgoId = _algoId,
+                    Exchange = exchange,
+                    Simulated = simulated
+                };
+
+                var response = await _client.GetAllOrdersAsync(request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting all orders: {ex.Message}");
                 return null;
             }
         }

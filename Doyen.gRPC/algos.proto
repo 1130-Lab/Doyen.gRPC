@@ -26,6 +26,8 @@ service AlgorithmServer {
 	// Order management services (your script -> Doyen)
 	rpc SendOrder(SendOrderRequest) returns (SendOrderResponse);
 	rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+	rpc OrderStatus(OrderStatusRequest) returns (OrderStatusResponse);
+	rpc GetAllOrders(GetAllOrdersRequest) returns (GetAllOrdersResponse);
 	
 	// Data output (Doyen -> your script)
 	rpc TradeData(TradeMessage) returns (TradeAck);
@@ -35,6 +37,7 @@ service AlgorithmServer {
 
 	// Data input (your script -> Doyen))
 	rpc SubscribeSymbol(SymbolDataRequest) returns (SymbolDataResponse);
+	rpc AccountBalance(AccountBalanceRequest) returns (AccountBalanceResponse);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -59,8 +62,9 @@ message InitializeAlgorithmResponse {
 	bool listenDepthOfBook = 4; // If true, the indicator will receive depth of book data.
 	bool listenTrades = 5; // If true, the indicator will receive trade data.
 	bool listenCandlesticks = 6; // If true, the indicator will receive candlestick data.
-	bool hasOptionsPanel = 100;
-	string optionsJsonDataRequest = 101; // JSON data for the options panel
+	bool hasOptionsPanel = 7; // Whether the algorithm has configuration options
+	string optionsSchema = 8; // JSON schema for options (if hasOptionsPanel is true)
+	string optionsJsonDataRequest = 100; // JSON data for the options panel
 }
 
 // Doyen has received the initialization response and the options data of the user is included.
@@ -169,6 +173,71 @@ message SymbolDataResponse {
 	string reason = 4; // If the request failed, include a reason for the user to see.
 }
 
+message AccountBalanceRequest {
+	string algoId = 1; // Algo identifier
+	common.DoyenExchange exchange = 2; 
+	string symbol = 3; // The symbol pair to request data for
+}
+
+message AccountBalanceResponse {
+	string algoId = 1; // Algo identifier
+	common.DoyenExchange exchange = 2; 
+	string symbol = 3; // Optionally the symbol pair to request data for
+	double baseBalance = 4; // The account balance for the specified symbol
+	double quoteBalance = 5; // The account balance for the specified symbol
+}
+
+message OrderStatusRequest {
+	string algoId = 1; // Algo identifier
+	string orderId = 2; // The ID of the order to query
+	common.DoyenExchange exchange = 3; // The exchange where the order was placed
+	bool simulated = 100; // If true, query simulated order status
+}
+
+message OrderStatusResponse {
+	string algoId = 1; // Algo identifier
+	string orderId = 2; // The ID of the order
+	bool success = 3; // Indicates if the request was successful
+	string reason = 4; // If the request failed, include a reason
+	OrderStatus status = 5; // The current status of the order
+	double filledQuantity = 6; // The quantity that has been filled so far
+	double remainingQuantity = 7; // The quantity that is still remaining
+	google.protobuf.Timestamp timestamp = 8; // The timestamp of the status
+	common.DoyenExchange exchange = 9; // The exchange where the order was placed
+	bool simulated = 100; // If true, this is a simulated order
+}
+
+message GetAllOrdersRequest {
+	string algoId = 1; // Algo identifier
+	common.DoyenExchange exchange = 2; // The exchange to query orders for
+	bool simulated = 100; // If true, query simulated orders
+}
+
+message GetAllOrdersResponse {
+	string algoId = 1; // Algo identifier
+	bool success = 2; // Indicates if the request was successful
+	string reason = 3; // If the request failed, include a reason
+	repeated OrderInfo orders = 4; // List of orders
+	common.DoyenExchange exchange = 5; // The exchange to query orders for
+	bool simulated = 100; // If true, these are simulated orders
+}
+
+// Information about a single order
+message OrderInfo {
+	string orderId = 1; // The ID of the order
+	string symbol = 2; // The symbol for the order
+	common.DoyenExchange exchange = 3; // The exchange where the order was placed
+	OrderType orderType = 4; // Type of the order
+	OrderSide orderSide = 5; // Side of the order
+	OrderStatus status = 6; // Current status of the order
+	double price = 7; // Order price
+	double quantity = 8; // Order quantity
+	double filledQuantity = 9; // Quantity that has been filled
+	double remainingQuantity = 10; // Quantity remaining
+	google.protobuf.Timestamp timestamp = 11; // Order timestamp
+	bool simulated = 100; // If true, this is a simulated order
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 Orders
 
@@ -192,7 +261,7 @@ message SendOrderResponse {
 	string algoId = 1; // Algo identifier
 	uint64 messageId = 2; // Unique identifier for the order request
 	string orderId = 3;
-	bool success = 4; // Indicates if the order was sent successfully
+	SendOrderResultCode result = 4;
 	string reason = 5; // If the order failed to be sent, include a reason for the user to see.
 }
 
@@ -208,7 +277,7 @@ message CancelOrderResponse {
 	string algoId = 1; // Algo identifier
 	uint64 messageId = 2; // Unique identifier for the order request
 	string orderId = 3; // The ID of the order that was cancelled
-	bool success = 4; // Indicates if the order was cancelled successfully
+	CancelOrderResultCode result = 4;
 	string reason = 5; // If the order failed to be cancelled, include a reason for the user to see.
 }
 
@@ -321,4 +390,23 @@ enum OrderStatus
 	ORDER_STATUS_CANCELLED = 6;
 	ORDER_STATUS_REJECTED = 7;
 	ORDER_STATUS_EXPIRED = 8;
+}
+
+enum SendOrderResultCode
+{
+	ORDER_RESULT_UNKNOWN = 0;
+	ORDER_RESULT_SUCCESS = 1;
+	ORDER_RESULT_INSUFFICIENT_BALANCE = 2;
+	ORDER_RESULT_UNKNOWN_ERROR = 3;
+	ORDER_RESULT_INVALID_ORDER_PARAMETERS = 4;
+	ORDER_RESULT_EXCHANGE_REJECTED = 5;
+}
+
+enum CancelOrderResultCode
+{
+	CANCEL_ORDER_RESULT_UNKNOWN = 0;
+	CANCEL_ORDER_RESULT_SUCCESS = 1;
+	CANCEL_ORDER_RESULT_ORDER_NOT_FOUND = 2;
+	CANCEL_ORDER_RESULT_UNKNOWN_ERROR = 3;
+	CANCEL_ORDER_RESULT_EXCHANGE_REJECTED = 4;
 }

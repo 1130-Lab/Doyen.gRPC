@@ -826,5 +826,39 @@ namespace Doyen.Scripts.AlgorithmSharp.API
         }
 
         #endregion
+
+        #region Account services
+
+        /// <summary>
+        /// Handle account balance request from Doyen by forwarding to connected server
+        /// </summary>
+        public override async Task<AccountBalanceResponse> AccountBalance(AccountBalanceRequest request, ServerCallContext context)
+        {
+            Log.Logger.Information("Forwarding AccountBalance request for AlgoId: {AlgoId}, Exchange: {Exchange}, Symbol: {Symbol}", request.AlgoId, request.Exchange, request.Symbol);
+            var response = await _client.AccountBalanceAsync(request);
+            return response;
+        }
+
+        /// <summary>
+        /// Handle order status request from Doyen by forwarding to connected server
+        /// </summary>
+        public override async Task<OrderStatusResponse> OrderStatus(OrderStatusRequest request, ServerCallContext context)
+        {
+            Log.Logger.Information("Forwarding OrderStatus request for AlgoId: {AlgoId}, OrderId: {OrderId}, Exchange: {Exchange}", request.AlgoId, request.OrderId, request.Exchange);
+            var response = await _client.OrderStatusAsync(request);
+            return response;
+        }
+
+        /// <summary>
+        /// Handle get all orders request from Doyen by forwarding to connected server
+        /// </summary>
+        public override async Task<GetAllOrdersResponse> GetAllOrders(GetAllOrdersRequest request, ServerCallContext context)
+        {
+            Log.Logger.Information("Forwarding GetAllOrders request for AlgoId: {AlgoId}, Exchange: {Exchange}", request.AlgoId, request.Exchange);
+            var response = await _client.GetAllOrdersAsync(request);
+            return response;
+        }
+
+        #endregion
     }
 }

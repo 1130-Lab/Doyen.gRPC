@@ -80,6 +80,16 @@ class AlgorithmServerStub(object):
                 request_serializer=algos__pb2.CancelOrderRequest.SerializeToString,
                 response_deserializer=algos__pb2.CancelOrderResponse.FromString,
                 _registered_method=True)
+        self.OrderStatus = channel.unary_unary(
+                '/algos.AlgorithmServer/OrderStatus',
+                request_serializer=algos__pb2.OrderStatusRequest.SerializeToString,
+                response_deserializer=algos__pb2.OrderStatusResponse.FromString,
+                _registered_method=True)
+        self.GetAllOrders = channel.unary_unary(
+                '/algos.AlgorithmServer/GetAllOrders',
+                request_serializer=algos__pb2.GetAllOrdersRequest.SerializeToString,
+                response_deserializer=algos__pb2.GetAllOrdersResponse.FromString,
+                _registered_method=True)
         self.TradeData = channel.unary_unary(
                 '/algos.AlgorithmServer/TradeData',
                 request_serializer=algos__pb2.TradeMessage.SerializeToString,
@@ -104,6 +114,11 @@ class AlgorithmServerStub(object):
                 '/algos.AlgorithmServer/SubscribeSymbol',
                 request_serializer=algos__pb2.SymbolDataRequest.SerializeToString,
                 response_deserializer=algos__pb2.SymbolDataResponse.FromString,
+                _registered_method=True)
+        self.AccountBalance = channel.unary_unary(
+                '/algos.AlgorithmServer/AccountBalance',
+                request_serializer=algos__pb2.AccountBalanceRequest.SerializeToString,
+                response_deserializer=algos__pb2.AccountBalanceResponse.FromString,
                 _registered_method=True)
 
 
@@ -171,6 +186,18 @@ class AlgorithmServerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def OrderStatus(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAllOrders(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def TradeData(self, request, context):
         """Data output (Doyen -> your script)
         """
@@ -199,6 +226,12 @@ class AlgorithmServerServicer(object):
     def SubscribeSymbol(self, request, context):
         """Data input (your script -> Doyen))
         """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AccountBalance(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -251,6 +284,16 @@ def add_AlgorithmServerServicer_to_server(servicer, server):
                     request_deserializer=algos__pb2.CancelOrderRequest.FromString,
                     response_serializer=algos__pb2.CancelOrderResponse.SerializeToString,
             ),
+            'OrderStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.OrderStatus,
+                    request_deserializer=algos__pb2.OrderStatusRequest.FromString,
+                    response_serializer=algos__pb2.OrderStatusResponse.SerializeToString,
+            ),
+            'GetAllOrders': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllOrders,
+                    request_deserializer=algos__pb2.GetAllOrdersRequest.FromString,
+                    response_serializer=algos__pb2.GetAllOrdersResponse.SerializeToString,
+            ),
             'TradeData': grpc.unary_unary_rpc_method_handler(
                     servicer.TradeData,
                     request_deserializer=algos__pb2.TradeMessage.FromString,
@@ -275,6 +318,11 @@ def add_AlgorithmServerServicer_to_server(servicer, server):
                     servicer.SubscribeSymbol,
                     request_deserializer=algos__pb2.SymbolDataRequest.FromString,
                     response_serializer=algos__pb2.SymbolDataResponse.SerializeToString,
+            ),
+            'AccountBalance': grpc.unary_unary_rpc_method_handler(
+                    servicer.AccountBalance,
+                    request_deserializer=algos__pb2.AccountBalanceRequest.FromString,
+                    response_serializer=algos__pb2.AccountBalanceResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -532,6 +580,60 @@ class AlgorithmServer(object):
             _registered_method=True)
 
     @staticmethod
+    def OrderStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/algos.AlgorithmServer/OrderStatus',
+            algos__pb2.OrderStatusRequest.SerializeToString,
+            algos__pb2.OrderStatusResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetAllOrders(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/algos.AlgorithmServer/GetAllOrders',
+            algos__pb2.GetAllOrdersRequest.SerializeToString,
+            algos__pb2.GetAllOrdersResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def TradeData(request,
             target,
             options=(),
@@ -656,6 +758,33 @@ class AlgorithmServer(object):
             '/algos.AlgorithmServer/SubscribeSymbol',
             algos__pb2.SymbolDataRequest.SerializeToString,
             algos__pb2.SymbolDataResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def AccountBalance(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/algos.AlgorithmServer/AccountBalance',
+            algos__pb2.AccountBalanceRequest.SerializeToString,
+            algos__pb2.AccountBalanceResponse.FromString,
             options,
             channel_credentials,
             insecure,

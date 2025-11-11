@@ -30,8 +30,7 @@ except ImportError:
     print("Error: Proto files not found. Make sure to run compile_proto.py first.")
     import subprocess
     subprocess.check_call([sys.executable, "-m", "pip", "install", "grpcio", "grpcio-tools"])
-    import algos_pb2
-    import algos_pb2_grpc
+
 
 # Import the Algorithm base class
 try:
@@ -425,6 +424,7 @@ class ScriptServicer(algos_pb2_grpc.AlgorithmServerServicer):
                             author = algorithm.get_author() if hasattr(algorithm, 'get_author') else "Unknown"
                             tags = algorithm.get_tags() if hasattr(algorithm, 'get_tags') else ["trading"]
                             
+
                             # Get options schema
                             options_schema = ""
                             has_options = False
@@ -434,6 +434,7 @@ class ScriptServicer(algos_pb2_grpc.AlgorithmServerServicer):
                             except Exception as e:
                                 logger.error("Error getting options schema for %s: %s", algorithm_name, e)
                             
+
                             # Create algorithm info
                             algorithm_info = algos_pb2.AlgorithmInfo(
                                 name=algorithm_name,
@@ -545,6 +546,24 @@ class ScriptServicer(algos_pb2_grpc.AlgorithmServerServicer):
                 reason=str(e),
                 algorithms=[]
             )
+
+    def AccountBalance(self, request, context):
+        """Handle account balance request from Doyen by forwarding to connected server"""
+        logger.info("Forwarding AccountBalance request for AlgoId: %s, Exchange: %s, Symbol: %s", request.algoId, request.exchange, request.symbol)
+        response = self.client.AccountBalance(request)
+        return response
+
+    def OrderStatus(self, request, context):
+        """Handle order status request from Doyen by forwarding to connected server"""
+        logger.info("Forwarding OrderStatus request for AlgoId: %s, OrderId: %s, Exchange: %s", request.algoId, request.orderId, request.exchange)
+        response = self.client.OrderStatus(request)
+        return response
+
+    def GetAllOrders(self, request, context):
+        """Handle get all orders request from Doyen by forwarding to connected server"""
+        logger.info("Forwarding GetAllOrders request for AlgoId: %s, Exchange: %s", request.algoId, request.exchange)
+        response = self.client.GetAllOrders(request)
+        return response
 
 def load_algorithm_from_file(servicer : ScriptServicer, algo_id: str, path: str):
     try:
@@ -686,6 +705,52 @@ class AlgorithmInterface:
             logger.error("Error subscribing to symbol: %s", e)
             return {"success": False, "reason": str(e)}
     
+    def get_order_status(self, order_id: str, exchange: str, simulated: bool = False):
+        """Get the current status of an order"""
+        try:
+            algo_exchange = self.get_algo_exchange(exchange)
+            request = algos_pb2.OrderStatusRequest(
+                algoId=self.algo_id,
+                orderId=order_id,
+                exchange=algo_exchange,
+                simulated=simulated
+            )
+            response = self.client.OrderStatus(request)
+            return response
+        except Exception as e:
+            logger.error("Error getting order status: %s", e)
+            return None
+    
+    def get_account_balance(self, exchange: str, symbol: str):
+        """Get account balance for a symbol pair"""
+        try:
+            algo_exchange = self.get_algo_exchange(exchange)
+            request = algos_pb2.AccountBalanceRequest(
+                algoId=self.algo_id,
+                exchange=algo_exchange,
+                symbol=symbol
+            )
+            response = self.client.AccountBalance(request)
+            return response
+        except Exception as e:
+            logger.error("Error getting account balance: %s", e)
+            return None
+    
+    def get_all_orders(self, exchange: str, simulated: bool = False):
+        """Get all orders for the algorithm on a specific exchange"""
+        try:
+            algo_exchange = self.get_algo_exchange(exchange)
+            request = algos_pb2.GetAllOrdersRequest(
+                algoId=self.algo_id,
+                exchange=algo_exchange,
+                simulated=simulated
+            )
+            response = self.client.GetAllOrders(request)
+            return response
+        except Exception as e:
+            logger.error("Error getting all orders: %s", e)
+            return None
+    
     def get_algo_exchange(self, name: str) -> object:
         """Get the Exchange enum value for a given exchange name"""
         exchange_name = f"EXCHANGE_{name.upper()}"
@@ -740,7 +805,6 @@ async def message_processing_loop():
             
             # Process any backlog or queue if needed
             # This is where you'd integrate with any message queue system
-            
             # Brief pause to avoid consuming too much CPU
             await asyncio.sleep(0.1)
             
@@ -788,8 +852,8 @@ if __name__ == "__main__":
         print("Installing required packages...")
         import subprocess
         subprocess.check_call([sys.executable, "-m", "pip", "install", "grpcio", "grpcio-tools"])
-        import grpc.aio
-    
+
+
     # Run the async main function
     try:
         parser = argparse.ArgumentParser(description="Doyen Algorithm Script Manager")

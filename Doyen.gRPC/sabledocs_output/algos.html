@@ -81,6 +81,24 @@
     
       
       <p>
+        <a href="#message-algos.AccountBalanceRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>AccountBalanceRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.AccountBalanceResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>AccountBalanceResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
         <a href="#message-algos.AlgorithmInfo">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>AlgorithmInfo</code> 
@@ -153,6 +171,24 @@
     
       
       <p>
+        <a href="#message-algos.GetAllOrdersRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>GetAllOrdersRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.GetAllOrdersResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>GetAllOrdersResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
         <a href="#message-algos.InitializeAlgorithmRequest">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>InitializeAlgorithmRequest</code> 
@@ -201,6 +237,33 @@
         <a href="#message-algos.ListRunningAlgorithmsResponse">
           <span class="tag" style="min-width: 6em">Message</span>
           <code>ListRunningAlgorithmsResponse</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.OrderInfo">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>OrderInfo</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.OrderStatusRequest">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>OrderStatusRequest</code> 
+        </a>
+      </p>
+      
+    
+      
+      <p>
+        <a href="#message-algos.OrderStatusResponse">
+          <span class="tag" style="min-width: 6em">Message</span>
+          <code>OrderStatusResponse</code> 
         </a>
       </p>
       
@@ -361,6 +424,13 @@
 
     
       <p>
+        <a href="#enum-algos.CancelOrderResultCode">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>CancelOrderResultCode</code> 
+        </a>
+      </p>
+    
+      <p>
         <a href="#enum-algos.OrderSide">
           <span class="tag" style="min-width: 6em">Enum</span>
           <code>OrderSide</code> 
@@ -378,6 +448,13 @@
         <a href="#enum-algos.OrderType">
           <span class="tag" style="min-width: 6em">Enum</span>
           <code>OrderType</code> 
+        </a>
+      </p>
+    
+      <p>
+        <a href="#enum-algos.SendOrderResultCode">
+          <span class="tag" style="min-width: 6em">Enum</span>
+          <code>SendOrderResultCode</code> 
         </a>
       </p>
     
@@ -561,6 +638,38 @@
 
 <div class="box">
   <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-OrderStatus">
+      <a href="#service-algos.AlgorithmServer-OrderStatus">
+        rpc <code>OrderStatus</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.OrderStatusRequest"><span title="algos.OrderStatusRequest">algos.OrderStatusRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.OrderStatusResponse"><span title="algos.OrderStatusResponse">algos.OrderStatusResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-GetAllOrders">
+      <a href="#service-algos.AlgorithmServer-GetAllOrders">
+        rpc <code>GetAllOrders</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.GetAllOrdersRequest"><span title="algos.GetAllOrdersRequest">algos.GetAllOrdersRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.GetAllOrdersResponse"><span title="algos.GetAllOrdersResponse">algos.GetAllOrdersResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
+
+<div class="box">
+  <div class="block">
     <h5 class="title is-5" id="service-algos.AlgorithmServer-TradeData">
       <a href="#service-algos.AlgorithmServer-TradeData">
         rpc <code>TradeData</code>
@@ -638,6 +747,22 @@
 
   
 </div>
+
+<div class="box">
+  <div class="block">
+    <h5 class="title is-5" id="service-algos.AlgorithmServer-AccountBalance">
+      <a href="#service-algos.AlgorithmServer-AccountBalance">
+        rpc <code>AccountBalance</code>
+      </a>
+    </h5>
+    Request: <code><a href="algos.html#message-algos.AccountBalanceRequest"><span title="algos.AccountBalanceRequest">algos.AccountBalanceRequest</span>
+    </a></code><br>
+    Response: <code><a href="algos.html#message-algos.AccountBalanceResponse"><span title="algos.AccountBalanceResponse">algos.AccountBalanceResponse</span>
+    </a></code><br>
+  </div>
+
+  
+</div>
  
     </div>
     
@@ -651,6 +776,198 @@
       Messages
     </h3>
 
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.AccountBalanceRequest">
+  <span>
+    <a href="#message-algos.AccountBalanceRequest" title="algos.AccountBalanceRequest">message AccountBalanceRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.AccountBalanceResponse">
+  <span>
+    <a href="#message-algos.AccountBalanceResponse" title="algos.AccountBalanceResponse">message AccountBalanceResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        baseBalance
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        quoteBalance
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
     
       
       <div class="block">
@@ -1076,12 +1393,13 @@
     <tr>
       <td>4</td>
       <td>
-        success
+        result
       </td>
       <td>
-        <code title="bool">
+        <code title="algos.CancelOrderResultCode">
           
-          <span>bool</span>
+          <a href="algos.html#enum-algos.CancelOrderResultCode"><span title="algos.CancelOrderResultCode">algos.CancelOrderResultCode</span>
+    </a>
         </code>
       </td>
       <td class="content"></td>
@@ -1458,6 +1776,216 @@
       <div class="block">
         
 
+<h4 class="title is-4 type-heading" id="message-algos.GetAllOrdersRequest">
+  <span>
+    <a href="#message-algos.GetAllOrdersRequest" title="algos.GetAllOrdersRequest">message GetAllOrdersRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.GetAllOrdersResponse">
+  <span>
+    <a href="#message-algos.GetAllOrdersResponse" title="algos.GetAllOrdersResponse">message GetAllOrdersResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        orders
+      </td>
+      <td>
+        <code title="algos.OrderInfo">
+          
+            repeated
+          
+          <a href="algos.html#message-algos.OrderInfo"><span title="algos.OrderInfo">algos.OrderInfo</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
 <h4 class="title is-4 type-heading" id="message-algos.InitializeAlgorithmRequest">
   <span>
     <a href="#message-algos.InitializeAlgorithmRequest" title="algos.InitializeAlgorithmRequest">message InitializeAlgorithmRequest</a>
@@ -1638,7 +2166,7 @@
     </tr>
     
     <tr>
-      <td>100</td>
+      <td>7</td>
       <td>
         hasOptionsPanel
       </td>
@@ -1653,7 +2181,22 @@
     </tr>
     
     <tr>
-      <td>101</td>
+      <td>8</td>
+      <td>
+        optionsSchema
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
       <td>
         optionsJsonDataRequest
       </td>
@@ -1927,6 +2470,508 @@
           
           <a href="algos.html#message-algos.RunningAlgorithmInfo"><span title="algos.RunningAlgorithmInfo">algos.RunningAlgorithmInfo</span>
     </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.OrderInfo">
+  <span>
+    <a href="#message-algos.OrderInfo" title="algos.OrderInfo">message OrderInfo</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        symbol
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        orderType
+      </td>
+      <td>
+        <code title="algos.OrderType">
+          
+          <a href="algos.html#enum-algos.OrderType"><span title="algos.OrderType">algos.OrderType</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        orderSide
+      </td>
+      <td>
+        <code title="algos.OrderSide">
+          
+          <a href="algos.html#enum-algos.OrderSide"><span title="algos.OrderSide">algos.OrderSide</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        status
+      </td>
+      <td>
+        <code title="algos.OrderStatus">
+          
+          <a href="algos.html#enum-algos.OrderStatus"><span title="algos.OrderStatus">algos.OrderStatus</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>7</td>
+      <td>
+        price
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>8</td>
+      <td>
+        quantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>9</td>
+      <td>
+        filledQuantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>10</td>
+      <td>
+        remainingQuantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>11</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.OrderStatusRequest">
+  <span>
+    <a href="#message-algos.OrderStatusRequest" title="algos.OrderStatusRequest">message OrderStatusRequest</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    
+  </tbody>
+</table>
+ 
+      </div>
+      
+    
+      
+      <div class="block">
+        
+
+<h4 class="title is-4 type-heading" id="message-algos.OrderStatusResponse">
+  <span>
+    <a href="#message-algos.OrderStatusResponse" title="algos.OrderStatusResponse">message OrderStatusResponse</a>
+  
+  </span>
+  
+</h4>
+
+<div class="block content">
+  
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td>
+        algoId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>2</td>
+      <td>
+        orderId
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>3</td>
+      <td>
+        success
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>4</td>
+      <td>
+        reason
+      </td>
+      <td>
+        <code title="string">
+          
+          <span>string</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>5</td>
+      <td>
+        status
+      </td>
+      <td>
+        <code title="algos.OrderStatus">
+          
+          <a href="algos.html#enum-algos.OrderStatus"><span title="algos.OrderStatus">algos.OrderStatus</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>6</td>
+      <td>
+        filledQuantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>7</td>
+      <td>
+        remainingQuantity
+      </td>
+      <td>
+        <code title="double">
+          
+          <span>double</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>8</td>
+      <td>
+        timestamp
+      </td>
+      <td>
+        <code title="google.protobuf.Timestamp">
+          
+          <span>google.protobuf.Timestamp</span>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>9</td>
+      <td>
+        exchange
+      </td>
+      <td>
+        <code title="common.DoyenExchange">
+          
+          <a href="common.html#enum-common.DoyenExchange"><span title="common.DoyenExchange">common.DoyenExchange</span>
+    </a>
+        </code>
+      </td>
+      <td class="content"></td>
+      
+    </tr>
+    
+    <tr>
+      <td>100</td>
+      <td>
+        simulated
+      </td>
+      <td>
+        <code title="bool">
+          
+          <span>bool</span>
         </code>
       </td>
       <td class="content"></td>
@@ -2767,12 +3812,13 @@
     <tr>
       <td>4</td>
       <td>
-        success
+        result
       </td>
       <td>
-        <code title="bool">
+        <code title="algos.SendOrderResultCode">
           
-          <span>bool</span>
+          <a href="algos.html#enum-algos.SendOrderResultCode"><span title="algos.SendOrderResultCode">algos.SendOrderResultCode</span>
+    </a>
         </code>
       </td>
       <td class="content"></td>
@@ -3516,6 +4562,60 @@
 
     
     <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-algos.CancelOrderResultCode">
+  <a href="#enum-algos.CancelOrderResultCode" title="algos.CancelOrderResultCode">enum CancelOrderResultCode</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>CANCEL_ORDER_RESULT_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>CANCEL_ORDER_RESULT_SUCCESS</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>CANCEL_ORDER_RESULT_ORDER_NOT_FOUND</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>CANCEL_ORDER_RESULT_UNKNOWN_ERROR</code></td>
+      <td>3</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>CANCEL_ORDER_RESULT_EXCHANGE_REJECTED</code></td>
+      <td>4</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+    <div class="block">
       <h4 class="title is-4 type-heading" id="enum-algos.OrderSide">
   <a href="#enum-algos.OrderSide" title="algos.OrderSide">enum OrderSide</a>
   
@@ -3682,6 +4782,66 @@
     <tr>
       <td><code>ORDER_TYPE_STOP_LIMIT</code></td>
       <td>4</td>
+      <td class="content"></td>
+    </tr>
+    
+  </tbody>
+</table> 
+    </div>
+    
+    <div class="block">
+      <h4 class="title is-4 type-heading" id="enum-algos.SendOrderResultCode">
+  <a href="#enum-algos.SendOrderResultCode" title="algos.SendOrderResultCode">enum SendOrderResultCode</a>
+  
+</h4>
+
+<div class="block content">
+  <p></p>
+</div>
+
+<table class="table is-fullwidth is-hoverable is-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td><code>ORDER_RESULT_UNKNOWN</code></td>
+      <td>0</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_RESULT_SUCCESS</code></td>
+      <td>1</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_RESULT_INSUFFICIENT_BALANCE</code></td>
+      <td>2</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_RESULT_UNKNOWN_ERROR</code></td>
+      <td>3</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_RESULT_INVALID_ORDER_PARAMETERS</code></td>
+      <td>4</td>
+      <td class="content"></td>
+    </tr>
+    
+    <tr>
+      <td><code>ORDER_RESULT_EXCHANGE_REJECTED</code></td>
+      <td>5</td>
       <td class="content"></td>
     </tr>
     
