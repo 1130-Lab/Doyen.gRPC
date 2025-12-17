@@ -5,12 +5,13 @@ import json
 from typing import Dict, List, Optional, Any, Tuple
 from Indicator import Indicator
 
-class SMAIndicator(Indicator):
+class EMAIndicator(Indicator):
     """Simple Moving Average indicator implementation"""
     
     def __init__(self):
-        super().__init__("Simple Moving Average (SMA)")
-        self.sma_period = 30  # Default SMA period
+        super().__init__("Exponential Moving Average (EMA)")
+        self.ema_period = 30  # Default EMA period
+        self.smoothing = 2  # Default smoothing factor
         self.historical_prices = []  # Store historical closing prices
         self.up_color = (0, 255, 0)  # Default up color (green)
         self.down_color = (255, 0, 0) # Default down color (red)
@@ -19,15 +20,22 @@ class SMAIndicator(Indicator):
     def get_options_schema(self) -> str:
         """Return JSON schema for the options panel"""
         schema = {
-            "title": "Simple Moving Average",
-            "description": "Calculates the simple moving average of closing prices",
+            "title": "Exponential Moving Average",
+            "description": "Calculates the exponential moving average of closing prices",
             "properties": {
                 "period": {
                     "title": "Period",
                     "description": "Number of periods to include in the moving average",
                     "type": "integer",
                     "options": "1 .. 200",
-                    "value": 30
+                    "value": 12
+                },
+                "smoothing":{
+                    "title": "Smoothing",
+                    "description": "Smoothing factor for EMA calculation",
+                    "type": "integer",
+                    "options": "1 .. 200",
+                    "value": 2
                 },
                 "upColor": {
                     "title": "Up Color",
@@ -63,7 +71,7 @@ class SMAIndicator(Indicator):
 
         props = options['properties']
         print(f"SMA indicator started with properties: {props}")
-        self.sma_period = props['period']['value']
+        self.ema_period = props['period']['value']
         self.up_color = self.parse_color(props['upColor']['value'])
         self.down_color = self.parse_color(props['downColor']['value'])
         self.default_color = self.parse_color(props['defaultColor']['value'])
@@ -79,15 +87,13 @@ class SMAIndicator(Indicator):
         """Cleanup resources"""
         print("SMAIndicator stopped.")
 
-    def _calculate_sma(self) -> float:
-        """Calculate SMA values based on current prices"""
-        # Need at least sma_period prices to calculate SMA
-        if len(self.historical_prices) < self.sma_period:
+    def _calculate_ema(self) -> float:
+        """Calculate EMA values based on current prices"""
+        # Need at least ema_period prices to calculate EMA
+        if len(self.historical_prices) < self.ema_period:
             return
         
-        # Calculate SMA for each window of prices
-        window = self.historical_prices[-self.sma_period:]
-        return statistics.mean(window)
+        return self.historical_prices[-1] * (self.smoothing / (self.ema_period + 1)) + self.previous_ema * (1 - (self.smoothing / (self.ema_period + 1)))
 
     def process(self, candles: List[Dict]) -> Optional[Dict]:
         """Process new price data and return updated indicator values"""
@@ -98,18 +104,18 @@ class SMAIndicator(Indicator):
         latest_candle = candles[0]
         close_price = latest_candle['close']
         
-        valid_sma = True
-        latest_sma = close_price
+        valid_ema = True
+        latest_ema = close_price
         color = self.default_color
 
-        # Keep only the needed history (sma_period + some extra)
-        max_history = max(self.sma_period * 3, 100)
+        # Keep only the needed history (ema_period + some extra)
+        max_history = max(self.ema_period * 3, 100)
         if len(self.historical_prices) > max_history:
             self.historical_prices = self.historical_prices[-max_history:]
-        elif len(self.historical_prices) < self.sma_period:
-            # Not enough data to calculate SMA
-            print(f"Not enough historical prices to calculate SMA. Need at least {self.sma_period} prices.")
-            valid_sma = False
+        elif len(self.historical_prices) < self.ema_period:
+            # Not enough data to calculate EMA
+            print(f"Not enough historical prices to calculate EMA. Need at least {self.ema_period} prices.")
+            valid_ema = False
         
         # Get timestamp from the candle
         dt = latest_candle['timestamp'] or datetime.datetime.now(datetime.timezone.utc)
@@ -125,29 +131,29 @@ class SMAIndicator(Indicator):
         else:
             self.historical_prices[-1] = close_price  # Update the last price if same datapoint_id
 
-        if valid_sma:
-            # Recalculate SMA
-            latest_sma = self._calculate_sma()
-            print(f"Calculated SMA: {latest_sma} for period {self.sma_period}")
-            # Compare with the previous historical result's SMA value, not sma_values array
+        if valid_ema:            
+            # Recalculate EMA
+            latest_ema = self._calculate_ema()
+            print(f"Calculated EMA: {latest_ema} for period {self.ema_period}")
+            # Compare with the previous historical result's EMA value, not ema_values array
             if len(self.historical_results) > 0:
-                previous_sma = self.historical_results[-1]['value']
-                if latest_sma >= previous_sma:
-                    print(f"SMA increased from {previous_sma} to {latest_sma}")
+                previous_ema = self.historical_results[-1]['value']
+                if latest_ema >= previous_ema:
+                    print(f"EMA increased from {previous_ema} to {latest_ema}")
                     color = self.up_color
                 else:
-                    print(f"SMA decreased from {previous_sma} to {latest_sma}")
+                    print(f"EMA decreased from {previous_ema} to {latest_ema}")
                     color = self.down_color
         
-        if valid_sma == False:
+        if valid_ema == False:
             print(f"Invalid SMA value. Default color and close price will be used.")
 
         # Return the indicator data
         result = {
-            'label': f"SMA({self.sma_period})",
+            'label': f"EMA({self.ema_period})",
             'timestamp': dt,
             'type': 2,  # LINE
-            'value': latest_sma,
+            'value': latest_ema,
             'r': color[0],
             'g': color[1],
             'b': color[2],
@@ -156,13 +162,13 @@ class SMAIndicator(Indicator):
             'dataPointId': datapoint_id
         }
 
-        if last_datapoint_id <= 0 or newResult or valid_sma == False:
+        if last_datapoint_id <= 0 or newResult or valid_ema == False:
             self.historical_results.append(result)
-            print(f"New SMA result added: {result}")
+            print(f"New EMA result added: {result}")
 
         return result
 # Create an instance of the indicator for the module
-indicator = SMAIndicator()
+indicator = EMAIndicator()
 
 # Expose the methods at the module level for backward compatibility
 get_options_schema = indicator.get_options_schema

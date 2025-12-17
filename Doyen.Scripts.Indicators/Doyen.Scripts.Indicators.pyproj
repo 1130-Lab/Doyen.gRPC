@@ -27,6 +27,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PriceDisplay.py" />
+    <Compile Include="EMA.py" />
+    <Compile Include="StochasticOscillator.py" />
+    <Compile Include="RSI.py" />
     <Compile Include="SMA.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

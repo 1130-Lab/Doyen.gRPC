@@ -1,41 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-        </PropertyGroup>
-        <ItemGroup>
-        <Content Include="ScriptHosts.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="ScriptHosts.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.3.2" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.3.2" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.2" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.2" />
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.2">
-            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Grpc.Net.Client" Version="2.59.0" />
-        <PackageReference Include="ScottPlot.Avalonia" Version="5.0.55" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.4" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.4" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.4" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.4" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.4">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="ScottPlot.Avalonia" Version="5.1.57" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Doyen.Interop\Doyen.Interop.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyPythonFiles" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
     <ItemGroup>
-        <ProjectReference Include="..\Doyen.Interop\Doyen.Interop.csproj" />
+      <PythonScripts Include="$(SolutionDir)Doyen.Scripts.Indicators\**\*" />
     </ItemGroup>
-	
-    <Target Name="CopyPythonFiles" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-	    <ItemGroup>
-		    <PythonScripts Include="$(SolutionDir)Doyen.Scripts.Indicators\**\*" />
-	    </ItemGroup>
-	    <Copy SourceFiles="@(PythonScripts)" DestinationFiles="@(PythonScripts->'$(OutputPath)\Python\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    </Target>
+    <Copy
+      SourceFiles="@(PythonScripts)"
+      DestinationFiles="@(PythonScripts->'$(OutputPath)\Python\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="false"
+    />
+  </Target>
 </Project>

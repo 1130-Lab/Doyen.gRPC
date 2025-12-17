@@ -1,4 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Doyen.gRPC.Common;
 using Doyen.gRPC.Indicators;
@@ -7,11 +12,6 @@ using Doyen.TestApp.Models;
 using Doyen.TestApp.Services;
 using Doyen.TestApp.Utilities;
 using ScottPlot.Plottables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Doyen.TestApp
 {
@@ -53,25 +53,35 @@ namespace Doyen.TestApp
 
         private IDoyenIndicatorChart? _currentChart;
 
-
         public MainViewModel()
         {
-            ScriptHost host = App.PythonServerManager.ScriptHosts.FirstOrDefault(h => h.HostName == "Doyen.Indicators") ?? throw new Exception("Doyen.Indicators script host not found. Ensure the Python server is running.");
-            string address = host.Configuration.ProcessStartInfo.Arguments?.FirstOrDefault(a => a.StartsWith("--address"))?.Split(' ')[1] ?? throw new Exception("Indicator address not found in script host arguments. Ensure the Python server is running with the correct arguments.");
+            ScriptHost host =
+                App.PythonServerManager.ScriptHosts.FirstOrDefault(h =>
+                    h.HostName == "Doyen.Indicators"
+                )
+                ?? throw new Exception(
+                    "Doyen.Indicators script host not found. Ensure the Python server is running."
+                );
+            string address =
+                host.Configuration.ProcessStartInfo.Arguments?.FirstOrDefault(a =>
+                        a.StartsWith("--address")
+                    )
+                    ?.Split(' ')[1]
+                ?? throw new Exception(
+                    "Indicator address not found in script host arguments. Ensure the Python server is running with the correct arguments."
+                );
             _chartsClient = new ChartsClientService($"http://{address}");
             _chartsClient.DataReceived += OnDataReceived;
 
-            AvaPlot = new ScottPlot.Avalonia.AvaPlot
-            {
-                Width = 800,
-                Height = 600
-            };
+            AvaPlot = new ScottPlot.Avalonia.AvaPlot { Width = 800, Height = 600 };
             AvaPlot.Plot.Axes.DateTimeTicksBottom();
             AvaPlot.Plot.Axes.AutoScaleExpand();
 
             InitializePlot();
         }
+
         private SemaphoreSlim _plotLock = new SemaphoreSlim(1, 1);
+
         private void OnDataReceived(object sender, IndicatorData data)
         {
             _plotLock.Wait();
@@ -111,13 +121,15 @@ namespace Doyen.TestApp
             }
 
             StatusMessage = "Connecting to indicator...";
-            
+
             try
             {
-                InitializeIndicatorResponse? connected = await _chartsClient.InitializeIndicatorAsync(ScriptName, "BTC-USD");
+                InitializeIndicatorResponse? connected =
+                    await _chartsClient.InitializeIndicatorAsync(ScriptName, "BTC-USD");
                 if (connected == null || !connected.Success)
                 {
-                    StatusMessage = $"Failed to connect to indicator: {(connected != null ? connected.Reason : "internal exception")}";
+                    StatusMessage =
+                        $"Failed to connect to indicator: {(connected != null ? connected.Reason : "internal exception")}";
                     return;
                 }
                 SetupJson = connected.OptionsJsonDataRequest;
@@ -136,7 +148,6 @@ namespace Doyen.TestApp
             if (!IsConnected)
             {
                 StatusMessage = "Not connected to an indicator";
-                return;
             }
             else if (Mode == "Start")
             {
@@ -144,23 +155,30 @@ namespace Doyen.TestApp
                 {
                     var historicalData = new List<DoyenCandlestick>();
                     DoyenCandlestick? lastCandle = null;
-                    for(int i = 12; i >= 1; i--)
+                    for (int i = 120; i >= 1; i--)
                     {
                         double? overrideOpen = null;
-                        if(lastCandle != null)
+                        if (lastCandle != null)
                         {
                             overrideOpen = lastCandle.Close;
                         }
-                        lastCandle = CandlestickHelper.CreateSampleCandlestick(DateTime.UtcNow.AddMinutes(-1 * i), overrideOpen: overrideOpen);
+                        lastCandle = CandlestickHelper.CreateSampleCandlestick(
+                            DateTime.UtcNow.AddMinutes(-1 * i),
+                            overrideOpen: overrideOpen
+                        );
                         historicalData.Add(lastCandle);
                     }
 
                     StatusMessage = "Starting indicator...";
-                    StartIndicatorResponse? started = await _chartsClient.StartIndicatorAsync(historicalData.ToArray(), SetupJson);
+                    StartIndicatorResponse? started = await _chartsClient.StartIndicatorAsync(
+                        historicalData.ToArray(),
+                        SetupJson
+                    );
 
                     if (started == null || !started.Success)
                     {
-                        StatusMessage = $"Failed to start indicator: {(started != null ? started.Reason : "internal exception")}";
+                        StatusMessage =
+                            $"Failed to start indicator: {(started != null ? started.Reason : "internal exception")}";
                         IsStreaming = false;
                         return;
                     }
@@ -222,7 +240,11 @@ namespace Doyen.TestApp
             else
             {
                 // Start streaming
-                _chartsClient.StartContinuousDataProcessing("BTC-USD", overrideOpen, UpdateIntervalMs);
+                _chartsClient.StartContinuousDataProcessing(
+                    "BTC-USD",
+                    overrideOpen,
+                    UpdateIntervalMs
+                );
                 IsStreaming = true;
                 StatusMessage = "Continuous data processing started";
             }
