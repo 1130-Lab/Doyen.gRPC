@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Dict, List, Optional, Any
 import algos_pb2
 import algos_pb2_grpc
@@ -7,6 +8,7 @@ class Algorithm:
     """Base class for all algorithms"""
     def __init__(self, name: str = "",simulated=True):
         self.name = name
+        self.logger = logging.getLogger(name)
         self.interface = None  # Will be set by ScriptManager
         self.algo_id = "base_algorithm"
         self.options = {}
@@ -61,12 +63,12 @@ class Algorithm:
     def pause(self):
         """Called when algorithm is paused"""
         self.paused = True
-        print(f"{self.name} algorithm paused")
+        self.logger.info(f"{self.name} algorithm paused")
 
     def resume(self):
         """Called when algorithm is resumed"""
         self.paused = False
-        print(f"{self.name} algorithm resumed")
+        self.logger.info(f"{self.name} algorithm resumed")
 
     def stop(self):
         """Stop the algorithm and clean up resources"""
@@ -91,10 +93,10 @@ class Algorithm:
     def send_order(self, symbol: str, exchange : str, price: float, quantity: float, message_id: Optional[int] = None):
         """Send an order through the interface"""
         if self.paused:
-            print(f"Error: Algorithm {self.name} is paused. Order prevented.")
+            self.logger.error(f"Error: Algorithm {self.name} is paused. Order prevented.")
             return None
         if not self.interface:
-            print("Error: No interface connection available")
+            self.logger.error("Error: No interface connection available")
             return None
         if message_id is None:
             import time
@@ -104,13 +106,13 @@ class Algorithm:
             response = self.interface.send_order(symbol, exchange, price, quantity, message_id, self.simulated)
             return response
         except Exception as e:
-            print(f"Error sending order: {e}")
+            self.logger.error(f"Error sending order: {e}")
             return None
 
     def cancel_order(self, order_id: str, message_id: Optional[int] = None):
         """Cancel an order through the interface"""
         if not self.interface:
-            print("Error: No interface connection available")
+            self.logger.error("Error: No interface connection available")
             return None
         if message_id is None:
             import time
@@ -120,7 +122,7 @@ class Algorithm:
             response = self.interface.cancel_order(order_id, message_id, self.simulated)
             return response
         except Exception as e:
-            print(f"Error cancelling order: {e}")
+            self.logger.error(f"Error cancelling order: {e}")
             return None
 
     def subscribe_symbol(self, symbol: str, exchange: str, get_historical: bool = False, depth_levels: int = 10, candles_timeframe: int = 2):
@@ -134,12 +136,12 @@ class Algorithm:
             candles_timeframe: Timeframe for candles (2 = FIVE_MINUTES, 1 = ONE_MINUTE, etc.)
         """
         if not self.interface:
-            print("Error: No interface connection available")
+            self.logger.error("Error: No interface connection available")
             return None
         try:
             # Use the interface method which handles protobuf creation
             response = self.interface.subscribe_symbol(symbol, exchange, get_historical, depth_levels, candles_timeframe)
             return response
         except Exception as e:
-            print(f"Error subscribing to symbol: {e}")
+            self.logger.error(f"Error subscribing to symbol: {e}")
             return None

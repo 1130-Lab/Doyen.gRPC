@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Doyen.Indicators.ScriptManager.py" />
+    <Compile Include="MACD.py" />
     <Compile Include="Indicator.py">
       <SubType>Code</SubType>
     </Compile>

@@ -1,7 +1,10 @@
 import datetime
 import json
+import logging
 from typing import Dict, List, Optional, Any
 from Indicator import Indicator
+
+logger = logging.getLogger(__name__)
 
 class PriceDisplayIndicator(Indicator):
     """Indicator for displaying price data as candlesticks or bars"""
@@ -45,11 +48,11 @@ class PriceDisplayIndicator(Indicator):
         super().start(historical_data, options)
         # Load config from options
         props = options['properties']
-        print(f"Starting PriceDisplayIndicator with properties: {props}")
+        logger.info(f"Starting PriceDisplayIndicator with properties: {props}")
         self.display_mode = props['displayMode']['value']
         self.up_color = self.parse_color(props['upColor']['value'])
         self.down_color = self.parse_color(props['downColor']['value'])
-        print(f"Price display indicator started with mode: {self.display_mode}, up_color: {self.up_color}, down_color: {self.down_color}")
+        logger.info(f"Price display indicator started with mode: {self.display_mode}, up_color: {self.up_color}, down_color: {self.down_color}")
         # Process historical data
         for candle in historical_data:
             result = self.process([candle])
@@ -59,7 +62,7 @@ class PriceDisplayIndicator(Indicator):
 
     def stop(self) -> None:
         super().stop()
-        print("PriceDisplayIndicator stopped.")
+        logger.info("PriceDisplayIndicator stopped.")
 
     def process(self, candles: List[Dict]) -> Optional[Dict]:
         if not candles or len(candles) == 0:

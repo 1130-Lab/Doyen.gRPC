@@ -27,7 +27,7 @@ try:
     importlib.reload(algos_pb2)
     importlib.reload(algos_pb2_grpc)
 except ImportError:
-    print("Error: Proto files not found. Make sure to run compile_proto.py first.")
+    logging.error("Error: Proto files not found. Make sure to run compile_proto.py first.")
     import subprocess
     subprocess.check_call([sys.executable, "-m", "pip", "install", "grpcio", "grpcio-tools"])
 
@@ -36,13 +36,8 @@ except ImportError:
 try:
     from Algorithm import Algorithm
 except ImportError:
-    print("Error: Algorithm base class not found. Make sure Algorithm.py is in the same directory.")
+    logging.error("Error: Algorithm base class not found. Make sure Algorithm.py is in the same directory.")
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
 logger = logging.getLogger(__name__)
 
 active_algorithms = {}
@@ -848,8 +843,8 @@ if __name__ == "__main__":
     try:
         import grpc.aio
     except ImportError:
-        print("Error: grpcio package is not installed.")
-        print("Installing required packages...")
+        logging.error("Error: grpcio package is not installed.")
+        logging.info("Installing required packages...")
         import subprocess
         subprocess.check_call([sys.executable, "-m", "pip", "install", "grpcio", "grpcio-tools"])
 
@@ -857,9 +852,24 @@ if __name__ == "__main__":
     # Run the async main function
     try:
         parser = argparse.ArgumentParser(description="Doyen Algorithm Script Manager")
+        parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
         parser.add_argument("--server", type=str, default="localhost:5050", help="Address to run the gRPC server on")
         parser.add_argument("--client", type=str, default="localhost:5051", help="Address to run the gRPC client on")
         args = parser.parse_args()
+
+        # Configure logging based on verbose flag
+        if args.verbose:
+            logging.basicConfig(
+                level=logging.INFO,
+                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            )
+        else:
+            # Configure logging to only show critical errors (or effectively silence it)
+            logging.basicConfig(
+                level=logging.CRITICAL,
+                format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            )
+
         asyncio.run(main(args.server, args.client))
     except KeyboardInterrupt:
         logger.info("Script manager terminated by user")

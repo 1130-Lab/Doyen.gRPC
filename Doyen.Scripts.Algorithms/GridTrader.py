@@ -19,6 +19,7 @@ class GridTrader(Algorithm):
         self.lowerPrice = 0.0
         self.upperPrice = 0.0
         self.grid_count = 10
+        self.message_id = 0
 
     def get_display_name(self) -> str:
         return "Grid Trading Algorithm"
@@ -58,7 +59,7 @@ class GridTrader(Algorithm):
                     "description": "Comma-separated symbols to trade. (e.g BTCUSDT, ETHUSDT)", 
                     "type": "string", 
                     "options": "Any valid trading symbol.",
-                    "value": "BTC-USDT"
+                    "value": "BTC-USD"
                 },
                 "exchange": 
                 {
@@ -89,7 +90,7 @@ class GridTrader(Algorithm):
                     "description": "The number of grid levels.",
                     "type": "integer", 
                     "options": "1 .. 1000", 
-                    "value": 10},
+                    "value": 4},
                 "order_ttk": {
                     "title": "Order TTK",
                     "description": "The time to keep orders in the book in seconds.",
@@ -101,7 +102,7 @@ class GridTrader(Algorithm):
                     "description": "The quantity of each order.",
                     "type": "number", 
                     "options": "0 .. Account Balance", 
-                    "value": 0.001}
+                    "value": 0.0001}
             }
         }
         return json.dumps(schema)
@@ -123,27 +124,26 @@ class GridTrader(Algorithm):
         for exchange in exchanges:
             subscribe_result = self.subscribe_symbol(self.symbol, exchange, get_historical=True)
             if not subscribe_result.get("success", False):
-                print(f"Failed to subscribe symbol: {subscribe_result.get('reason', '')}")
+                self.logger.error(f"Failed to subscribe symbol: {subscribe_result.get('reason', '')}")
                 return False
         return True
 
     def place_order(self, side: str, price: float):
         # Place order via the interface
         if not self.interface:
-            print("Interface not set. Cannot place order.")
+            self.logger.error("Interface not set. Cannot place order.")
             return
-        import time
-        message_id = int(time.time() * 1000000)
+        self.message_id += 1
         
         exchange = self.exchanges[0] if isinstance(self.exchanges, list) else self.exchanges
-        response = self.interface.send_order(self.symbol, exchange, price, self.order_quantity, side, "limit", message_id)
+        response = self.interface.send_order(self.symbol, exchange, price, self.order_quantity, side, "limit", self.message_id)
         if response is None:
-            print(f"Failed to place {side} order at {price}: Paused or invalid state")
-        elif not response.success:
-            print(f"Failed to place {side} order at {price}: {response.reason}")
+            self.logger.error(f"Failed to place {side} order at {price}: Paused or invalid state")
+        elif not response.result == 1:
+            self.logger.error(f"Failed to place {side} order at {price}: {response.reason}")
             return
         self.orders[response.orderId] = {"side": side, "price": price, "quantity": self.order_quantity}
-        print(f"Placing {side} order at {price} for {self.order_quantity} {self.symbol}")
+        self.logger.info(f"Placing {side} order at {price} for {self.order_quantity} {self.symbol}")
         self.grid_orders[response.orderId] = {"side": side, "price": price}
 
     def on_order_filled(self, order_id: str, filled_price: float, side: str):
@@ -165,30 +165,30 @@ class GridTrader(Algorithm):
                 order_info = self.grid_orders[order_id]
                 filled_price = order_info['price']
                 side = order_info['side']
-                print(f"Order {order_id} filled at {filled_price} for {side}")
+                self.logger.info(f"Order {order_id} filled at {filled_price} for {side}")
                 # Trigger the on_order_filled logic
                 self.on_order_filled(order_id, filled_price, side)
             else:
-                print(f"Received filled status for unknown order: {order_id}")
+                self.logger.warning(f"Received filled status for unknown order: {order_id}")
 
     def process_dob(self, book):
         super().process_dob(book)
         # if we're through the historical data, we can start placing orders
         if book.historical == False:
-            print("Processing live depth of book data")
-            print(f"Current book: {book.symbol} on {book.exchange}: {book.bidLevels[0].price} / {book.offerLevels[0].price}")
+            self.logger.info("Processing live depth of book data")
+            self.logger.info(f"Current book: {book.symbol} on {book.exchange}: {book.bidLevels[0].price} / {book.offerLevels[0].price}")
             if not self.grid_orders:
                 midpoint = (book.bidLevels[0].price + book.offerLevels[0].price) / 2
-                print(f"Current midpoint price: {midpoint}")
+                self.logger.info(f"Current midpoint price: {midpoint}")
                 self.upperPrice = min(book.bidLevels[0].price * (1.0 + self.upperDelta), book.offerLevels[0].price - self.offer_threshold)
                 self.lowerPrice = self.upperPrice * (1.0 - self.lowerDelta)
                 # Calculate grid levels
                 self.grid_levels = [self.lowerPrice + i * (self.upperPrice - self.lowerPrice) / (self.grid_count - 1) for i in range(self.grid_count)]
-                print(f"Grid levels: {self.grid_levels}")
+                self.logger.info(f"Grid levels: {self.grid_levels}")
                 # Place initial buy_open/sell_close orders at each grid level
                 for i in range(self.grid_count // 2):
                     self.place_order("buy_open", self.grid_levels[i])
-                print(f"Grid levels initialized: {self.grid_levels}")
+                self.logger.info(f"Grid levels initialized: {self.grid_levels}")
 
 # Create an instance of the GridTrader algorithm
 # This allows the script to be run directly or imported without executing the algorithm

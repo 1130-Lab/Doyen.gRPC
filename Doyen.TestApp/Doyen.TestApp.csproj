@@ -33,6 +33,11 @@
     <ProjectReference Include="..\Doyen.Interop\Doyen.Interop.csproj" />
   </ItemGroup>
 
+  <!-- Deletes the bin folder before building... Cleans up python scripts for an easier time debugging. -->
+  <Target Name="RemoveBinPreBuild" BeforeTargets="BeforeBuild">
+    <RemoveDir Directories="$(ProjectDir)bin" />
+  </Target>
+
   <Target Name="CopyPythonFiles" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
     <ItemGroup>
       <PythonScripts Include="$(SolutionDir)Doyen.Scripts.Indicators\**\*" />

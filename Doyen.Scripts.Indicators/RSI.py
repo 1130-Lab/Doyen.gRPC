@@ -3,8 +3,11 @@ from pickle import FALSE
 from re import S
 import statistics
 import json
+import logging
 from typing import Dict, List, Optional, Any, Tuple
 from Indicator import Indicator
+
+logger = logging.getLogger(__name__)
 
 class RSIIndicator(Indicator):
     """Relative Strength Index indicator implementation"""
@@ -79,7 +82,7 @@ class RSIIndicator(Indicator):
         self.historical_candles = []
 
         props = options['properties']
-        print(f"RSI indicator started with properties: {props}")
+        logger.info(f"RSI indicator started with properties: {props}")
         self.rsi_period = props['period']['value']
         self.upperBand = props['upperBand']['value']
         self.lowerBand = props['lowerBand']['value']
@@ -96,7 +99,7 @@ class RSIIndicator(Indicator):
     def stop(self):
         super().stop()
         """Cleanup resources"""
-        print("SMAIndicator stopped.")
+        logger.info("RSIIndicator stopped.")
 
     def _calculate_rsi(self) -> float:
         """Calculate SMA values based on current prices"""
@@ -143,7 +146,7 @@ class RSIIndicator(Indicator):
             self.historical_candles = self.historical_candles[-max_history:]
         elif len(self.historical_candles) < self.rsi_period:
             # Not enough data to calculate SMA
-            print(f"Not enough historical prices to calculate SMA. Need at least {self.rsi_period} prices.")
+            logger.warning(f"Not enough historical prices to calculate SMA. Need at least {self.rsi_period} prices.")
             valid_rsi = False
         
         # Get timestamp from the candle
@@ -163,18 +166,18 @@ class RSIIndicator(Indicator):
         if valid_rsi:
             # Recalculate SMA
             latest_rsi = self._calculate_rsi()
-            print(f"Calculated RSI: {latest_rsi} for period {self.rsi_period}")
+            logger.debug(f"Calculated RSI: {latest_rsi} for period {self.rsi_period}")
             # Compare with the previous historical result's RSI value, not rsi_values array
             if len(self.historical_results) > 0:
                 if latest_rsi >= self.upperBand:
-                    print(f"RSI {latest_rsi} exceeds upper band {self.upperBand}")
+                    logger.debug(f"RSI {latest_rsi} exceeds upper band {self.upperBand}")
                     color = self.upperBand_color
                 elif latest_rsi <= self.lowerBand:
-                    print(f"RSI {latest_rsi} falls below lower band {self.lowerBand}")
+                    logger.debug(f"RSI {latest_rsi} falls below lower band {self.lowerBand}")
                     color = self.lowerBand_color
         
         if valid_rsi == False:
-            print(f"Invalid RSI value. Default color and close price will be used.")
+            logger.warning(f"Invalid RSI value. Default color and close price will be used.")
 
         # Return the indicator data
         result = {
@@ -192,7 +195,7 @@ class RSIIndicator(Indicator):
 
         if last_datapoint_id <= 0 or newResult or valid_rsi == False:
             self.historical_results.append(result)
-            print(f"New SMA result added: {result}")
+            logger.debug(f"New SMA result added: {result}")
 
         return result
 # Create an instance of the indicator for the module

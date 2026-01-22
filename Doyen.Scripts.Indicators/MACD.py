@@ -9,33 +9,43 @@ from Indicator import Indicator
 logger = logging.getLogger(__name__)
 
 class EMAIndicator(Indicator):
-    """Exponential Moving Average indicator implementation"""
+    """MACD indicator implementation"""
     
     def __init__(self):
         super().__init__("Exponential Moving Average (EMA)")
-        self.ema_period = 30  # Default EMA period
+        self.fast_ema_period = 12  # Default Fast EMA period
+        self.slow_ema_period = 26  # Default Slow EMA period
         self.smoothing = 2  # Default smoothing factor
         self.historical_prices = []  # Store historical closing prices
         self.up_color = (0, 255, 0)  # Default up color (green)
         self.down_color = (255, 0, 0) # Default down color (red)
         self.default_color = (128, 128, 255)
-        self.previous_ema = None
-        self.smoothing_const = None
+        self.previous_fast_ema = None
+        self.previous_slow_ema = None
+        self.fast_smoothing_const = None
+        self.slow_smoothing_const = None
 
     def get_options_schema(self) -> str:
         """Return JSON schema for the options panel"""
         schema = {
-            "title": "Exponential Moving Average",
-            "description": "Calculates the exponential moving average of closing prices",
+            "title": "MACD",
+            "description": "Calculates the Moving Average Convergence Divergence (MACD) of closing prices",
             "properties": {
-                "period": {
-                    "title": "Period",
-                    "description": "Number of periods to include in the moving average",
+                "fastPeriod": {
+                    "title": "Fast EMA Period",
+                    "description": "Number of periods for the fast EMA",
                     "type": "integer",
                     "options": "1 .. 200",
                     "value": 12
                 },
-                "smoothing":{
+                "slowPeriod": {
+                    "title": "Slow EMA Period",
+                    "description": "Number of periods for the slow EMA",
+                    "type": "integer",
+                    "options": "1 .. 200",
+                    "value": 26
+                },
+                "smoothing": {
                     "title": "Smoothing",
                     "description": "Smoothing factor for EMA calculation",
                     "type": "integer",
@@ -75,13 +85,15 @@ class EMAIndicator(Indicator):
         self.historical_prices = []
 
         props = options['properties']
-        logger.info(f"EMA indicator started with properties: {props}")
-        self.ema_period = props['period']['value']
+        logger.info(f"MACD indicator started with properties: {props}")
+        self.fast_ema_period = props['fastPeriod']['value']
+        self.slow_ema_period = props['slowPeriod']['value']
         self.smoothing = props['smoothing']['value']
         self.up_color = self.parse_color(props['upColor']['value'])
         self.down_color = self.parse_color(props['downColor']['value'])
         self.default_color = self.parse_color(props['defaultColor']['value'])
-        self.smoothing_const = (1 - (self.smoothing / (self.ema_period + 1)))
+        self.fast_smoothing_const = (1 - (self.smoothing / (self.fast_ema_period + 1)))
+        self.slow_smoothing_const = (1 - (self.smoothing / (self.slow_ema_period + 1)))
 
         # Process historical data
         for candle in historical_data:
@@ -92,21 +104,30 @@ class EMAIndicator(Indicator):
     def stop(self):
         super().stop()
         """Cleanup resources"""
-        logger.info("EMAIndicator stopped.")
+        logger.info("MACDIndicator stopped.")
 
-    def _calculate_ema(self) -> float:
-        """Calculate EMA values based on current prices"""
-        # Need at least ema_period prices to calculate EMA
-        historical_ema = 0
+    def _calculate_macd(self) -> float:
+        """Calculate MACD values based on current prices"""
+        fast_historical_ema = 0
         if self.previous_ema == None:
-            historical_ema = self.historical_prices[-1] * (1 - self.smoothing_const)
+            fast_historical_ema = self.historical_prices[-1] * (1 - self.fast_smoothing_const)
         else:
-            historical_ema = self.previous_ema * (1 - self.smoothing_const)
+            fast_historical_ema = self.previous_fast_ema * (1 - self.fast_smoothing_const)
 
-        logger.debug(f"Previous EMA: {self.previous_ema}, Historical EMA component: {historical_ema}, Smoothing Const: {self.smoothing_const}")
-        logger.debug(f"Latest Price: {self.historical_prices[-1]}, Latest EMA: {self.historical_prices[-1] * self.smoothing_const + historical_ema}")
+        self.previous_fast_ema = fast_ema        
+        fast_ema = self.historical_prices[-1] * self.fast_smoothing_const + fast_historical_ema
         
-        return self.historical_prices[-1] * self.smoothing_const + historical_ema
+        slow_historical_ema = 0
+        if self.previous_ema == None:
+            slow_historical_ema = self.historical_prices[-1] * (1 - self.slow_smoothing_const)
+        else:
+            slow_historical_ema = self.previous_slow_ema * (1 - self.slow_smoothing_const)
+
+        self.previous_slow_ema = slow_ema        
+        slow_ema = self.historical_prices[-1] * self.slow_smoothing_const + slow_historical_ema
+
+
+        return fast_ema - slow_ema
                
 
     def process(self, candles: List[Dict]) -> Optional[Dict]:
@@ -123,12 +144,12 @@ class EMAIndicator(Indicator):
         color = self.default_color
 
         # Keep only the needed history (ema_period + some extra)
-        max_history = max(self.ema_period * 3, 100)
+        max_history = max(self.slow_ema_period * 3, 100)
         if len(self.historical_prices) > max_history:
             self.historical_prices = self.historical_prices[-max_history:]
-        elif len(self.historical_prices) < self.ema_period:
+        elif len(self.historical_prices) < self.slow_ema_period:
             # Not enough data to calculate EMA
-            logger.warning(f"Not enough historical prices to calculate EMA. Need at least {self.ema_period} prices.")
+            logger.warning(f"Not enough historical prices to calculate EMA. Need at least {self.slow_ema_period} prices.")
             valid_ema = False
         
         # Get timestamp from the candle
@@ -158,14 +179,14 @@ class EMAIndicator(Indicator):
                     color = self.down_color
 
             self.previous_ema  = latest_ema            
-            logger.debug(f"Calculated EMA: {latest_ema} for period {self.ema_period}")
+            logger.debug(f"Calculated EMA: {latest_ema} for period {self.fast_ema_period}")
 
         else:
             logger.warning(f"Invalid EMA value. Default color and close price will be used.")
 
         # Return the indicator data
         result = {
-            'label': f"EMA({self.ema_period})",
+            'label': f"MACD({self.fast_ema_period}-{self.slow_ema_period})",
             'timestamp': dt,
             'type': 2,  # LINE
             'value': latest_ema,

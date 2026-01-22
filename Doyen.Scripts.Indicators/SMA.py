@@ -2,8 +2,11 @@ import datetime
 from pickle import FALSE
 import statistics
 import json
+import logging
 from typing import Dict, List, Optional, Any, Tuple
 from Indicator import Indicator
+
+logger = logging.getLogger(__name__)
 
 class SMAIndicator(Indicator):
     """Simple Moving Average indicator implementation"""
@@ -62,7 +65,7 @@ class SMAIndicator(Indicator):
         self.historical_prices = []
 
         props = options['properties']
-        print(f"SMA indicator started with properties: {props}")
+        logger.info(f"SMA indicator started with properties: {props}")
         self.sma_period = props['period']['value']
         self.up_color = self.parse_color(props['upColor']['value'])
         self.down_color = self.parse_color(props['downColor']['value'])
@@ -77,7 +80,7 @@ class SMAIndicator(Indicator):
     def stop(self):
         super().stop()
         """Cleanup resources"""
-        print("SMAIndicator stopped.")
+        logger.info("SMAIndicator stopped.")
 
     def _calculate_sma(self) -> float:
         """Calculate SMA values based on current prices"""
@@ -108,7 +111,7 @@ class SMAIndicator(Indicator):
             self.historical_prices = self.historical_prices[-max_history:]
         elif len(self.historical_prices) < self.sma_period:
             # Not enough data to calculate SMA
-            print(f"Not enough historical prices to calculate SMA. Need at least {self.sma_period} prices.")
+            logger.warning(f"Not enough historical prices to calculate SMA. Need at least {self.sma_period} prices.")
             valid_sma = False
         
         # Get timestamp from the candle
@@ -128,19 +131,19 @@ class SMAIndicator(Indicator):
         if valid_sma:
             # Recalculate SMA
             latest_sma = self._calculate_sma()
-            print(f"Calculated SMA: {latest_sma} for period {self.sma_period}")
+            logger.debug(f"Calculated SMA: {latest_sma} for period {self.sma_period}")
             # Compare with the previous historical result's SMA value, not sma_values array
             if len(self.historical_results) > 0:
                 previous_sma = self.historical_results[-1]['value']
                 if latest_sma >= previous_sma:
-                    print(f"SMA increased from {previous_sma} to {latest_sma}")
+                    logger.debug(f"SMA increased from {previous_sma} to {latest_sma}")
                     color = self.up_color
                 else:
-                    print(f"SMA decreased from {previous_sma} to {latest_sma}")
+                    logger.debug(f"SMA decreased from {previous_sma} to {latest_sma}")
                     color = self.down_color
         
         if valid_sma == False:
-            print(f"Invalid SMA value. Default color and close price will be used.")
+            logger.warning(f"Invalid SMA value. Default color and close price will be used.")
 
         # Return the indicator data
         result = {
@@ -158,7 +161,7 @@ class SMAIndicator(Indicator):
 
         if last_datapoint_id <= 0 or newResult or valid_sma == False:
             self.historical_results.append(result)
-            print(f"New SMA result added: {result}")
+            logger.debug(f"New SMA result added: {result}")
 
         return result
 # Create an instance of the indicator for the module

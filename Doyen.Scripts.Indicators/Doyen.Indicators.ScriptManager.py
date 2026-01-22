@@ -7,8 +7,14 @@ import types
 import json
 import datetime
 import concurrent.futures
+import logging
 from concurrent import futures
 from google.protobuf.timestamp_pb2 import Timestamp
+
+# Setup logging
+verbose = '--verbose' in sys.argv
+logging.basicConfig(level=logging.INFO if verbose else logging.CRITICAL + 1, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 # Add the current directory to path to find the generated proto files
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -19,8 +25,8 @@ try:
     import charts_pb2 as charts_pb2
     import charts_pb2_grpc as charts_pb2_grpc
 except ImportError:
-    print("Error: Proto files not found. Make sure to run compile_proto.py first.")
-    print("Installing required packages and compiling proto files...")
+    logger.error("Error: Proto files not found. Make sure to run compile_proto.py first.")
+    logger.info("Installing required packages and compiling proto files...")
     # Try to install required packages
     import subprocess
     subprocess.check_call([sys.executable, "-m", "pip", "install", "grpcio", "grpcio-tools"])
@@ -34,7 +40,7 @@ except ImportError:
 try:
     from Indicator import Indicator
 except ImportError:
-    print("Error: Indicator base class not found. Make sure Indicator.py is in the same directory.")
+    logger.error("Error: Indicator base class not found. Make sure Indicator.py is in the same directory.")
 
 # Create a global event loop for each thread
 def get_or_create_event_loop():
@@ -76,7 +82,7 @@ async def load_indicator_from_file(id, symbol, path):
             
         except ImportError:
             # If that fails, fall back to the old method of loading from file
-            print(f"Loading module {mod_name} using file-based import")
+            logger.info(f"Loading module {mod_name} using file-based import")
             module = types.ModuleType(mod_name)
             
             with open(path, 'r') as f:
@@ -91,7 +97,7 @@ async def load_indicator_from_file(id, symbol, path):
             indicator = module.indicator
             indicator.id = id
             indicator.symbol = symbol
-            print(f"Found indicator instance in module {mod_name}")
+            logger.info(f"Found indicator instance in module {mod_name}")
         else:
             # Look for an Indicator subclass in the module
             indicator_classes = [
@@ -102,7 +108,7 @@ async def load_indicator_from_file(id, symbol, path):
             if indicator_classes:
                 # Use the first found indicator class
                 indicator = indicator_classes[0]()
-                print(f"Created indicator instance from class {indicator_classes[0].__name__}")
+                logger.info(f"Created indicator instance from class {indicator_classes[0].__name__}")
             else:
                 # Fall back to using module-level functions if available
                 required_functions = ['get_options_schema', 'start', 'process']
@@ -118,7 +124,7 @@ async def load_indicator_from_file(id, symbol, path):
                             self.module = module
                             module.id = id
                             module.symbol = symbol
-                            print(f"Created function wrapper for module {name} with id {id} and symbol {symbol}")
+                            logger.info(f"Created function wrapper for module {name} with id {id} and symbol {symbol}")
                         
                         def get_options_schema(self):
                             return self.module.get_options_schema()
@@ -130,22 +136,20 @@ async def load_indicator_from_file(id, symbol, path):
                             return self.module.process(candles)
                     
                     indicator = ModuleFunctionWrapper(module, id, symbol, mod_name)
-                    print(f"Created function wrapper indicator for module {mod_name}")
+                    logger.info(f"Created function wrapper indicator for module {mod_name}")
         
         if indicator:
             # Print available methods in the indicator for debugging
             methods = [name for name, obj in indicator.__class__.__dict__.items() 
                     if callable(obj) and not name.startswith('_')]
-            print(f"Loaded indicator {mod_name} with methods: {', '.join(methods)}")
+            logger.info(f"Loaded indicator {mod_name} with methods: {', '.join(methods)}")
 
             return indicator
         else:
-            print(f"No valid indicator found in module {mod_name}")
+            logger.warning(f"No valid indicator found in module {mod_name}")
             return None
     except Exception as e:
-        print(f"Error loading indicator from {path}: {e}")
-        import traceback
-        traceback.print_exc()
+        logger.error(f"Error loading indicator from {path}: {e}", exc_info=True)
         return None
 
 def timestamp_to_datetime(timestamp):
@@ -184,7 +188,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
     
     async def initialize_indicator_async(self, request, context):
         """Initialize an indicator script"""
-        print(f"Initializing indicator: {request.name} for {request.symbol} (ID: {request.id})")
+        logger.info(f"Initializing indicator: {request.name} for {request.symbol} (ID: {request.id})")
         
         try:
             # Find the script file
@@ -193,7 +197,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
                 # Try in the current directory
                 script_path = os.path.join(current_dir, f"{request.name}.py")
                 if not os.path.exists(script_path):
-                    print(f"Indicator script not found: {request.name}.py")
+                    logger.error(f"Indicator script not found: {request.name}.py")
                     return charts_pb2.InitializeIndicatorResponse(
                         id=request.id,
                         success=False,
@@ -204,7 +208,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             # Load the indicator
             indicator = await load_indicator_from_file(request.id, request.symbol, script_path)
             if not indicator:
-                print(f"Failed to load indicator: {request.name}")
+                logger.error(f"Failed to load indicator: {request.name}")
                 return charts_pb2.InitializeIndicatorResponse(
                     id=request.id,
                     success=False,
@@ -214,15 +218,15 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             # Store the indicator context
             indicator_context = IndicatorContext(request.id, request.symbol, request.name, indicator)
             self.active_indicators[request.id] = indicator_context
-            print(f"Indicator {request.name} initialized successfully with ID {request.id}")
-            print(f"Active indicators: {list(self.active_indicators.keys())}")
+            logger.info(f"Indicator {request.name} initialized successfully with ID {request.id}")
+            logger.info(f"Active indicators: {list(self.active_indicators.keys())}")
             
             # Get options schema
             try:
                 options_json = indicator.get_options_schema()
                 has_options = bool(options_json)
             except Exception as e:
-                print(f"Error getting options schema: {e}")
+                logger.error(f"Error getting options schema: {e}")
                 options_json = ""
                 has_options = False
             
@@ -235,9 +239,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             )
             
         except Exception as e:
-            print(f"Error initializing indicator: {e}")
-            import traceback
-            traceback.print_exc()
+            logger.error(f"Error initializing indicator: {e}", exc_info=True)
             return charts_pb2.InitializeIndicatorResponse(
                 id=request.id,
                 success=False,
@@ -252,11 +254,11 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
     
     async def start_indicator_async(self, request, context):
         """Start an indicator with historical data and options"""
-        print(f"Starting indicator: {request.id}")
+        logger.info(f"Starting indicator: {request.id}")
         
         try:
             if request.id not in self.active_indicators:
-                print(f"Indicator not found: {request.id}")
+                logger.error(f"Indicator not found: {request.id}")
                 return charts_pb2.StartIndicatorResponse(
                     id=request.id,
                     success=False,
@@ -272,7 +274,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
                 try:
                     options = json.loads(request.optionsJsonDataResponse)
                 except json.JSONDecodeError:
-                    print(f"Invalid options JSON: {request.optionsJsonDataResponse}")
+                    logger.error(f"Invalid options JSON: {request.optionsJsonDataResponse}")
             
             # Convert historical data
             historical_data = [candlestick_to_dict(cs) for cs in request.historicalData]
@@ -291,10 +293,11 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
                 # Publish historical results if available
                 if hasattr(indicator, 'get_historical_results'):
                     results = indicator.get_historical_results()
-                    print(f"{request.id} indicator has {len(results)} historical results")
+                    logger.info(f"{request.id} indicator has {len(results)} historical results")
                     index = 0;
                     for result in results:
-
+                        if(index >= len(historical_data)):
+                            break
                         indicator_data = charts_pb2.IndicatorData(
                             label=result.get('label', ''),
                             type=result.get('type', charts_pb2.IndicatorMessageType.MESSAGE_LINE),
@@ -338,7 +341,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
                         processed_data.append(indicator_data)
             
             except Exception as e:
-                print(f"Error starting indicator: {e}")
+                logger.error(f"Error starting indicator: {e}")
                 return charts_pb2.StartIndicatorResponse(
                     id=request.id,
                     success=False,
@@ -353,9 +356,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             )
             
         except Exception as e:
-            print(f"Error starting indicator: {e}")
-            import traceback
-            traceback.print_exc()
+            logger.error(f"Error starting indicator: {e}", exc_info=True)
             return charts_pb2.StartIndicatorResponse(
                 id=request.id,
                 success=False,
@@ -369,11 +370,11 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
     
     async def stop_indicator_async(self, request, context):
         """Stop an indicator"""
-        print(f"Stopping indicator: {request.id}")
+        logger.info(f"Stopping indicator: {request.id}")
         
         try:
             if request.id not in self.active_indicators:
-                print(f"Indicator not found: {request.id}")
+                logger.warning(f"Indicator not found: {request.id}")
                 return charts_pb2.StopIndicatorResponse(
                     id=request.id,
                     success=False,
@@ -387,7 +388,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             try:
                 indicator.stop()
             except Exception as e:
-                print(f"Error stopping indicator: {e}")
+                logger.error(f"Error stopping indicator: {e}")
                 return charts_pb2.StopIndicatorResponse(
                     id=request.id,
                     success=False,
@@ -404,9 +405,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             )
             
         except Exception as e:
-            print(f"Error stopping indicator: {e}")
-            import traceback
-            traceback.print_exc()
+            logger.error(f"Error stopping indicator: {e}", exc_info=True)
             return charts_pb2.StopIndicatorResponse(
                 id=request.id,
                 success=False,
@@ -420,18 +419,18 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
     
     async def process_data_async(self, request, context, candlesticks, indicator):
         """Process new data with the indicator"""
-        print(f"Processing data for symbol: {request.symbol}")
+        logger.debug(f"Processing data for symbol: {request.symbol}")
         
         try:
             # Find any active indicator to process this data
             if not self.active_indicators or indicator.indicator.symbol != request.symbol:
-                print("No active indicators to process data")
+                logger.debug("No active indicators to process data")
                 return charts_pb2.DataMessageResponse(
                     id="",
                     data=None
                 )
             else:
-                print(f"Processing data with indicator {indicator.id} for symbol {request.symbol}")
+                logger.debug(f"Processing data with indicator {indicator.id} for symbol {request.symbol}")
             
             # Process the data with the indicator
             try:
@@ -472,7 +471,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
                     # Set the appropriate message based on type
                     if result.get('type') == charts_pb2.IndicatorMessageType.MESSAGE_LINE or result.get('type') == 2:
                         indicator_data.lineMessage.value = float(result.get('value', 0))
-                        print(f"Processed line message with value: {indicator_data.lineMessage.value}")
+                        logger.debug(f"Processed line message with value: {indicator_data.lineMessage.value}")
                     elif result.get('type') == charts_pb2.IndicatorMessageType.MESSAGE_CANDLESTICK or result.get('type') == 1:
                         indicator_data.candlestickMessage.open = float(result.get('open', 0))
                         indicator_data.candlestickMessage.high = float(result.get('high', 0))
@@ -488,9 +487,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
                     )
 
             except Exception as e:
-                print(f"Error processing data with indicator: {e}")
-                import traceback
-                traceback.print_exc()
+                logger.error(f"Error processing data with indicator: {e}", exc_info=True)
             
             # If we get here, we couldn't process the data
             return charts_pb2.DataMessageResponse(
@@ -499,9 +496,7 @@ class ChartsServicer(charts_pb2_grpc.ChartsServerServicer):
             )
             
         except Exception as e:
-            print(f"Error processing data: {e}")
-            import traceback
-            traceback.print_exc()
+            logger.error(f"Error processing data: {e}", exc_info=True)
             return charts_pb2.DataMessageResponse(
                 id="",
                 data=None
@@ -523,23 +518,23 @@ async def start_grpc_server(address):
     server_address = address
     server.add_insecure_port(server_address)
     await server.start()
-    print(f"gRPC server started on {server_address}")
+    logger.info(f"gRPC server started on {server_address}")
     try:
         await server.wait_for_termination()
     except KeyboardInterrupt:
         await server.stop(0)
-        print("gRPC server stopped")
+        logger.info("gRPC server stopped")
         sys.exit(0)
     except Exception as e:
-        print(f"gRPC server terminated unexpectedly: {e}")
+        logger.critical(f"gRPC server terminated unexpectedly: {e}")
         sys.exit(1)
     # If wait_for_termination returns without exception, exit as well
-    print("gRPC server terminated, exiting script.")
+    logger.info("gRPC server terminated, exiting script.")
     sys.exit(0)
 
 async def main(address):
     """Main function to start both the gRPC server and message processing"""
-    print("Starting Doyen Script Manager...")
+    logger.info("Starting Doyen Script Manager...")
     
     # Start the gRPC server
     server_task = asyncio.create_task(start_grpc_server(address))
@@ -548,9 +543,9 @@ async def main(address):
     try:
         await asyncio.gather(server_task)
     except asyncio.CancelledError:
-        print("Main tasks cancelled")
+        logger.info("Main tasks cancelled")
     except Exception as e:
-        print(f"Error in main tasks: {e}")
+        logger.error(f"Error in main tasks: {e}", exc_info=True)
     finally:
         # Ensure all tasks are properly cancelled
         for task in [server_task]:
@@ -566,8 +561,8 @@ if __name__ == "__main__":
     try:
         import grpc.aio
     except ImportError:
-        print("Error: grpcio package is not installed.")
-        print("Installing required packages...")
+        logger.error("Error: grpcio package is not installed.")
+        logger.info("Installing required packages...")
         import subprocess
         subprocess.check_call([sys.executable, "-m", "pip", "install", "grpcio", "grpcio-tools"])
         import grpc.aio
@@ -576,9 +571,10 @@ if __name__ == "__main__":
     try:
         parser = argparse.ArgumentParser(description="Doyen Script Manager")
         parser.add_argument("--address", type=str, default="0.0.0.0:5000", help="Address to run the gRPC server on")
+        parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
         args = parser.parse_args()
         asyncio.run(main(args.address))
     except KeyboardInterrupt:
-        print("Script manager terminated by user")
+        logger.info("Script manager terminated by user")
     except Exception as e:
-        print(f"Fatal error: {e}")
+        logger.critical(f"Fatal error: {e}", exc_info=True)

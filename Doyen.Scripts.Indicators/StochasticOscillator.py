@@ -2,8 +2,11 @@ import datetime
 from pickle import FALSE
 import statistics
 import json
+import logging
 from typing import Dict, List, Optional, Any, Tuple
 from Indicator import Indicator
+
+logger = logging.getLogger(__name__)
 
 class StochasticOscillator(Indicator):
     """Stochastic Oscillator indicator implementation"""
@@ -76,7 +79,7 @@ class StochasticOscillator(Indicator):
         self.historical_candles = []
 
         props = options['properties']
-        print(f"Stochastic Oscillator started with properties: {props}")
+        logger.info(f"Stochastic Oscillator started with properties: {props}")
         self.period = props['period']['value']
         self.upperBand = props['upperBand']['value']
         self.lowerBand = props['lowerBand']['value']
@@ -93,7 +96,7 @@ class StochasticOscillator(Indicator):
     def stop(self):
         super().stop()
         """Cleanup resources"""
-        print("SMAIndicator stopped.")
+        logger.info("SMAIndicator stopped.")
 
     def _calculate_stochastic(self) -> float:
         """Calculate SMA values based on current prices"""
@@ -130,7 +133,7 @@ class StochasticOscillator(Indicator):
             self.historical_candles = self.historical_candles[-max_history:]
         elif len(self.historical_candles) < self.period:
             # Not enough data to calculate SMA
-            print(f"Not enough historical prices to calculate SMA. Need at least {self.period} prices.")
+            logger.warning(f"Not enough historical prices to calculate SMA. Need at least {self.period} prices.")
             valid_stoch = False
 
         # Get timestamp from the candle
@@ -150,18 +153,18 @@ class StochasticOscillator(Indicator):
         if valid_stoch:
             # Recalculate Stochastic Oscillator
             latest_stoch = self._calculate_stochastic()
-            print(f"Calculated Stochastic Oscillator: {latest_stoch} for period {self.period}")
+            logger.debug(f"Calculated Stochastic Oscillator: {latest_stoch} for period {self.period}")
             # Compare with the previous historical result's Stochastic value, not rsi_values array
             if len(self.historical_results) > 0:
                 if latest_stoch >= self.upperBand:
-                    print(f"Stochastic {latest_stoch} exceeds upper band {self.upperBand}")
+                    logger.debug(f"Stochastic {latest_stoch} exceeds upper band {self.upperBand}")
                     color = self.upperBand_color
                 elif latest_stoch <= self.lowerBand:
-                    print(f"Stochastic {latest_stoch} falls below lower band {self.lowerBand}")
+                    logger.debug(f"Stochastic {latest_stoch} falls below lower band {self.lowerBand}")
                     color = self.lowerBand_color
         
         if valid_stoch == False:
-            print(f"Invalid Stochastic value. Default color and close price will be used.")
+            logger.warning(f"Invalid Stochastic value. Default color and close price will be used.")
 
         # Return the indicator data
         result = {
@@ -177,9 +180,9 @@ class StochasticOscillator(Indicator):
             'dataPointId': datapoint_id
         }
 
-        if last_datapoint_id <= 0 or newResult or valid_rsi == False:
+        if last_datapoint_id <= 0 or newResult or valid_stoch == False:
             self.historical_results.append(result)
-            print(f"New SMA result added: {result}")
+            logger.debug(f"New SMA result added: {result}")
 
         return result
 # Create an instance of the indicator for the module
