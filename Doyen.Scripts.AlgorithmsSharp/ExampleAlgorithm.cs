@@ -1,6 +1,7 @@
-using Doyen.gRPC.Algorithms;
-using Doyen.Scripts.AlgorithmSharp.API;
 using System.Text.Json;
+using Doyen.gRPC.Algorithms;
+using Doyen.gRPC.Common;
+using Doyen.Scripts.AlgorithmSharp.API;
 
 namespace Doyen.Scripts.AlgorithmsSharp
 {
@@ -11,7 +12,8 @@ namespace Doyen.Scripts.AlgorithmsSharp
     {
         private bool _isRunning = false;
 
-        public ExampleAlgorithm() : base("ExampleAlgorithm")
+        public ExampleAlgorithm()
+            : base("ExampleAlgorithm")
         {
             JsonSchema = new ScriptSettingsModel()
             {
@@ -21,35 +23,38 @@ namespace Doyen.Scripts.AlgorithmsSharp
                 {
                     {
                         "symbol",
-                        new ScriptSettingsPropertyModel {
+                        new ScriptSettingsPropertyModel
+                        {
                             Title = "Symbol",
                             Description = "Trading symbol to monitor",
                             TypeName = "string",
                             Options = "e.g. BTC-USD, ETH-USD",
-                            Value = "BTC-USD"
+                            Value = "BTC-USD",
                         }
                     },
                     {
                         "exchange",
-                        new ScriptSettingsPropertyModel {
+                        new ScriptSettingsPropertyModel
+                        {
                             Title = "Exchange",
                             Description = "Exchange to use",
                             TypeName = "string",
-                            Options = "e.g. COINBASE, BINANCEUS, KRAKEN",
-                            Value = "COINBASE"
+                            Options = "e.g. Coinbase, BinanceUS, Kraken",
+                            Value = "BinanceUS",
                         }
                     },
                     {
                         "quantity",
-                        new ScriptSettingsPropertyModel {
+                        new ScriptSettingsPropertyModel
+                        {
                             Title = "Quantity",
                             Description = "Order quantity",
                             TypeName = "number",
                             Options = "e.g. 0.001, 0.01, 0.1",
-                            Value = 0.001
+                            Value = 0.001,
                         }
-                    }
-                }
+                    },
+                },
             };
         }
 
@@ -78,41 +83,6 @@ namespace Doyen.Scripts.AlgorithmsSharp
             return new[] { "example", "demo", "basic", "tutorial" };
         }
 
-        public override string GetOptionsSchema()
-        {
-            return JsonSerializer.Serialize(new
-            {
-                type = "object",
-                properties = new
-                {
-                    symbol = new
-                    {
-                        type = "string",
-                        title = "Symbol",
-                        description = "Trading symbol to monitor",
-                        @default = "BTC-USD"
-                    },
-                    exchange = new
-                    {
-                        type = "string",
-                        title = "Exchange",
-                        description = "Exchange to use",
-                        @default = "COINBASE",
-                        @enum = new[] { "COINBASE", "BINANCEUS", "KRAKEN" }
-                    },
-                    quantity = new
-                    {
-                        type = "number",
-                        title = "Quantity",
-                        description = "Order quantity",
-                        @default = 0.001,
-                        minimum = 0.0001
-                    }
-                },
-                required = new[] { "symbol", "exchange" }
-            }, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-        }
-
         public override bool Start(ScriptSettingsModel options)
         {
             try
@@ -126,32 +96,44 @@ namespace Doyen.Scripts.AlgorithmsSharp
                 }
 
                 // Subscribe to symbol data if interface is available
-                if (Interface != null &&
-                    options.Properties.TryGetValue("symbol", out var symbolProp) &&
-                    options.Properties.TryGetValue("exchange", out var exchangeProp))
+                if (
+                    Interface != null
+                    && options.Properties.TryGetValue("symbol", out var symbolProp)
+                    && options.Properties.TryGetValue("exchange", out var exchangeProp)
+                )
                 {
-                    var symbol = symbolProp.Value?.ToString() ?? "BTC-USD";
-                    var exchange = Enum.Parse<Doyen.gRPC.Common.DoyenExchange>(exchangeProp.Value?.ToString() ?? "COINBASE");
+                    var symbol =
+                        symbolProp.Value?.ToString()
+                        ?? throw new InvalidDataException("Symbol is required.");
+
+                    DoyenExchange exchange = AlgorithmInterface.GetAlgoExchange(
+                        exchangeProp.Value.ToString()
+                            ?? throw new InvalidDataException("Exchange is required.")
+                    );
 
                     Task.Run(async () =>
                     {
                         try
                         {
                             var response = await Interface.SubscribeSymbolAsync(
-                                symbol, 
-                                exchange, 
-                                getHistorical: true, 
+                                symbol,
+                                exchange,
+                                getHistorical: true,
                                 depthLevels: 5,
                                 candlesTimeframe: Doyen.gRPC.Common.Timeframe.FiveMinutes
                             );
 
                             if (response?.Success == true)
                             {
-                                Console.WriteLine($"Successfully subscribed to {symbol} on {exchange}");
+                                Console.WriteLine(
+                                    $"Successfully subscribed to {symbol} on {exchange}"
+                                );
                             }
                             else
                             {
-                                Console.WriteLine($"Failed to subscribe to {symbol} on {exchange}: {response?.Reason}");
+                                Console.WriteLine(
+                                    $"Failed to subscribe to {symbol} on {exchange}: {response?.Reason}"
+                                );
                             }
                         }
                         catch (Exception ex)
@@ -188,39 +170,51 @@ namespace Doyen.Scripts.AlgorithmsSharp
 
         public override void ProcessTrade(IEnumerable<TradeMessage> trades)
         {
-            if (!_isRunning) return;
+            if (!_isRunning)
+                return;
 
             foreach (var trade in trades)
             {
                 // Use TradeSide instead of Side
                 var side = trade.Side; // This is now TradeSide
-                Console.WriteLine($"Trade received: {trade.Symbol} @ {trade.Price} x {trade.Quantity} on {trade.Exchange} (Side: {side})");
+                Console.WriteLine(
+                    $"Trade received: {trade.Symbol} @ {trade.Price} x {trade.Quantity} on {trade.Exchange} (Side: {side})"
+                );
             }
         }
 
         public override void ProcessCandle(IEnumerable<CandlestickMessage> candles)
         {
-            if (!_isRunning) return;
+            if (!_isRunning)
+                return;
 
             foreach (var candle in candles)
             {
                 var candlestick = candle.Candlestick;
-                Console.WriteLine($"Candle received: {candlestick.Symbol} OHLC({candlestick.Open}, {candlestick.High}, {candlestick.Low}, {candlestick.Close}) on {candlestick.Exchange}");
+                Console.WriteLine(
+                    $"Candle received: {candlestick.Symbol} OHLC({candlestick.Open}, {candlestick.High}, {candlestick.Low}, {candlestick.Close}) on {candlestick.Exchange}"
+                );
             }
         }
 
         public override void ProcessDepthOfBook(DepthOfBookMessage depthOfBook)
         {
-            if (!_isRunning) return;
+            if (!_isRunning)
+                return;
 
-            Console.WriteLine($"Depth of Book received: {depthOfBook.Symbol} with {depthOfBook.BidLevels.Count} bids and {depthOfBook.OfferLevels.Count} offers");
+            Console.WriteLine(
+                $"Depth of Book received: {depthOfBook.Symbol} with {depthOfBook.BidLevels.Count} bids and {depthOfBook.OfferLevels.Count} offers"
+            );
         }
 
         public override void ProcessOrderStatus(OrderStatusUpdateMessage orderStatus)
         {
-            if (!_isRunning) return;
+            if (!_isRunning)
+                return;
 
-            Console.WriteLine($"Order status update: {orderStatus.OrderId} -> {orderStatus.Status} (Filled: {orderStatus.FilledQuantity})");
+            Console.WriteLine(
+                $"Order status update: {orderStatus.OrderId} -> {orderStatus.Status} (Filled: {orderStatus.FilledQuantity})"
+            );
         }
     }
 }
